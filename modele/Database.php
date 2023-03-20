@@ -6,10 +6,14 @@ class Database
     private static $user;
     private static $password;
     private static $database;
+    private static $port;
+    private static $bdd;
 
     public function __construct()
     {
-        self::$dns = "mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$port = 3306;
+        self::$bdd = 'projet-tech';
+        self::$dns =" mysql:host=localhost;dbname="+ self::$bdd +";port="+ self::$port; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
