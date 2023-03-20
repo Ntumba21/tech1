@@ -1,16 +1,7 @@
 <?php
-
-namespace controller;
-
-use Database;
-
-require_once ('..\modele\Database.php');
 require_once ('..\controller\tools.php');
-
-class user
-{
-    public function register(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+require_once ('..\modele\Database.php');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupérer les données du formulaire
             $nom = $_POST['nom'];
             $prenom = $_POST['prenom'];
@@ -47,5 +38,4 @@ class user
                 echo "Erreur lors de la création de l'utilisateur.";
             }
         }
-    }
-}
+    ?>
