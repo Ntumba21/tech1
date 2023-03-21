@@ -44,20 +44,55 @@ class Database
         }        
     }
     //je travail ici MANAL
-    public function GetUsersbyID($id)
-    {
+    public function GetUsersByID($id){
         $sql = 'SELECT * FROM user WHERE iduser = :id';
         $statement = self::$database->prepare($sql);
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll();
     }
+    public function GetUserByMail($mail){
+        $sql = 'SELECT * FROM user WHERE mail = :mail';
+        $statement = self::$database->prepare($sql);
+        $statement->bindParam(":mail", $mail, PDO::PARAM_STR);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
     public function Connect($mail){
-    $sql = "SELECT * FROM user WHERE mail = :mail";
-    $stmt = self::$database->prepare($sql);
-    $stmt->execute(['mail' => $mail]);
-    //$user = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $stmt-> fetchAll();
-   
-}
+        $sql = "SELECT * FROM user WHERE mail = :mail";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute(['mail' => $mail]);
+        return $stmt-> fetchAll();
+    }
+    public function GetPromos(){
+        $sql = "SELECT * FROM promos";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    //Admin function
+    public function DeleteUser($mail){
+        $sql = "DELETE FROM user WHERE mail = :mail";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->execute();
+        return true;
+    }
+    public function DeletePromo($nom){
+        $sql = "DELETE FROM promos WHERE nom = :nom";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->execute();
+        return true;
+    }
+    public function AddPromo($nom){
+        $sql = "INSERT INTO promos (nom) VALUES (:nom)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->execute();
+        return true;
+    }
+
+
 }

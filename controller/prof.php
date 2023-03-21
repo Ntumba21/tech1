@@ -2,7 +2,6 @@
 
 namespace controller;
 
-class prof extends user
-{
+class prof extends user{
 
 }
