@@ -244,4 +244,15 @@ class Database
         return $stmt->fetchAll();
     }
 
+
+    public function Connect($email, $password)
+    {
+        $sql = "SELECT * FROM `user`
+                WHERE mail = :mail
+                AND password = :password";
+        $statement = self::$database->prepare($sql);
+        $statement->execute(array(":mail" => $email, ":password" => $password));
+        return $statement->fetchAll();
+    }
+
 }
