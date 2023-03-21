@@ -43,5 +43,21 @@ class Database
             return false;
         }        
     }
-
+    //je travail ici MANAL
+    public function GetUsersbyID($id)
+    {
+        $sql = 'SELECT * FROM user WHERE iduser = :id';
+        $statement = self::$database->prepare($sql);
+        $statement->bindParam(":id", $id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+    public function Connect($mail){
+    $sql = "SELECT * FROM user WHERE mail = :mail";
+    $stmt = self::$database->prepare($sql);
+    $stmt->execute(['mail' => $mail]);
+    //$user = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $stmt-> fetchAll();
+   
+}
 }
