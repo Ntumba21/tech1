@@ -13,12 +13,14 @@ class Model {
   }
 
   function setUserInactive($user_id) {
-    $stmt = $this->db->prepare('UPDATE user SET isvalide = 0, inactive_time = NOW() WHERE iduser = ?');
+    $sql='UPDATE user SET isvalide = 0, inactive_time = NOW() WHERE iduser = ?';
+    $stmt = $this->db->prepare($sql);
     $stmt->execute(array($user_id));
   }
 
   function setUserActive($user_id) {
-    $stmt = $this->db->prepare('UPDATE user SET isvalide = 1, inactive_time = NULL WHERE iduser = ?');
+    $sql='UPDATE user SET isvalide = 1, inactive_time = NULL WHERE iduser = ?';
+    $stmt = $this->db->prepare($sql);
     $stmt->execute(array($user_id));
   }
 

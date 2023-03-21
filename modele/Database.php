@@ -17,11 +17,40 @@ class Database
         self::$database = new PDO(self::$dns, self::$user, self::$password);
     }
 
-     public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos) {
+    //Ashley 
+    public function setUserInactive($id) {
+        $sql='UPDATE user SET isvalide = 0, inactive_time = NOW() WHERE iduser = :id';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return true;
+      }
+    
+    public function setUserActive($id) {
+        $sql='UPDATE user SET isvalide = 1, inactive_time = NULL WHERE iduser = :id';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return true;
+      }
+
+      public function activateAccount($email, $token) {
+            $sql='UPDATE user SET isvalide = 1, token = NULL WHERE mail = :email AND token = :token';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':token', $token);
+            $stmt->execute();
+            return $stmt->rowCount();
+      }
+    
+    //
+
+
+     public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos,$token) {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql='INSERT INTO user (nom, prenom, mail, password, date_de_naissance, type, description, ville, interests, photo, isvalide, idpromos) 
-                  VALUES (:nom, :prenom, :mail, :hashed_password, :date_de_naissance, :type, :description, :ville, :interests, :photo, :isvalide, :idpromos)';
+            $sql='INSERT INTO user (nom, prenom, mail, password, date_de_naissance, type, description, ville, interests, photo, isvalide, idpromos,token) 
+                  VALUES (:nom, :prenom, :mail, :hashed_password, :date_de_naissance, :type, :description, :ville, :interests, :photo, :isvalide, :idpromos, :token)';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':prenom', $prenom);
@@ -35,6 +64,7 @@ class Database
             $stmt->bindParam(':photo', $photo);
             $stmt->bindParam(':isvalide', $isvalide);
             $stmt->bindParam(':idpromos', $idpromos);
+            $stmt->bindParam(':token', $token);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -42,6 +72,7 @@ class Database
             return false;
         }        
     }
+    
     //je travail ici MANAL
     public function GetUsersByID($id){
         $sql = 'SELECT * FROM user WHERE iduser = :id';
@@ -50,7 +81,7 @@ class Database
         $statement->execute();
         return $statement->fetchAll();
     }
-    public function GetUser($mail){
+    public function getUserByEmail($mail){
         $sql = 'SELECT * FROM user WHERE mail = :mail';
         $statement = self::$database->prepare($sql);
         $statement->bindParam(":mail", $mail, PDO::PARAM_STR);
@@ -96,10 +127,17 @@ class Database
         $stmt->execute();
         return true;
     }
-    public function DeleteUser($mail){
+    public function DeleteUserByMail($mail){
         $sql = "DELETE FROM user WHERE mail = :mail";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':mail', $mail);
+        $stmt->execute();
+        return true;
+    }
+    public function DeleteUserById($user_id){
+        $sql = "DELETE FROM user WHERE iduser = :user";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':user', $user_id);
         $stmt->execute();
         return true;
     }
