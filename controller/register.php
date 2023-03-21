@@ -37,5 +37,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 echo "Erreur lors de la création de l'utilisateur.";
             }
-        }
-    ?>
+}

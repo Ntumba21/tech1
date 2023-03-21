@@ -9,7 +9,7 @@
 <body>
     <div class="register-container">
         <h1>Inscription</h1>
-        <form action="../controller/ashley.php" method="post">
+        <form action="../controller/register.php" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" name="nom" id="nom" required>
