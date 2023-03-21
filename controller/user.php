@@ -16,7 +16,7 @@ class user{
 
     public function MakeUser($mail){
         $user = new Database;
-        $result = $user->GetUserbyMail($mail);
+        $result = $user->GetUser($mail);
         $this->name = $result[0]['nom'];
         $this->firstname = $result[0]['prenom'];
         $this->mail = $result[0]['mail'];
