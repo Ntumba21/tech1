@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$port = 3306;
+        self::$port = '3307';
         self::$bdd = 'projet-tech';
         self::$dns =" mysql:host=localhost;dbname="+ self::$bdd +";port="+ self::$port; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
@@ -44,20 +44,22 @@ class Database
         }        
     }
     //je travail ici MANAL
-    public function GetUsersbyID($id)
+    public function getUserById($id)
     {
         $sql = 'SELECT * FROM user WHERE iduser = :id';
-        $statement = self::$database->prepare($sql);
+        $statement = $this->database->prepare($sql);
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll();
     }
-    public function Connect($mail){
-    $sql = "SELECT * FROM user WHERE mail = :mail";
-    $stmt = self::$database->prepare($sql);
-    $stmt->execute(['mail' => $mail]);
-    //$user = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $stmt-> fetchAll();
-   
-}
+
+    public function getuserbymail($email)
+    {  // 'SELECT * FROM tbmember where UserName = :email and `Password`= :password'
+        $sql = 'SELECT userid, password  FROM user WHERE mail = :email';
+        $statement = $this->database->prepare($sql);
+        $statement->bindParam(":email", $email, PDO::PARAM_STR);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+  
 }
