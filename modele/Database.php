@@ -57,11 +57,13 @@ class Database
         $statement->execute();
         return $statement->fetchAll();
     }
-    public function Connect($mail){
-        $sql = "SELECT * FROM user WHERE mail = :mail";
-        $stmt = self::$database->prepare($sql);
-        $stmt->execute(['mail' => $mail]);
-        return $stmt-> fetchAll();
+    public function Connect($email, $password){
+        $sql = "SELECT * FROM `user`
+                WHERE mail = :mail
+                AND password = :password";
+        $statement = self::$database->prepare($sql);
+        $statement->execute(array(":mail" => $email, ":password" => $password));
+        return $statement->fetchAll();
     }
     public function GetPromos(){
         $sql = "SELECT * FROM promos";
@@ -242,17 +244,6 @@ class Database
         $stmt->bindParam(':iduser', $_SESSION['iduser']);
         $stmt->execute();
         return $stmt->fetchAll();
-    }
-
-
-    public function Connect($email, $password)
-    {
-        $sql = "SELECT * FROM `user`
-                WHERE mail = :mail
-                AND password = :password";
-        $statement = self::$database->prepare($sql);
-        $statement->execute(array(":mail" => $email, ":password" => $password));
-        return $statement->fetchAll();
     }
 
 }
