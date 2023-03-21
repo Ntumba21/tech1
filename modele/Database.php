@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -57,14 +57,15 @@ class Database
         $statement->execute();
         return $statement->fetchAll();
     }
-    public function Connect($email, $password){
+    public function Connect($mail, $password){
         $sql = "SELECT * FROM `user`
                 WHERE mail = :mail
                 AND password = :password";
         $statement = self::$database->prepare($sql);
-        $statement->execute(array(":mail" => $email, ":password" => $password));
+        $statement->execute(array(":mail" => $mail, ":password" => $password));
         return $statement->fetchAll();
     }
+    //manal 
     public function GetPromos(){
         $sql = "SELECT * FROM promos";
         $stmt = self::$database->prepare($sql);
