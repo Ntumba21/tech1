@@ -13,7 +13,7 @@ class Database
     {
         self::$port = '3307';
         self::$bdd = 'projet-tech';
-        self::$dns =" mysql:host=localhost;dbname="+ self::$bdd +";port="+ self::$port; // À changer selon vos configurations
+        self::$dns = "mysql:host=localhost;dbname=projet-tech;port=3307";// À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -53,13 +53,15 @@ class Database
         return $statement->fetchAll();
     }
 
-    public function getuserbymail($email)
-    {  // 'SELECT * FROM tbmember where UserName = :email and `Password`= :password'
-        $sql = 'SELECT userid, password  FROM user WHERE mail = :email';
-        $statement = $this->database->prepare($sql);
-        $statement->bindParam(":email", $email, PDO::PARAM_STR);
-        $statement->execute();
+    public function Connect($email, $password)
+    {
+        $sql = "SELECT * FROM `user`
+                WHERE mail = :mail
+                AND password = :password";
+        $statement = self::$database->prepare($sql);
+        $statement->execute(array(":mail" => $email, ":password" => $password));
         return $statement->fetchAll();
     }
   
 }
+?>
