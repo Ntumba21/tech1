@@ -25,15 +25,6 @@ class user{
         $this->photo = $result[0]['photo'];
     }
 
-    public function activateAccount($email, $token) {
-            $data=new database();
-            $affectedRows = $data->activateAccount($email, $token);
-            if ($affectedRows == 0) {
-                print_r("Aucun utilisateur n'a été trouvé avec cet e-mail et ce token.");
-            }
-            return $affectedRows > 0;
-    }
-
     public function getName(){return $this->name;}
     public function getFirstname(){return $this->firstname;}
     public function getMail(){return $this->mail;}
