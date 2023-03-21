@@ -42,6 +42,13 @@ class Database
             $stmt->execute();
             return $stmt->rowCount();
       }
+      public function DeleteUserById($user_id){
+        $sql = "DELETE FROM user WHERE iduser = :user";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':user', $user_id);
+        $stmt->execute();
+        return true;
+    }
     
     //
 
@@ -131,13 +138,6 @@ class Database
         $sql = "DELETE FROM user WHERE mail = :mail";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':mail', $mail);
-        $stmt->execute();
-        return true;
-    }
-    public function DeleteUserById($user_id){
-        $sql = "DELETE FROM user WHERE iduser = :user";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':user', $user_id);
         $stmt->execute();
         return true;
     }
