@@ -74,7 +74,14 @@ class Database
       $stmt->execute(array($email));
       return $stmt->fetch(PDO::FETCH_ASSOC);
   }
-    
+    public function resetPassword($email, $password){
+        $sql = 'UPDATE user SET password = :password WHERE mail = :email';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return true;
+    }
     //
     public function AlterUser($nom, $prenom, $mail, $date_de_naissance, $description, $ville, $interests, $photo, $idpromos)
     {
@@ -144,7 +151,8 @@ class Database
     public function Connect($mail, $password){
         $sql = "SELECT * FROM `user`
                 WHERE mail = :mail
-                AND password = :password";
+                AND password = :password
+                AND isvalide = 1";
         $statement = self::$database->prepare($sql);
         $statement->execute(array(":mail" => $mail, ":password" => $password));
         return $statement->fetchAll();
