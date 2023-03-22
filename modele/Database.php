@@ -19,7 +19,9 @@ class Database
 
     //Ashley 
     public function setUserInactive($id) {
-        $sql='UPDATE user SET isvalide = 0, inactive_time = NOW() WHERE iduser = :id';
+        $sql='UPDATE user 
+              SET isvalide = 0, inactive_time = NOW() 
+              WHERE iduser = :id';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -27,7 +29,9 @@ class Database
       }
     
     public function setUserActive($id) {
-        $sql='UPDATE user SET isvalide = 1, inactive_time = NULL WHERE iduser = :id';
+        $sql='UPDATE user 
+              SET isvalide = 1, inactive_time = NULL 
+              WHERE iduser = :id';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -35,7 +39,9 @@ class Database
       }
 
       public function activateAccount($email, $token) {
-            $sql='UPDATE user SET isvalide = 1, token = NULL WHERE mail = :email AND token = :token';
+            $sql='UPDATE user 
+                  SET isvalide = 1, token = NULL 
+                  WHERE mail = :email AND token = :token';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':token', $token);
