@@ -16,7 +16,19 @@ class Database
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
     }
-
+    public function getUser(){
+        $sql = 'SELECT * FROM user';
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getUserByType($type){
+        $sql = 'SELECT * FROM user WHERE type = :type';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':type', $type);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     //Ashley 
     public function setUserInactive($id) {
         $sql='UPDATE user 
