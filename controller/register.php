@@ -29,7 +29,7 @@ function sendActivationEmail($email, $token) {
         // Contenu
         $mail->isHTML(true);
         $mail->Subject = 'Activation de votre compte EceBook';
-        $mail->Body = 'Cliquez sur ce lien pour activer votre compte: <a href="http://localhost/EceBook/controllers/activation.php?email=' . urlencode($email) . '&token=' . urlencode($token) . '">Activer mon compte</a>';
+        $mail->Body = 'Cliquez sur ce lien pour activer votre compte: <a href="http://localhost/projet-tech/controller/activationMailRegister.php?email=' . urlencode($email) . '&token=' . urlencode($token) . '">Activer mon compte</a>';
 
         $mail->send();
         return true;
