@@ -68,10 +68,9 @@ button[type="submit"] {
   color: white;
 }
 
-    </style>
-     <img src="../media/logo ECEBOOK.png" alt="Logo" class="logo">
-    
+    </style> 
 </head>
+<img src="../media/logo ECEBOOK.png" alt="Logo" class="logo">
 <body>
     <div class="register-container">
         <h1>Inscription</h1>
