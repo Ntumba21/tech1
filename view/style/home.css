@@ -1,0 +1,70 @@
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    
+    
+  }
+  
+  nav img {
+    height: 50px;
+    width: 50px;
+  }
+  
+  nav ul {
+    display: flex;
+    list-style-type: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    
+   
+  }
+  
+  nav ul li {
+    margin-right: 0;
+    margin-bottom: 10px;
+    float: left;
+  }
+  
+  nav ul li:last-child {
+    margin-bottom: 0;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  /* Stylisation du footer */
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  footer a {
+    color: white;
+    text-decoration: none;
+    text-align: end;
+  }
+  
+  /* Définition de la classe du conteneur de carré */
+.square-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 200px;
+    border: 1px solid rgb(223, 19, 19);
+    float: left;
+  }
+  
