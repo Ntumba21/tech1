@@ -5,7 +5,7 @@ namespace controller;
 use Database;
 
 require_once ('..\modele\Database.php');
-require_once ('..\controller\tools.php');
+
 
 class user{
     public $name;
@@ -15,7 +15,8 @@ class user{
     public $photo;
     
 
-    public function MakeUser($mail){
+    public function MakeUser($mail): void
+    {
         $data=new database();
         $result = $data->getUserByEmail($mail);
         $this->name = $result[0]['nom'];
