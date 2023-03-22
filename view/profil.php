@@ -2,6 +2,11 @@
 require_once '../modele/Database.php';
 require_once '../controller/editprofil.php';
 require_once '../controller/session.php';
+require_once '../controller/login.php';
+
+$mail= $_SESSION['mail'];
+$database = new Database();
+$user = $database->getUserByEmaill($mail);
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,8 +51,8 @@ require_once '../controller/session.php';
 
       <label for="idpromos">Promotion:</label>
         <select name="idpromos">
-            <?php foreach($promotions as $promotion): ?>
-                <option value="<?php echo $promotion['idpromos']; ?>"<?php if($promotion['idpromos'] == $user['idpromos']){ echo ' selected'; } ?>><?php echo $promotion['nom_promo']; ?></option>
+            <?php foreach($promos as $promos): ?>
+                <option value="<?php echo $promos['idpromos']; ?>"<?php if($promos['idpromos'] == $user['idpromos']){ echo ' selected'; } ?>><?php echo $promos['nom']; ?></option>
             <?php endforeach; ?>
         </select><br><br>
         <input type="submit" name="submit" value="Enregistrer les modifications">

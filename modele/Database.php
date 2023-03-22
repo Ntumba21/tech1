@@ -58,7 +58,7 @@ class Database
   }
     
     //
-    public function AlterUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $idpromos)
+    public function AlterUser($nom, $prenom, $mail, $password, $date_de_naissance, $description, $ville, $interests, $photo, $idpromos)
     {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);

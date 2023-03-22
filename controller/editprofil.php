@@ -9,7 +9,7 @@ require_once("../controller/session.php");
 $message = "";
 
 // Vérifiez si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['submit'])) {
 
   // Récupérez les données du formulaire
   $nom = $_POST["nom"];
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Obtenez les informations sur l'utilisateur actuellement connecté
 $database = new Database();
-$user = $database->getUserByEmail($_SESSION["mail"]);
+$user = $database->getUserByEmaill($_SESSION["mail"]);
 
 // Chargez la vue
 require_once("../view/profil.php");
