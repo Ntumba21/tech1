@@ -9,7 +9,7 @@
 <body>
 <nav>
   <ul>
-    <li><a href="../view/affichePost.php">Accueil</a></li>
+    <li><a href="../view/createPost.php">Accueil</a></li>
     <li><a href="#">Explorer</a></li>
     <li><a href="#">Reels</a></li>
     <li><a href="#">Shop</a></li>

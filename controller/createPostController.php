@@ -1,14 +1,9 @@
 <?php
 require_once('../modele/Database.php');
+require_once('../controller/session.php');
 
-class PostController {
-  private $model;
 
-  public function __construct() {
-    $this->model = new Database();
-  }
-
-  public function create() {
+  function create() {
     if(isset($_POST['type']) && isset($_POST['titre']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['lieu'])) {
       $type = $_POST['type'];
       $titre = $_POST['titre'];
@@ -32,20 +27,18 @@ class PostController {
         
         $photo = $filePath;
       }
-
+      $mail= $_SESSION["mail"];
+     $data = new Database();
       // Ajoute le post à la base de données
-      $this->model->CreatePost($type, $titre, $contenu, $date, $lieu, $photo);
+      $data->CreatePost($type, $titre, $contenu, $date, $lieu, $photo,$mail);
 
       // Redirige vers la page d'accueil
       header('Location: ../view/home.php');
       exit();
     }
   }
-}
-
-$controller = new PostController();
 
 if(isset($_POST['action']) && $_POST['action'] == 'create') {
-  $controller->create();
+  create();
 }
 ?>
