@@ -314,5 +314,11 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
-
+    public function ShowPostByType($type){
+        $sql = "SELECT * FROM post WHERE type = :type ORDER BY date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':type', $type);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
