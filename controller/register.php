@@ -87,7 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos, $token);
 
     if ($result) {
-    require_once '../controllers/sendmail.php';
     if (sendActivationEmail($mail, $token)) {
         echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
     } else {
