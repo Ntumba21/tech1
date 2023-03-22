@@ -33,6 +33,7 @@ $user = $database->getUserByEmaill($mail);
       <input type="email" id="mail" name="mail" value="<?php echo $user["mail"]; ?>"><br>
 
 
+
       <label for="date_de_naissance">Date de naissance*: </label>
       <input type="date" id="date_de_naissance" name="date_de_naissance" value="<?php echo $user["date_de_naissance"]; ?>"><br>
 
