@@ -1,3 +1,4 @@
+<?php require_once '../controller/promo.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -35,7 +36,6 @@
                 <select name="type" id="type" required>
                     <option value="1">Étudiant</option>
                     <option value="2">Enseignant</option>
-                    <option value="3">Administrateur</option>
                 </select>
             </div>
             <div class="form-group">
@@ -58,8 +58,7 @@
                 <label for="idpromos">Promos :</label>
                 <select name="idpromos" id="idpromos" required>
                     <!-- Ajoutez les options pour les différentes promotions ici -->
-                    <option value="1">Promo 1</option>
-                    <option value="2">Promo 2</option>
+                    <?php ShowPrmo(); ?>
                 </select>
             </div>
             <button type="submit">Créer un compte</button>
