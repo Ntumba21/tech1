@@ -1,8 +1,7 @@
 <?php
 require_once ('..\controller\session.php ');
 require_once ('..\modele\Database.php');
- //session_start();
-
+ 
 
 if(isset($_POST['mail']) && isset($_POST['password'])) {
  $db = new Database();
@@ -16,5 +15,5 @@ if(isset($_POST['mail']) && isset($_POST['password'])) {
  echo 'Identifiants incorrects ';
  }
 }
-require_once("../view/profil.php");
+
 ?>

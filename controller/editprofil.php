@@ -15,7 +15,6 @@ if (isset($_POST['submit'])) {
   $nom = $_POST["nom"];
   $prenom = $_POST["prenom"];
   $mail = $_POST["mail"];
-  $password = $_POST["password"];
   $date_de_naissance = $_POST["date_de_naissance"];
   $description = $_POST["description"];
   $ville = $_POST["ville"];
@@ -29,7 +28,7 @@ if (isset($_POST['submit'])) {
   } else {
     // Modifiez le profil de l'utilisateur dans la base de données
     $database = new Database();
-    $result = $database->AlterUser($nom, $prenom, $mail, $password, $date_de_naissance, $description, $ville, $interests, $photo, $idpromos);
+    $result = $database->AlterUser($nom, $prenom, $mail,  $date_de_naissance, $description, $ville, $interests, $photo, $idpromos);
 
     if ($result) {
       $message = "Votre profil a été modifié avec succès.";

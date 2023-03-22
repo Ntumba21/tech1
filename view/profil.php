@@ -3,6 +3,7 @@ require_once '../modele/Database.php';
 require_once '../controller/editprofil.php';
 require_once '../controller/session.php';
 require_once '../controller/login.php';
+require_once '../controller/promo.php'; 
 
 $mail= $_SESSION['mail'];
 $database = new Database();
@@ -31,8 +32,6 @@ $user = $database->getUserByEmaill($mail);
       <label for="mail">Adresse e-mail*: </label>
       <input type="email" id="mail" name="mail" value="<?php echo $user["mail"]; ?>"><br>
 
-      <label for="password">Mot de passe: </label>
-      <input type="password" id="password" name="password"><br>
 
       <label for="date_de_naissance">Date de naissance*: </label>
       <input type="date" id="date_de_naissance" name="date_de_naissance" value="<?php echo $user["date_de_naissance"]; ?>"><br>
@@ -50,11 +49,10 @@ $user = $database->getUserByEmaill($mail);
       <input type="file" name="photo"><br><br>
 
       <label for="idpromos">Promotion:</label>
-        <select name="idpromos">
-            <?php foreach($promos as $promos): ?>
-                <option value="<?php echo $promos['idpromos']; ?>"<?php if($promos['idpromos'] == $user['idpromos']){ echo ' selected'; } ?>><?php echo $promos['nom']; ?></option>
-            <?php endforeach; ?>
-        </select><br><br>
+                <select name="idpromos" id="idpromos" required>
+                    <!-- Ajoutez les options pour les différentes promotions ici -->
+                    <?php ShowPrmo(); ?>
+                </select>
         <input type="submit" name="submit" value="Enregistrer les modifications">
     </form>
 </body>
