@@ -3,15 +3,15 @@ require_once '../models/suppression.php';
 require_once '../controllers/supression.php';
 
 if(isset($_GET['activate']) && isset($_GET['timestamp'])) {
-  $model = new Model();
-  $user = $model->getUserByEmail($_GET['activate']);
+  $data = new Database();
+  $user = $data->getUserByEmail($_GET['activate']);
 
   if($user) {
     if($user['isvalide'] == 0 && (time() - $_GET['timestamp'] <= 60)) {
-      $model->setUserActive($user['iduser']);
+      $data->setUserActive($user['iduser']);
       echo 'Votre compte est réactivé.';
     } else {
-      $model->deleteUser($user['iduser']);
+      $data->DeleteUserById($user['iduser']);
       echo 'Votre compte a été supprimé.';
     }
   } else {

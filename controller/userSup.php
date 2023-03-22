@@ -7,15 +7,14 @@ require_once '../src/SMTP.php';
 require_once '../src/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 if(isset($_POST['mail'])) {
-  $model = new Model();
-  $user = $model->getUserByEmail($_POST['mail']);
+  $data = new Database();
+  $user = $data->getUserByEmail($_POST['mail']);
 
   if($user) {
-    $model->setUserInactive($user['iduser']);
+    $data->setUserInactive($user['iduser']);
 
     $mail = new PHPMailer(true);
 
@@ -43,10 +42,10 @@ if(isset($_POST['mail'])) {
 
          // Micro timer to delete user after 1 minute if not activated
          $seconds_to_wait = 60;
-         $user = $model->getUserByEmail($_POST['mail']);
+         $user = $data->getUserByEmail($_POST['mail']);
          if ($user && $user['isvalide'] == 0) {
            sleep($seconds_to_wait);
-           $model->deleteUser($user['iduser']);
+           $data->DeleteUserById($user['iduser']);
          }
 
     } catch (Exception $e) {
