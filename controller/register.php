@@ -90,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result) {
     if (sendActivationEmail($mail, $token)) {
         echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
+        $data->defaultFriend($mail,$idpromos);
     } else {
         echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
     }
@@ -99,4 +100,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 }
-?>
+
