@@ -13,7 +13,7 @@ function activateAccount($email, $token) {
 if (isset($_GET['email']) && isset($_GET['token'])) {
     $email = $_GET['email'];
     $token = $_GET['token'];
-
+    
     $data = new Database();
     $result = $data->activateAccount($email, $token);
 

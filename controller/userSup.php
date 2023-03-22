@@ -6,6 +6,7 @@ require_once '../controller/src/SMTP.php';
 require_once '../controller/src/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 if(isset($_POST['mail'])) {
@@ -41,7 +42,7 @@ if(isset($_POST['mail'])) {
 
          // Micro timer pour supprimer un user au bout de 60 secondes si il n'est pas validé
          $seconds_to_wait = 60;
-         $user = $data->getUserByEmail($_POST['mail']);
+         $user = $data->getUserByEmaill($_POST['mail']);
          if ($user && $user['isvalide'] == 0) {
            sleep($seconds_to_wait);
            $data->DeleteUserById($user['iduser']);

@@ -6,6 +6,7 @@ require_once '../controller/src/SMTP.php';
 require_once '../controller/src/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 function sendActivationEmail($email, $token) {
