@@ -7,35 +7,38 @@ function Session($mail="", $iduser="", $connect=false) {
     if ($connect){
         $_SESSION["session"] = true;
     }else{
-        $_SESSION["session"]=false;
+        $_SESSION["session"]= false;
         
     }
 
 }
 
 function VerifySession() {
-    $session = false;
-
-    if ($_SESSION["session"]){
-        $session = true;
-    }else{
-        $session = false;
+    if (isset($_SESSION["session"]) && $_SESSION["session"]){
+        return true;
+    } else {
+        return false;
     }
-    return $session;
+   
 }
 
 
 function redirectToHome() {
     if (VerifySession()) {
-            header('Location: home.php');
+        $redirectUrl = "../view/home.php"; // use an absolute path
+        echo '<script>window.location.href = "'.$redirectUrl.'";</script>';
+           
+        exit();
+    }
+}
+function redirectToHomeAdmin() {
+    if (VerifySession()) {
+        $redirectUrl = "../../view/admin/adminhome.php"; // use an absolute path
+        echo '<script>window.location.href = "'.$redirectUrl.'";</script>';
+           
         exit();
     }
 }
 
-function redirectToLogin() {
-    if (!VerifySession()) {
-        header('Location: login.php');
-        exit();
-    }
-}
+
 ?>
