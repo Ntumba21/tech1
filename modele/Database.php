@@ -51,7 +51,30 @@ class Database
     }
     
     //
-
+    public function AlterUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $idpromos)
+    {
+        try {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, password = :hashed_password, date_de_naissance = :date_de_naissance, type = :type, description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':mail', $mail);
+            $stmt->bindParam(':nom', $nom);
+            $stmt->bindParam(':prenom', $prenom);
+            $stmt->bindParam(':hashed_password', $hashed_password);
+            $stmt->bindParam(':date_de_naissance', $date_de_naissance);
+            $stmt->bindParam(':type', $type);
+            $stmt->bindParam(':description', $description);
+            $stmt->bindParam(':ville', $ville);
+            $stmt->bindParam(':interests', $interests);
+            $stmt->bindParam(':photo', $photo);
+            $stmt->bindParam(':idpromos', $idpromos);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur PDO : " . $e->getMessage();
+            return false;
+        }
+    }
 
      public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos,$token) {
         try {
@@ -213,6 +236,7 @@ class Database
         $stmt3->execute();
         return true;
     }
+
     public function CreatePostforStudent($type,$titre, $contenu, $date, $lieu, $photo){
         $for = 1;
         $sql = "INSERT INTO post (type, titre, contenu, date, lieu, photo, for) 
