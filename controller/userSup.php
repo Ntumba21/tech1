@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 if(isset($_POST['mail'])) {
   $data = new Database();
-  $user = $data->getUserByEmail($_POST['mail']);
+  $user = $data->getUserByEmaill($_POST['mail']);
 
   if($user) {
     $data->setUserInactive($user['iduser']);
