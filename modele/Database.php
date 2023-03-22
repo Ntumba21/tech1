@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -106,7 +106,7 @@ class Database
         }
     }
 
-     public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos,$token) {
+    public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos,$token) {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $sql='INSERT INTO user (nom, prenom, mail, password, date_de_naissance, type, description, ville, interests, photo, isvalide, idpromos,token) 
@@ -126,6 +126,12 @@ class Database
             $stmt->bindParam(':idpromos', $idpromos);
             $stmt->bindParam(':token', $token);
             $stmt->execute();
+            $sql2 = 'INSERT INTO prof_promos (iduser, idpromos) 
+                     VALUES (:iduser, :idpromos)';
+            $stmt2 = self::$database->prepare($sql2);
+            $stmt2->bindParam(':iduser', $iduser);
+            $stmt2->bindParam(':idpromos', $idpromos);
+            $stmt2->execute();
             return true;
         } catch (PDOException $e) {
             echo "Erreur PDO : " . $e->getMessage();
@@ -218,7 +224,7 @@ class Database
         $stmt->execute(['mail' => $mail, 'password' => $password]);
         return $stmt-> fetchAll();
     }
-    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo){
+    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $mail){
         $for = 0;
         $sql = "INSERT INTO post (type, titre, contenu, date, lieu, photo, for) 
                 VALUES (:type, :titre, :contenu, :date, :lieu, :photo, :for)";
@@ -236,14 +242,20 @@ class Database
         $stmt2->bindParam(':titre', $titre);
         $stmt2->execute();
         $idpost = $stmt2->fetch();
-        $sql3 = "INSERT INTO post_admin (idpost, idAdmin) VALUES (:idpost, :idadmin)";
+        $sql3 = "SELECT iduser FROM user WHERE mail = :mail";
         $stmt3 = self::$database->prepare($sql3);
-        $stmt3->bindParam(':idpost', $idpost[0]);
-        $stmt3->bindParam(':idadmin', $_SESSION['idadmin']);
+        $stmt3->bindParam(':mail', $mail);
         $stmt3->execute();
+        $iduser = $stmt3->fetch();
+        $iduser = $iduser[0];
+        $sql4 = "INSERT INTO post_admin (idpost, idAdmin) VALUES (:idpost, :idadmin)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost[0]);
+        $stmt4->bindParam(':idadmin', $iduser);
+        $stmt4->execute();
         return true;
     }
-    public function CreatePostforProff($type,$titre, $contenu, $date, $lieu, $photo){
+    public function CreatePostforProf($type,$titre, $contenu, $date, $lieu, $photo, $mail){
         $for = 2;
         $sql = "INSERT INTO post (type, titre, contenu, date, lieu, photo, for) 
                 VALUES (:type, :titre, :contenu, :date, :lieu, :photo, :for)";
@@ -261,11 +273,17 @@ class Database
         $stmt2->bindParam(':titre', $titre);
         $stmt2->execute();
         $idpost = $stmt2->fetch();
-        $sql3 = "INSERT INTO post_admin (idpost, idAdmin) VALUES (:idpost, :idadmin)";
+        $sql3 = "SELECT iduser FROM user WHERE mail = :mail";
         $stmt3 = self::$database->prepare($sql3);
-        $stmt3->bindParam(':idpost', $idpost[0]);
-        $stmt3->bindParam(':idadmin', $_SESSION['idadmin']);
+        $stmt3->bindParam(':mail', $mail);
         $stmt3->execute();
+        $iduser = $stmt3->fetch();
+        $iduser = $iduser[0];
+        $sql4 = "INSERT INTO post_admin (idpost, idAdmin) VALUES (:idpost, :idadmin)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost[0]);
+        $stmt4->bindParam(':idadmin', $iduser);
+        $stmt4->execute();
         return true;
     }
 
@@ -287,11 +305,17 @@ class Database
         $stmt2->bindParam(':titre', $titre);
         $stmt2->execute();
         $idpost = $stmt2->fetch();
-        $sql3 = "INSERT INTO post_admin (idpost, idAdmin) VALUES (:idpost, :idadmin)";
+        $sql3 = "SELECT iduser FROM user WHERE mail = :mail";
         $stmt3 = self::$database->prepare($sql3);
-        $stmt3->bindParam(':idpost', $idpost[0]);
-        $stmt3->bindParam(':idadmin', $_SESSION['idadmin']);
+        $stmt3->bindParam(':mail', $mail);
         $stmt3->execute();
+        $iduser = $stmt3->fetch();
+        $iduser = $iduser[0];
+        $sql4 = "INSERT INTO post_admin (idpost, idAdmin) VALUES (:idpost, :idadmin)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost[0]);
+        $stmt4->bindParam(':idadmin', $iduser);
+        $stmt4->execute();
         return true;
     }
     public function ShowPostAdmin(){
@@ -350,5 +374,27 @@ class Database
         $stmt->bindParam(':type', $type);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    //amitier
+    public function defaultFriend($mail, $idpromo){
+        $sql = "SELECT * FROM user WHERE idpromo = :idpromo";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpromo', $idpromo);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $sql2 = "SELECT iduser FROM user WHERE mail = :mail";
+        $stmt2 = self::$database->prepare($sql2);
+        $stmt2->bindParam(':mail', $mail);
+        $stmt2->execute();
+        $iduser = $stmt2->fetch();
+        $iduser = $iduser[0];
+        foreach ($result as $key => $value) {
+            $sql3 = "INSERT INTO amis (iduser1, iduser2) VALUES (:iduser1, :iduser2)";
+            $stmt3 = self::$database->prepare($sql3);
+            $stmt3->bindParam(':iduser1', $iduser);
+            $stmt3->bindParam(':iduser2', $value['iduser']);
+            $stmt3->execute();
+        }
     }
 }

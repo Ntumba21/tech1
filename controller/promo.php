@@ -1,6 +1,6 @@
 <?php
     require_once '../modele/Database.php';
-    function ShowPrmo(){
+    function ShowPromo(){
         $db = new Database();
         $promos = $db->GetPromos();
         foreach($promos as $promo){

@@ -2,16 +2,17 @@
 
 use controller\User;
 
-require_once ('modele\Database.php');
-require_once ('controller\user.php');
+require_once ('modele/Database.php');
 
 
-$user = new User();
-$user->MakeUser('manal.melgou@edu.ece.fr');
- $data = new Database();
+$data = new Database();
     $result = $data->GetPromos();
+<<<<<<< HEAD
     print_r($result);
     echo $user->getName();
 
 
 
+=======
+    print_r($result);
+>>>>>>> 7bebacc9b07420af7ba64fae0eeb4026d1cce1d7

@@ -5,17 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../view/style/home.css">
 </head>
 <body>
-<nav>
-  <ul>
-    <li><a href="../view/createPost.php">Accueil</a></li>
-    <li><a href="#">Explorer</a></li>
-    <li><a href="#">Reels</a></li>
-    <li><a href="#">Shop</a></li>
-    <li><a href="#">Messages</a></li>
-    <li><a href="#">Profil</a></li>
-  </ul>
-</nav>
+<header>
+
+  <nav>
+ <!-- <div class="square-container"> -->
+    <img src="../media/logo ECEBOOK.png" alt="Logo" width="200" height="500">
+    <ul>
+   
+    <li><a href="../view/affichePost.php">Accueil</a></li>
+      <li><a href="#">Explorer</a></li>&nbsp;
+      <li><a href="#">Reels</a></li>&nbsp;
+      <li><a href="#">Shop</a></li>&nbsp;
+      <li><a href="#">Messages</a></li>&nbsp;
+      <li><a href="#">Profil</a></li>&nbsp;
+    </ul>
+    </div>
+   
+      </nav>
+   <!-- </div> -->
+  
+
+  </nav>
+</header>
+
+< <footer>
+ <a href="#">Application réalisé par </a>
+</footer>
 </body>
 </html>

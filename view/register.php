@@ -58,7 +58,7 @@
                 <label for="idpromos">Promos :</label>
                 <select name="idpromos" id="idpromos" required>
                     <!-- Ajoutez les options pour les différentes promotions ici -->
-                    <?php ShowPrmo(); ?>
+                    <?php ShowPromo(); ?>
                 </select>
             </div>
             <button type="submit">Créer un compte</button>
