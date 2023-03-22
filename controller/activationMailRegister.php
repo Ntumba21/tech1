@@ -1,5 +1,5 @@
 <?php
-require_once '../models/User.php';
+require_once '../modele/Database.php';
 
 function activateAccount($email, $token) {
     $data=new database();

@@ -1,6 +1,5 @@
 <?php
-require_once '../models/suppression.php';
-require_once '../controllers/supression.php';
+require_once '../modele/Database.php';
 
 if(isset($_GET['activate']) && isset($_GET['timestamp'])) {
   $data = new Database();
