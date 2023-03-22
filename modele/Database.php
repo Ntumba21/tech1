@@ -169,6 +169,7 @@ class Database
         $stmt->execute();
         return true;
     }
+
     //Admin function
 
     public function DeletePromo($nom){
@@ -273,7 +274,7 @@ class Database
                 WHERE idadmin = :idadmin 
                 ORDER BY date DESC";
     }
-    // post fonction
+    // post fonction user
     public function CreatePost($type,$titre, $contenu, $date, $lieu, $photo, $for){
         $sql = "INSERT INTO post (type, titre, contenu, date, lieu, photo, for) 
                 VALUES (:type, :titre, :contenu, :date, :lieu, :photo, :for)";
@@ -304,12 +305,12 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function ShowPostByUSer(){
+    public function ShowPostByUSer($iduser){
         $sql = "SELECT * FROM post 
                 inner join post_user on post.idpost = post_user.idpost 
                 WHERE iduser = :iduser ORDER BY date DESC";
         $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':iduser', $_SESSION['iduser']);
+        $stmt->bindParam(':iduser', $iduser);
         $stmt->execute();
         return $stmt->fetchAll();
     }
