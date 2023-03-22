@@ -7,7 +7,7 @@
   <body>
     <h1>Delete Account</h1>
 
-    <form method="POST" action="../controllers/supression.php">
+    <form method="POST" action="../controller/activationMailSup.php">
       <label for="mail">Email:</label>
       <input type="email" name="mail" id="mail" required>
       <br>
