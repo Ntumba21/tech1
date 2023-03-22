@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -50,19 +50,18 @@ class Database
         return true;
     }
     
-    //
-    public function AlterUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $idpromos)
+    //editprofil
+    public function AlterUser($nom, $prenom, $mail, $password, $date_de_naissance, $description, $ville, $interests, $photo, $idpromos)
     {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, password = :hashed_password, date_de_naissance = :date_de_naissance, type = :type, description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
+            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, password = :hashed_password, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':mail', $mail);
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':prenom', $prenom);
             $stmt->bindParam(':hashed_password', $hashed_password);
             $stmt->bindParam(':date_de_naissance', $date_de_naissance);
-            $stmt->bindParam(':type', $type);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':ville', $ville);
             $stmt->bindParam(':interests', $interests);
