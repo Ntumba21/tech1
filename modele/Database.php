@@ -62,14 +62,13 @@ class Database
     {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, password = :hashed_password, date_de_naissance = :date_de_naissance, type = :type, description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
+            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, password = :hashed_password, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':mail', $mail);
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':prenom', $prenom);
             $stmt->bindParam(':hashed_password', $hashed_password);
             $stmt->bindParam(':date_de_naissance', $date_de_naissance);
-            $stmt->bindParam(':type', $type);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':ville', $ville);
             $stmt->bindParam(':interests', $interests);
