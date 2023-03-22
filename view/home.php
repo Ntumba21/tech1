@@ -7,6 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    <H1>HELOOOOOOO</H1>
+<nav>
+  <ul>
+    <li><a href="../view/affichePost.php">Accueil</a></li>
+    <li><a href="#">Explorer</a></li>
+    <li><a href="#">Reels</a></li>
+    <li><a href="#">Shop</a></li>
+    <li><a href="#">Messages</a></li>
+    <li><a href="#">Profil</a></li>
+  </ul>
+</nav>
 </body>
 </html>
