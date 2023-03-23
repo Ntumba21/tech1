@@ -52,7 +52,7 @@ $user = $database->getUserByEmaill($mail);
       <label for="idpromos">Promotion:</label>
                 <select name="idpromos" id="idpromos" required>
                     <!-- Ajoutez les options pour les différentes promotions ici -->
-                    <?php ShowPrmo(); ?>
+                    <?php ShowPromo(); ?>
                 </select>
         <input type="submit" name="submit" value="Enregistrer les modifications">
     </form>

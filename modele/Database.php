@@ -398,28 +398,6 @@ class Database
         }
     }
 
-    //ami
-    public function AddFriend($mail, $mail2){
-        $sql = "SELECT iduser FROM user WHERE mail = :mail";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':mail', $mail);
-        $stmt->execute();
-        $iduser = $stmt->fetch();
-        $iduser = $iduser[0];
-        $sql2 = "SELECT iduser FROM user WHERE mail = :mail";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':mail', $mail2);
-        $stmt2->execute();
-        $iduser2 = $stmt2->fetch();
-        $iduser2 = $iduser2[0];
-        $sql3 = "INSERT INTO amis (iduser1, iduser2) VALUES (:iduser1, :iduser2)";
-        $stmt3 = self::$database->prepare($sql3);
-        $stmt3->bindParam(':iduser1', $iduser);
-        $stmt3->bindParam(':iduser2', $iduser2);
-        $stmt3->execute();
-        return true;
-    }
-
     //ashley manal PAS TOUCHE EN TEST
     
     
