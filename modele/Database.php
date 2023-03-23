@@ -398,7 +398,21 @@ class Database
         }
     }
 
-    //ashley manal PAS TOUCHE EN TEST
+    //ash
+
+    public function getMessages() {
+        $sql = 'SELECT * FROM message ORDER BY date ASC';
+        $stmt = self::$database->prepare( $sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function sendMessage($iduser, $idamis, $contenu) {
+
+        $sql = 'INSERT INTO message (iduser, idamis, contenu, date) VALUES (:iduser, :idamis, :contenu, NOW())';
+        $stmt = self::$database->prepare( $sql);
+        return $stmt->execute([':iduser' => $iduser, ':idamis' => $idamis, ':contenu' => $contenu]);
+    }
     
     
 

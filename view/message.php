@@ -21,46 +21,37 @@
             <p>Active Now</p>
         </div>
     </div>
-
     <div class="conversation">
-        <div class="talk left">
-            <img src="ressources/avatar2.jpg">
-            <p>Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div class="talk right">
-            <p>Lorem ipsum dolor sit amet.</p>
-            <img src="ressources/avatar1.jpg">
-        </div>
-        <div class="talk left">
-            <img src="ressources/avatar2.jpg">
-            <p>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div class="talk right">
-            <p>Lorem ipsum dolor sit amet.</p>
-            <img src="ressources/avatar1.jpg">
-        </div>
+    <?php 
+    require_once '../controller/message.php';
+    require_once '../controller/session.php';
+    $mail= $_SESSION['mail'];
+    $database = new Database();
+    $message = $database->getUserByEmaill($mail);
+    ?>
+        <?php foreach ($messages as $message): ?>
+            <div class="talk <?php echo $message['sender_id'] == $iduser ? 'right' : 'left'; ?>">
+                <img src="ressources/avatar<?php echo $message['sender_id'] == $iduser ? '1' : '2'; ?>.jpg">
+                <p><?php echo htmlspecialchars($message['contenu']); ?></p>
+            </div>
+        <?php endforeach; ?>
     </div>
 
-
-    <form class="chat-form">
+    <form class="chat-form" action="message_handler.php" method="POST">
+        <input type="hidden" name="idamis" value="<?php echo $idamis; ?>">
 
         <div class="container-inputs-stuffs">
-
-
             <div class="group-inp">
-                <textarea placeholder="Enter your message here" minlength="1" maxlength="1500"></textarea>
+                <textarea name="message" placeholder="Enter your message here" minlength="1" maxlength="1500"></textarea>
                 <img src="../media/smile.svg">
             </div>
 
-
-            <button class="submit-msg-btn">
+            <button type="submit" class="submit-msg-btn">
                 <img src="../media/send.svg">
             </button>
         </div>
-
     </form>
 </div>
-
 
 </body>
 </html>
