@@ -88,7 +88,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $token);
 
     if ($result) {
-        $data->registerPromo($mail,$idpromos);
+        if ($type == 1) {
+            $data->defaultFriend($mail,$idpromos);
+            $data->registerPromo($mail,$idpromos);
+        }elseif ($type == 2){
+            foreach ($idpromos as $idpromo){
+                $data->registerPromo($mail,$idpromo[0]);
+            }
+        }
         if (sendActivationEmail($mail, $token)) {
             echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
             $data->defaultFriend($mail,$idpromos);
@@ -98,7 +105,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "Erreur lors de la création de l'utilisateur.";
 }
-
-
 }
 

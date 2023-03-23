@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
     <link rel="stylesheet" href="../view/style/style.css">
-   
-    
-    </head>
+
+
+</head>
 <body>
 
 <header>
-    <img src="../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+    <img src="../media/logo ECEBOOK.png" alt="Logo" class="logo">
     <h1>Inscription</h1>
 </header>
 <div class="content">
     <div class="square">
-      
+
         <form action="../controller/register.php" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label for="type">Type :</label>
-                <input type="hidden" name="type" value="1">
+                <input type="hidden" name="type" value="2">
             </div>
             <div class="form-group">
                 <label for="description">Description :</label>
@@ -62,16 +62,16 @@
             <div class="form-group">
                 <label for="idpromos">Promos :</label>
                     <!-- Ajoutez les options pour les différentes promotions ici -->
-                    <?php ShowPromoEleve(); ?>
+                    <?php ShowPromoProf(); ?>
             </div>
             <button type="submit">Créer un compte</button>
         </form>
-   
-</div>
+
+    </div>
 </div>
 
 <footer>
- <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
+    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
 </footer>
 </body>
 </html>

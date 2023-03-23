@@ -144,7 +144,6 @@ class Database
         $stmt2->execute();
         $iduser = $stmt2->fetch();
         $iduser = $iduser[0];
-        echo ('voici le id user: '.$iduser);
         $sql = 'INSERT INTO `prof_promos` (`iduser`, `idpromos`) 
                 VALUES (:iduser, :idpromos)';
         $stmt = self::$database->prepare($sql);
