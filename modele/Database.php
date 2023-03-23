@@ -109,8 +109,8 @@ class Database
     public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos,$token) {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql='INSERT INTO user (nom, prenom, mail, password, date_de_naissance, type, description, ville, interests, photo, isvalide, idpromos,token) 
-                  VALUES (:nom, :prenom, :mail, :hashed_password, :date_de_naissance, :type, :description, :ville, :interests, :photo, :isvalide, :idpromos, :token)';
+            $sql='INSERT INTO user (nom, prenom, mail, password, date_de_naissance, type, description, ville, interests, photo, isvalide,token) 
+                  VALUES (:nom, :prenom, :mail, :hashed_password, :date_de_naissance, :type, :description, :ville, :interests, :photo, :isvalide, :token)';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':prenom', $prenom);
@@ -123,15 +123,19 @@ class Database
             $stmt->bindParam(':interests', $interests);
             $stmt->bindParam(':photo', $photo);
             $stmt->bindParam(':isvalide', $isvalide);
-            $stmt->bindParam(':idpromos', $idpromos);
             $stmt->bindParam(':token', $token);
             $stmt->execute();
-            $sql2 = 'INSERT INTO prof_promos (iduser, idpromos) 
-                     VALUES (:iduser, :idpromos)';
-            $stmt2 = self::$database->prepare($sql2);
-            $stmt2->bindParam(':iduser', $iduser);
-            $stmt2->bindParam(':idpromos', $idpromos);
+            $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
+            $stmt2->bindParam(':mail', $mail);
             $stmt2->execute();
+            $iduser = $stmt2->fetch();
+            $iduser = $iduser[0];
+            $sql3 = 'INSERT INTO `prof_promos` (`user_iduser`, `promos_idpromos`) 
+                     VALUES (:iduser, :idpromos)';
+            $stmt3 = self::$database->prepare($sql3);
+            $stmt3->bindParam(':iduser', $iduser);
+            $stmt3->bindParam(':idpromos', $idpromos);
+            $stmt3->execute();
             return true;
         } catch (PDOException $e) {
             echo "Erreur PDO : " . $e->getMessage();
