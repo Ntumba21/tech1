@@ -3,9 +3,20 @@
   <head>
     <meta charset="UTF-8">
     <title>Delete Account</title>
-  </head>
-  <body>
-    <h1>Delete Account</h1>
+    <link rel="stylesheet" href="../../view/style/sup.css">
+    
+    </head>
+    <body>
+    <header>
+        <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+        <h1>Delete Account</h1>
+    </header>
+    <div class="content">
+        <div class="square">
+    </head>
+    
+    
+    
 
     <form method="POST" action="../controllers/supression.php">
       <label for="mail">Email:</label>
@@ -13,5 +24,12 @@
       <br>
       <button type="submit">Delete Account</button>
     </form>
-  </body>
+
+
+  </div>
+</div>
+</body>
+<footer>
+<a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
+</footer>
 </html>
