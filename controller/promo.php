@@ -1,5 +1,5 @@
 <?php
-    require_once '../modele/Database.php';
+   require_once '../modele/Database.php';
     function ShowPromo(){
         $db = new Database();
         $promos = $db->GetPromos();
