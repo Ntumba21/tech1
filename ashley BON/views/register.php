@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="../../view/style/style.css">
+    
 </head>
 <body>
-    <div class="register-container">
-        <h1>Inscription</h1>
+<header>
+    <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+    <h1>Inscription</h1>
+</header>
+<div class="content">
+    <div class="square">
+</head>
+
+<body>
+       
         <form action="../controllers/registercontroller.php" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
@@ -65,6 +74,12 @@
             <button type="submit">Créer un compte</button>
         </form>
     </div>
+    </div>
+</div>
+</body>
+<footer>
+<a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
+</footer>
 </body>
 </html>
 
