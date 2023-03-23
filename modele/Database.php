@@ -400,28 +400,32 @@ class Database
 
     //ash
 
-    public function getMessages() {
-        $sql = 'SELECT * FROM message ORDER BY date ASC';
-        $stmt = self::$database->prepare( $sql);
+    public function sendMessage($sender_id, $receiver_id, $content) {
+        $sql = "INSERT INTO message (contenu, date, iduser, idamis) VALUES (:content, NOW(), :sender_id, :receiver_id)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':content', $content);
+        $stmt->bindParam(':sender_id', $sender_id);
+        $stmt->bindParam(':receiver_id', $receiver_id);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function sendMessage($iduser, $idamis, $contenu) {
-
-        $sql = 'INSERT INTO message (iduser, idamis, contenu, date) VALUES (:iduser, :idamis, :contenu, NOW())';
-        $stmt = self::$database->prepare( $sql);
-        return $stmt->execute([':iduser' => $iduser, ':idamis' => $idamis, ':contenu' => $contenu]);
+    public function getMessagesBetweenUsers($sender_id, $receiver_id) {
+        $sql= "SELECT * FROM message WHERE (iduser = :sender_id AND idamis = :receiver_id) OR (iduser = :receiver_id AND idamis = :sender_id) ORDER BY date ASC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':sender_id', $sender_id);
+        $stmt->bindParam(':receiver_id', $receiver_id);
+        $stmt->execute();
+        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $messages;
     }
+    }
+    
+    
+    
     
     
 
  
 
       
-      
     
-    
-
-    
-}
