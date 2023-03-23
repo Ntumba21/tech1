@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -49,7 +49,6 @@ class Database
         $stmt->execute();
         return true;
       }
-
       public function activateAccount($email, $token) {
             $sql='UPDATE user 
                   SET isvalide = 1, token = NULL 
@@ -61,10 +60,18 @@ class Database
             return $stmt->rowCount();
       }
       public function DeleteUserById($user_id){
-        $sql = "DELETE FROM user WHERE iduser = :user";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':user', $user_id);
-        $stmt->execute();
+          $sql2 = "DELETE FROM user_has_promos WHERE iduser = :user";
+            $stmt2 = self::$database->prepare($sql2);
+            $stmt2->bindParam(':user', $user_id);
+            $stmt2->execute();
+          $sql3 = "DELETE FROM prof_promos WHERE iduser = :user";
+            $stmt3 = self::$database->prepare($sql3);
+            $stmt3->bindParam(':user', $user_id);
+            $stmt3->execute();
+          $sql = "DELETE FROM user WHERE iduser = :user";
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':user', $user_id);
+            $stmt->execute();
         return true;
     }
     
@@ -106,7 +113,7 @@ class Database
         }
     }
 
-    public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos,$token) {
+    public function createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $token) {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $sql='INSERT INTO user (nom, prenom, mail, password, date_de_naissance, type, description, ville, interests, photo, isvalide,token) 
@@ -123,25 +130,28 @@ class Database
             $stmt->bindParam(':interests', $interests);
             $stmt->bindParam(':photo', $photo);
             $stmt->bindParam(':isvalide', $isvalide);
-            $stmt->bindParam(':idpromos', $idpromos);
             $stmt->bindParam(':token', $token);
             $stmt->execute();
-            $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
-            $stmt2->bindParam(':mail', $mail);
-            $stmt2->execute();
-            $iduser = $stmt2->fetch();
-            $iduser = $iduser[0];
-            $sql3 = 'INSERT INTO `prof_promos` (`user_iduser`, `promos_idpromos`) 
-                     VALUES (:iduser, :idpromos)';
-            $stmt3 = self::$database->prepare($sql3);
-            $stmt3->bindParam(':iduser', $iduser);
-            $stmt3->bindParam(':idpromos', $idpromos);
-            $stmt3->execute();
             return true;
         } catch (PDOException $e) {
             echo "Erreur PDO : " . $e->getMessage();
             return false;
         }        
+    }
+    public function registerPromo($mail, $idpromos){
+        $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
+        $stmt2->bindParam(':mail', $mail);
+        $stmt2->execute();
+        $iduser = $stmt2->fetch();
+        $iduser = $iduser[0];
+        echo ('voici le id user: '.$iduser);
+        $sql = 'INSERT INTO `prof_promos` (`iduser`, `idpromos`) 
+                VALUES (:iduser, :idpromos)';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->bindParam(':idpromos', $idpromos);
+        $stmt->execute();
+        return true;
     }
     
     //je travail ici MANAL
@@ -174,37 +184,6 @@ class Database
         $stmt = self::$database->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
-    }
-    public function AlterInformation($mail,$nom, $prenom,$date_de_naissance,$description,$ville, $interests,$photo,$idpromo){
-        $sql = "UPDATE user 
-                SET nom = :nom, 
-                    prenom = :prenom, 
-                    date_de_naissance = :date_de_naissance, 
-                    description = :description, 
-                    ville = :ville, 
-                    interests = :interests, 
-                    photo = :photo, 
-                    idpromos = :idpromo 
-                WHERE mail = :mail";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':mail', $mail);
-        $stmt->bindParam(':nom', $nom);
-        $stmt->bindParam(':prenom', $prenom);
-        $stmt->bindParam(':date_de_naissance', $date_de_naissance);
-        $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':ville', $ville);
-        $stmt->bindParam(':interests', $interests);
-        $stmt->bindParam(':photo', $photo);
-        $stmt->bindParam(':idpromo', $idpromo);
-        $stmt->execute();
-        return true;
-    }
-    public function DeleteUserByMail($mail){
-        $sql = "DELETE FROM user WHERE mail = :mail";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':mail', $mail);
-        $stmt->execute();
-        return true;
     }
 
     //Admin function
@@ -328,6 +307,11 @@ class Database
                 inner join post_admin on post.idpost = post_admin.idpost 
                 WHERE idadmin = :idadmin 
                 ORDER BY date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idadmin', $_SESSION['iduser']);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
     }
     // post fonction user
     public function CreatePost($type,$titre, $contenu, $date, $lieu, $photo, $mail){

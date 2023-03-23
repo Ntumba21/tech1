@@ -85,15 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Créer un nouvel utilisateur
     $data = new Database();
-    $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $idpromos, $token);
+    $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $token);
 
     if ($result) {
-    if (sendActivationEmail($mail, $token)) {
-        echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
-        $data->defaultFriend($mail,$idpromos);
-    } else {
-        echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
-    }
+        $data->registerPromo($mail,$idpromos);
+        if (sendActivationEmail($mail, $token)) {
+            echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
+            $data->defaultFriend($mail,$idpromos);
+        } else {
+            echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
+        }
 } else {
     echo "Erreur lors de la création de l'utilisateur.";
 }
