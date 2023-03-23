@@ -123,6 +123,7 @@ class Database
             $stmt->bindParam(':interests', $interests);
             $stmt->bindParam(':photo', $photo);
             $stmt->bindParam(':isvalide', $isvalide);
+            $stmt->bindParam(':idpromos', $idpromos);
             $stmt->bindParam(':token', $token);
             $stmt->execute();
             $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
@@ -402,16 +403,33 @@ class Database
         }
     }
 
-    //ashley manal PAS TOUCHE EN TEST
-    
+    //ash
+
+    public function sendMessage($sender_id, $receiver_id, $content) {
+        $sql = "INSERT INTO message (contenu, date, iduser, idamis) VALUES (:content, NOW(), :sender_id, :receiver_id)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':content', $content);
+        $stmt->bindParam(':sender_id', $sender_id);
+        $stmt->bindParam(':receiver_id', $receiver_id);
+        $stmt->execute();
+    }
+
+    public function getMessagesBetweenUsers($sender_id, $receiver_id) {
+        $sql= "SELECT * FROM message WHERE (iduser = :sender_id AND idamis = :receiver_id) OR (iduser = :receiver_id AND idamis = :sender_id) ORDER BY date ASC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':sender_id', $sender_id);
+        $stmt->bindParam(':receiver_id', $receiver_id);
+        $stmt->execute();
+        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $messages;
+    }
+    }
     
 
- 
 
-      
-      
-    
-    
 
-    
-}
+
+
+
+
+

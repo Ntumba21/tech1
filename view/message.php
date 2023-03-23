@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <link rel="stylesheet" href="../view/style/message.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("form.chat-form").on("submit", function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/controller/message.php?action=send&receiver_id=<?php echo $_GET['receiver_id']; ?>",
+                    data: $(this).serialize(),
+                    success: function() {
+                        $("textarea").val("");
+                        loadMessages();
+                    }
+                });
+            });
+
+            function loadMessages() {
+                $.ajax({
+                    type: "GET",
+                    url: "/controller/message.php?action=getMessages&receiver_id=<?php echo $_GET['receiver_id']; ?>",
+                    success: function(data) {
+                        $(".conversation").html(data);
+                    }
+                });
+            }
+
+            loadMessages();
+            setInterval(loadMessages, 3000);
+        });
+    </script>
 </head>
 <body>
    
@@ -21,37 +51,31 @@
             <p>Active Now</p>
         </div>
     </div>
+
     <div class="conversation">
-    <?php 
-    require_once '../controller/message.php';
-    require_once '../controller/session.php';
-    $mail= $_SESSION['mail'];
-    $database = new Database();
-    $message = $database->getUserByEmaill($mail);
-    ?>
-        <?php foreach ($messages as $message): ?>
-            <div class="talk <?php echo $message['sender_id'] == $iduser ? 'right' : 'left'; ?>">
-                <img src="ressources/avatar<?php echo $message['sender_id'] == $iduser ? '1' : '2'; ?>.jpg">
-                <p><?php echo htmlspecialchars($message['contenu']); ?></p>
-            </div>
-        <?php endforeach; ?>
+        <!-- Les messages seront chargés ici -->
     </div>
 
-    <form class="chat-form" action="message_handler.php" method="POST">
-        <input type="hidden" name="idamis" value="<?php echo $idamis; ?>">
+
+    <form class="chat-form">
 
         <div class="container-inputs-stuffs">
+
+
             <div class="group-inp">
-                <textarea name="message" placeholder="Enter your message here" minlength="1" maxlength="1500"></textarea>
+                <textarea name="content" placeholder="Enter your message here" minlength="1" maxlength="1500"></textarea>
                 <img src="../media/smile.svg">
             </div>
 
-            <button type="submit" class="submit-msg-btn">
+
+            <button class="submit-msg-btn" type="submit">
                 <img src="../media/send.svg">
             </button>
         </div>
+
     </form>
 </div>
+
 
 </body>
 </html>
