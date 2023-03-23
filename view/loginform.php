@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login form</title>
     <style>
+         
         body {
             background-color: #fff;
             color: #000;
@@ -19,10 +20,12 @@
             width: 400px;
             border: 2px solid #000;
             padding: 20px;
+        
         }
         label {
             display: block;
             margin-bottom: 10px;
+
         }
         input[type="email"], input[type="password"] {
             width: 100%;
@@ -43,9 +46,10 @@
             background-color: #444;
         }
     </style>
+      
 </head>
 <body>
-
+<img src="../media/logo ECEBOOK.png" alt="Logo" class="logo">
 <h1>Connexion</h1>
 
 <form action="../controller/login.php" method="post">

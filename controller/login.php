@@ -3,9 +3,9 @@ require_once ('..\controller\session.php ');
 require_once ('..\modele\Database.php');
  
 
-if(isset($_POST['mail']) && isset($_POST['password'])) {
+if(isset($_POST['email']) && isset($_POST['password'])) {
  $db = new Database();
- $user = $db->Connect($_POST['mail'], $_POST['password']);
+ $user = $db->Connect($_POST['email'], $_POST['password']);
  if(count($user) > 0) {
     Session($user[0]["mail"], $user[0]["iduser"], true);
     redirectToHome(); 

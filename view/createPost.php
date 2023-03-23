@@ -5,8 +5,69 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        body {
+            background-color: #F5F5F5;
+            font-family: Arial, sans-serif;
+        }
+
+        #logo {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #form-container {
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px grey;
+            max-width: 600px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid grey;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
 </head>
 <body>
+<img src="../media/logo ECEBOOK.png" alt="Logo" class="logo">
 <form action="../controller/createPostController.php" method="post" enctype="multipart/form-data">
   <input type="hidden" name="action" value="create">
   <label for="type">Type :</label>
@@ -24,5 +85,3 @@
   <button type="submit">Publier</button>
 </form>
 
-</body>
-</html>
