@@ -5,75 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="css/register.css">
-<style>
-    .logo {
-  max-width: 100%;
-  max-height: 100%;
-  margin: 1rem;
-}
-
-.register-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 100px);
-}
-
-.register-container form {
-  border: 1px solid black;
-  border-radius: 0;
-  padding: 2rem;
-}
-
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 500px;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-  width: 100%;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-input,
-select,
-textarea {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #f4f4f4;
-  width: 100%;
-}
-
-button[type="submit"] {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: black;
-  color: white;
-}
-
-    </style> 
-</head>
-<img src="../media/logo ECEBOOK.png" alt="Logo" class="logo">
+    <link rel="stylesheet" href="../view/style/style.css">
+   
+    
+    </head>
 <body>
-    <div class="register-container">
-        <h1>Inscription</h1>
+
+<header>
+    <img src="../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+    <h1>Inscription</h1>
+</header>
+<div class="content">
+    <div class="square">
+      
         <form action="../controller/register.php" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
@@ -127,7 +71,13 @@ button[type="submit"] {
             </div>
             <button type="submit">Créer un compte</button>
         </form>
-    </div>
+   
+</div>
+</div>
+
+<footer>
+ <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
+</footer>
 </body>
 </html>
 

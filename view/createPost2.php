@@ -5,8 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un post</title>
+    <link rel="stylesheet" href="../view/style/post.css">
+
 </head>
 <body>
+<header>
+    <img src="../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+    <h1>Create post</h1>
+</header>
+<div class="content">
+    <div class="square">
+</head>
 <form action="../controller/createPost2.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="action" value="create">
     <label for="type">Type :</label>
@@ -27,6 +36,11 @@
     <input type="file" name="photo" id="photo"><br>
     <button type="submit">Publier</button>
 </form>
-
+</div>
+</div>
 </body>
+<footer>
+<a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
+</footer>
+
 </html>

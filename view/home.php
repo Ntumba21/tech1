@@ -31,7 +31,7 @@
   </nav>
 </header>
 
-< <footer>
+<footer>
  <a href="#">Application réalisé par </a>
 </footer>
 </body>
