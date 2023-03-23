@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -399,101 +399,12 @@ class Database
     }
 
     //ashley manal PAS TOUCHE EN TEST
-    public function CreatePost2($type, $titre, $contenu, $date, $lieu, $photo, $mail) {
-        $sql = "INSERT INTO post (type, titre, contenu, date, lieu, photo) 
-                VALUES (:type, :titre, :contenu, :date, :lieu, :photo)";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':type', $type);
-        $stmt->bindParam(':titre', $titre);
-        $stmt->bindParam(':contenu', $contenu);
-        $stmt->bindParam(':date', $date);
-        $stmt->bindParam(':lieu', $lieu);
-        $stmt->bindParam(':photo', $photo);
-        $stmt->execute();
-        
-        $sql2 = "SELECT idpost FROM post WHERE titre = :titre";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':titre', $titre);
-        $stmt2->execute();
-        $idpost = $stmt2->fetch();
-        
-        $sql3 = "SELECT iduser FROM user WHERE mail = :mail";
-        $stmt3 = self::$database->prepare($sql3);
-        $stmt3->bindParam(':mail', $mail);
-        $stmt3->execute();
-        $iduser = $stmt3->fetch();
-        
-        $sql4 = "INSERT INTO post_user (idpost, iduser) VALUES (:idpost, :iduser)";
-        $stmt4 = self::$database->prepare($sql4);
-        $stmt4->bindParam(':idpost', $idpost[0]);
-        $stmt4->bindParam(':iduser', $iduser[0]);
-        $stmt4->execute();
     
-        return $idpost[0]; // Retourner l'ID du post créé
-    }
-
-    function updatePostContentWithLinks($idpost, $contentWithLinks) {
-        $data = new Database();
     
-        // Mise à jour du contenu du post avec les liens
-        $sql = "UPDATE post SET contenu = :contentWithLinks WHERE idpost = :idpost";
-        $stmt = $data::$database->prepare($sql);
-        $stmt->bindParam(':contentWithLinks', $contentWithLinks);
-        $stmt->bindParam(':idpost', $idpost);
-        $stmt->execute();
-    }
 
-    public function getUserByEmail2($email) {
-        $sql = "SELECT * FROM user WHERE mail = :email";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        return $stmt->fetch();
-    }
+ 
 
-    public function getUserById($id) {
-        $sql = "SELECT * FROM user WHERE iduser = :id";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch();
-      }
       
-      public function getPlaceById($id) {
-        $sql = "SELECT * FROM place WHERE idplace = :id";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch();
-      }
-
-      public function getPlaceByName($name) {
-        $sql = "SELECT * FROM place WHERE name = :name";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':name', $name);
-        $stmt->execute();
-        return $stmt->fetch();
-      }
-
-      public function insertMention($idpost, $iduser, $idplace) {
-        $sql = "INSERT INTO mention (idpost, iduser, idplace) VALUES (:idpost, :iduser, :idplace)";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpost', $idpost, PDO::PARAM_INT);
-        $stmt->bindParam(':iduser', $iduser, PDO::PARAM_INT);
-        $stmt->bindParam(':idplace', $idplace, PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    function getUserIDByUsername($username) {
-        $data = new Database();
-        
-        $sql = "SELECT iduser FROM user WHERE username = :username";
-        $stmt = $data::$database->prepare($sql);
-        $stmt->bindParam(':username', $username);
-        $stmt->execute();
-        
-        return $stmt->fetch();
-    }
       
     
     
