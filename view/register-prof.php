@@ -20,7 +20,7 @@
 
         <form action="../controller/register.php" method="post">
         <div class="form-group">
-                <label for="type">Elève</label>
+                <label for="type">Professeur</label>
                 <input type="hidden" name="type" value="2">
             </div>
             <div class="form-group">
