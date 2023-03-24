@@ -449,7 +449,6 @@ class Database
 
 
     public function addFriend($user_email, $friend_email) {
-        // Get the user IDs for both the user and the friend
         $stmt = self::$database->prepare('SELECT iduser FROM user WHERE mail = :email');
         $stmt->bindParam(':email', $user_email);
         $stmt->execute();
@@ -460,7 +459,7 @@ class Database
         $friend_id = $stmt->fetchColumn();
     
         if (!$user_id || !$friend_id) {
-            return false; // Either the user or the friend was not found
+            return false; 
         }
     
         // Il faut voir si les amis sont dans la table amis !! je vous deteste
