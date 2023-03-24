@@ -74,6 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $ville = $_POST['ville'];
     $interests = $_POST['interests'];
+
+    $avatar = $_FILES['photo']; //traitement different car fichier photo
+    $filename = $avatar["name"]; //recup nom origin du fichier
+    $tempname = $avatar["tmp_name"];  //temporaire pour upload le fichier en attendant de le mettre dans le dossier
+    $photo= move_uploaded_file($tempname,"img/avatars/".$filename); //function qui permet de deplacer le fichier temporaire dans le dossier voulu
     $photo = $_POST['photo'];
     $isvalide = 0;
     $idpromos = $_POST['idpromos'];
@@ -97,26 +102,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Créer un nouvel utilisateur
-    $data = new Database();
-    $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $token);
-
-    if ($result) {
-        if (sendActivationEmail($mail, $token)) {
-            if ($type == 1) {
-                //$data->defaultFriend($mail,$idpromos);
-                $data->registerPromo($mail,$idpromos);
-            }elseif ($type == 2){
-                foreach ($idpromos as $idpromo){
-                    $data->registerPromo($mail,$idpromo[0]);
-                }
-            }
-            echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
-            //$data->defaultFriend($mail,$idpromos);
-        } else {
-            echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
-        }
-} else {
-    echo "Erreur lors de la création de l'utilisateur.";
-}
+//    $data = new Database();
+//    $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $token);
+//
+//    if ($result) {
+//        if ($type == 1) {
+//            //$data->defaultFriend($mail,$idpromos);
+//            $data->registerPromo($mail,$idpromos);
+//        }elseif ($type == 2){
+//            foreach ($idpromos as $idpromo){
+//                $data->registerPromo($mail,$idpromo[0]);
+//            }
+//        }
+////        if (sendActivationEmail($mail, $token)) {
+////            echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
+////            //$data->defaultFriend($mail,$idpromos);
+////        } else {
+////            echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
+////        }
+//} else {
+//    echo "Erreur lors de la création de l'utilisateur.";
+//}
 }
 
