@@ -25,17 +25,12 @@ $user = $database->getUserByEmaill($mail);
         <img class="rounded-circle" src="<?php echo $user['photo'] ?>" width="100" alt="">
       </div>
 
-    <form action="../controller/editprofil.php" method="POST">
+    <form action="../controller/editprofil.php" method="POST" enctype="multipart/form-data">
       <label for="nom">Nom*: </label>
       <input type="text" id="nom" name="nom" value="<?php echo $user["nom"]; ?>"><br>
 
       <label for="prenom">Prénom*: </label>
       <input type="text" id="prenom" name="prenom" value="<?php echo $user["prenom"]; ?>"><br>
-
-      <label for="mail">Adresse e-mail*: </label>
-      <input type="email" id="mail" name="mail" value="<?php echo $user["mail"]; ?>"><br>
-
-
 
       <label for="date_de_naissance">Date de naissance*: </label>
       <input type="date" id="date_de_naissance" name="date_de_naissance" value="<?php echo $user["date_de_naissance"]; ?>"><br>

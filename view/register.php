@@ -18,7 +18,7 @@
 <div class="content">
     <div class="square">
       
-        <form action="../controller/register.php" method="post">
+        <form action="../controller/register.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="type">Elève</label>
                 <input type="hidden" name="type" value="1">

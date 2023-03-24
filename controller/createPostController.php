@@ -22,7 +22,7 @@ require_once('../controller/session.php');
         $fileName = uniqid() . '-' . $_FILES['photo']['name'];
         
         // Déplace l'image vers le dossier des images
-        $filePath = '../media/' . $fileName;
+        $filePath = '../upload/post/' . $fileName;
         move_uploaded_file($tmpFilePath, $filePath);
         
         $photo = $filePath;
