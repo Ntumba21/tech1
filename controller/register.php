@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result) {
         if ($type == 1) {
-            $data->defaultFriend($mail,$idpromos);
+            //$data->defaultFriend($mail,$idpromos);
             $data->registerPromo($mail,$idpromos);
         }elseif ($type == 2){
             foreach ($idpromos as $idpromo){
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         if (sendActivationEmail($mail, $token)) {
             echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
-            $data->defaultFriend($mail,$idpromos);
+            //$data->defaultFriend($mail,$idpromos);
         } else {
             echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
         }
