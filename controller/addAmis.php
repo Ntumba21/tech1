@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once '../modele/Database.php';
 require_once '../controller/session.php';
