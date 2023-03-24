@@ -64,7 +64,7 @@ class Database
             $stmt2 = self::$database->prepare($sql2);
             $stmt2->bindParam(':user', $user_id);
             $stmt2->execute();
-          $sql3 = "DELETE FROM prof_promos WHERE iduser = :user";
+          $sql3 = "DELETE FROM user_has_promos WHERE iduser = :user";
             $stmt3 = self::$database->prepare($sql3);
             $stmt3->bindParam(':user', $user_id);
             $stmt3->execute();
@@ -144,7 +144,7 @@ class Database
         $stmt2->execute();
         $iduser = $stmt2->fetch();
         $iduser = $iduser[0];
-        $sql = 'INSERT INTO `prof_promos` (`iduser`, `idpromos`) 
+        $sql = 'INSERT INTO `user_has_promos` (`iduser`, `idpromos`) 
                 VALUES (:iduser, :idpromos)';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':iduser', $iduser);
@@ -406,7 +406,7 @@ class Database
         $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $messages;
     }
-    }
+}
     
 
 
