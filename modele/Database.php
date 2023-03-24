@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -20,7 +20,7 @@ class Database
         $sql = 'SELECT * FROM user';
         $stmt = self::$database->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
     public function getUserByType($type){
         $sql = 'SELECT * FROM user WHERE type = :type';
@@ -74,6 +74,7 @@ class Database
             $stmt->execute();
         return true;
     }
+
     
     public function getUserByEmaill($email) {
       $sql = 'SELECT * FROM user WHERE mail = ?';
@@ -187,6 +188,21 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    public function GetPromosByID($iduser){
+        $sql = "SELECT idpromos FROM user_has_promos WHERE iduser = :iduser";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->execute();
+        $idpromos = $stmt->fetchAll();
+        $idpromos = $idpromos[0]['idpromos'];
+        $sql = "SELECT nom FROM promos WHERE idpromos = :idpromos";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpromos', $idpromos);
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    }
+
 
     //Admin function
 

@@ -18,4 +18,3 @@ if(isset($_GET['activate']) && isset($_GET['timestamp'])) {
   }
 }
 
-?> 

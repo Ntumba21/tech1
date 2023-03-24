@@ -4,6 +4,7 @@ require_once '../modele/Database.php';
 require_once '../controller/src/PHPMailer.php';
 require_once '../controller/src/SMTP.php';
 require_once '../controller/src/Exception.php';
+require_once 'session.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -96,13 +97,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Valider le mot de passe
     if (!validatePassword($password)) {
-        echo "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial.";
+        $_SESSION['alert']= "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial.";
+        header('Location: ../view/alert.php');
         exit;
     }
 
     // Valider l'email
     if (!validateEmail($mail, $type)) {
-        echo "L'adresse e-mail n'est pas valide.";
+        $_SESSION['alert']= "L'adresse e-mail n'est pas valide.";
+        header('Location: ../view/alert.php');
         exit;
     }
 
@@ -124,6 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             foreach ($idpromos as $idpromo){
                 $data->registerPromo($mail,$idpromo[0]);
             }
+            $_SESSION['alert']="Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
+            header('Location: ../view/alert.php');
         }
 //        if (sendActivationEmail($mail, $token)) {
 //            echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
@@ -132,7 +137,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //            echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
 //        }
 } else {
-    echo "Erreur lors de la création de l'utilisateur.";
+        $_SESSION['alert'] = "Erreur lors de la création de l'utilisateur.";
+        header('Location: ../view/alert.php');
 }
 }
 
