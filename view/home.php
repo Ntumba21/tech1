@@ -17,7 +17,7 @@
    
     <li><a href="../view/affichePost.php">Accueil</a></li>
       <li><a href="#">Explorer</a></li>&nbsp;
-      <li><a href="#">Reels</a></li>&nbsp;
+      <li><a href="../view/addAmis.php">Messages</a></li>&nbsp;
       <li><a href="#">Shop</a></li>&nbsp;
       <li><a href="../view/message.php">Messages</a></li>&nbsp;
       <li><a href="#">Profil</a></li>&nbsp;

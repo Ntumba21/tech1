@@ -446,6 +446,55 @@ class Database
         return true;
     
     }
+
+
+    public function addFriend($user_email, $friend_email) {
+        // Get the user IDs for both the user and the friend
+        $stmt = self::$database->prepare('SELECT iduser FROM user WHERE mail = :email');
+        $stmt->bindParam(':email', $user_email);
+        $stmt->execute();
+        $user_id = $stmt->fetchColumn();
+    
+        $stmt->bindParam(':email', $friend_email);
+        $stmt->execute();
+        $friend_id = $stmt->fetchColumn();
+    
+        if (!$user_id || !$friend_id) {
+            return false; // Either the user or the friend was not found
+        }
+    
+        // Il faut voir si les amis sont dans la table amis !! je vous deteste
+        $stmt = self::$database->prepare('SELECT idamis FROM amis WHERE idamis = :iduser');
+        $stmt->bindParam(':iduser', $friend_id);
+        $stmt->execute();
+        $idamis = $stmt->fetchColumn();
+    
+        if (!$idamis) {
+            // sinon on l'ajoute, je vous hai
+            $stmt = self::$database->prepare('INSERT INTO amis (idamis) VALUES (:iduser)');
+            $stmt->bindParam(':iduser', $friend_id);
+            $stmt->execute();
+            $idamis = self::$database->lastInsertId();
+        }
+    
+        // voir si les amis sont deja amis BANDE DE MECHANT
+        $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE iduser = :user_id AND idamis = :idamis');
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':idamis', $idamis);
+        $stmt->execute();
+        $alreadyConnected = $stmt->fetchColumn() > 0;
+    
+        if (!$alreadyConnected) {
+            //sinon on peut inserer dans userhasamis
+            $stmt = self::$database->prepare('INSERT INTO user_has_amis (iduser, idamis) VALUES (:user_id, :idamis)');
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':idamis', $idamis);
+            $stmt->execute();
+        }
+    
+        return true;
+    }
+    
     
 
    
