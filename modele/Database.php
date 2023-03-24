@@ -139,7 +139,7 @@ class Database
             return true;
         } catch (PDOException $e) {
             echo "Erreur PDO : " . $e->getMessage();
-            return false;
+            return false; 
         }        
     }
     public function registerPromo($mail, $idpromos){
