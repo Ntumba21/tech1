@@ -3,6 +3,7 @@
     function ShowPromoEleve(){
         $db = new Database();
         $promos = $db->GetPromos();
+        echo '<select name="idpromos">';
         foreach($promos as $promo){
             echo '<option value="'.$promo['idpromos'].'">'.$promo['nom'].'</option>';
         }

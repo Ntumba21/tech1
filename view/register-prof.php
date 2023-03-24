@@ -19,6 +19,10 @@
     <div class="square">
 
         <form action="../controller/register.php" method="post">
+        <div class="form-group">
+                <label for="type">Elève</label>
+                <input type="hidden" name="type" value="2">
+            </div>
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" name="nom" id="nom" required>
@@ -38,10 +42,6 @@
             <div class="form-group">
                 <label for="date_de_naissance">Date de naissance :</label>
                 <input type="date" name="date_de_naissance" id="date_de_naissance" required>
-            </div>
-            <div class="form-group">
-                <label for="type">Type :</label>
-                <input type="hidden" name="type" value="2">
             </div>
             <div class="form-group">
                 <label for="description">Description :</label>
