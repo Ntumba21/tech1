@@ -12,7 +12,8 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
  $redirectUrl = "../view/profil.php"; // use an absolute path
  echo '<script>window.location.href = "'.$redirectUrl.'";</script>';
  } else {
- echo 'Identifiants incorrects ';
+    $_SESSION['alert'] = 'Identifiants incorrects ';
+     header('Location: ../view/alert.php');
  }
 }
 

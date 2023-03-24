@@ -25,6 +25,6 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
 } else {
     echo "Paramètres d'activation manquants.";
 }
-?>
+
 
 

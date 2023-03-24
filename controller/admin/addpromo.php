@@ -11,4 +11,3 @@
         echo 'Donnée pas ajoutée';
     }
       
-?>
