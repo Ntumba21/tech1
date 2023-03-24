@@ -9,6 +9,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+
 function uniqueEmail($email) {
     $db = new Database();
     $result = $db->GetUserByEmail($email);
@@ -117,8 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result) {
         if ($type == 1) {
-            //$data->defaultFriend($mail,$idpromos);
             $data->registerPromo($mail,$idpromos);
+            $data->defaultamitié2($mail);
         }elseif ($type == 2){
             foreach ($idpromos as $idpromo){
                 $data->registerPromo($mail,$idpromo[0]);

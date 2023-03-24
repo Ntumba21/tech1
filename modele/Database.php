@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -409,6 +409,48 @@ class Database
         $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $messages;
     }
+
+    public function defaultamitié2($mail){
+        $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
+        $stmt2->bindParam(':mail', $mail);
+        $stmt2->execute();
+        $iduser = $stmt2->fetchColumn();
+    
+        $stmt2 = self::$database->prepare('SELECT idpromos FROM user_has_promos WHERE iduser = :id');
+        $stmt2->bindParam(':id', $iduser);
+        $stmt2->execute();
+        $idpromo = $stmt2->fetchColumn();
+    
+        $sql2 = "SELECT iduser FROM user_has_promos WHERE idpromos = :promo";
+        $stmt2 = self::$database->prepare($sql2);
+        $stmt2->bindParam(':promo', $idpromo);
+        $stmt2->execute();
+    
+        while ($idami = $stmt2->fetchColumn()) {
+            if ($idami != $iduser) {
+                $stmt3 = self::$database->prepare('INSERT INTO amis (idamis) VALUES (:idami)');
+                $stmt3->bindParam(':idami', $idami);
+                $stmt3->execute();
+    
+                $idamis = self::$database->lastInsertId();
+    
+                $sql = 'INSERT INTO `user_has_amis` (`iduser`, `idamis`) 
+                        VALUES (:iduser, :idamis)';
+                $stmt = self::$database->prepare($sql);
+                $stmt->bindParam(':iduser', $iduser);
+                $stmt->bindParam(':idamis', $idamis);
+                $stmt->execute();
+            }
+        }
+    
+        return true;
+    
+    }
+    
+
+   
+
+    
 }
     
 
