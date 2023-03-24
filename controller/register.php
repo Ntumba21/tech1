@@ -9,6 +9,15 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+function uniqueEmail($email) {
+    $db = new Database();
+    $result = $db->GetUserByEmail($email);
+    if ($result) {
+        return false;
+    } else {
+        return true;
+    }
+}
 function sendActivationEmail($email, $token) {
     $mail = new PHPMailer(true);
 
@@ -80,6 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Valider l'email
     if (!validateEmail($mail, $type)) {
         echo "L'adresse e-mail n'est pas valide.";
+        exit;
+    }
+    if(!uniqueEmail($mail)){
+        echo "L'adresse e-mail est déjà utilisée.";
         exit;
     }
 
