@@ -11,6 +11,7 @@ $message = "";
 // Vérifiez si le formulaire a été soumis
 if (isset($_POST['submit'])) {
 
+
   // Récupérez les données du formulaire
   $nom = $_POST["nom"];
   $prenom = $_POST["prenom"];
@@ -19,8 +20,17 @@ if (isset($_POST['submit'])) {
   $description = $_POST["description"];
   $ville = $_POST["ville"];
   $interests = $_POST["interests"];
-  $photo = $_POST["photo"];
+  $photo = $_POST["photo"];  
+  //$photo = $_FILES['photo']; //traitement different car fichier photo
+	//$filename = $photo["name"]; //recup nom origin du fichier 
+  //$tempname = $photo["tmp_name"];  //temporaire pour upload le fichier en attendant de le mettre dans le c
+	//$upload= move_uploaded_file($tempname,"../media/".$filename); //function
   $idpromos = $_POST["idpromos"];
+  
+ 
+
+
+
 
   // Vérifiez si les champs obligatoires sont vides
   if (empty($nom) || empty($prenom) || empty($mail) || empty($date_de_naissance)) {

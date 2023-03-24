@@ -18,9 +18,12 @@ $user = $database->getUserByEmaill($mail);
   <body>
     <h1>Profil de <?php echo $user["prenom"] . " " . $user["nom"]; ?></h1>
     
-    <?php if ($message !== "") { ?>
-    <p><?php echo $message; ?></p>
-    <?php } ?>
+    
+    <div id="left-container-account ">
+      
+      <div style="margin-top:100px">
+        <img class="rounded-circle" src="<?php echo $user['photo'] ?>" width="100" alt="">
+      </div>
 
     <form action="../controller/editprofil.php" method="POST">
       <label for="nom">Nom*: </label>
@@ -48,12 +51,12 @@ $user = $database->getUserByEmaill($mail);
 
       <label for="photo">Photo:</label>
       <input type="file" name="photo"><br><br>
-
-      <label for="idpromos">Promotion:</label>
-                <select name="idpromos" id="idpromos" required>
+      <div class="form-group">
+                <label for="idpromos">Promos :</label>
                     <!-- Ajoutez les options pour les différentes promotions ici -->
                     <?php ShowPromoEleve(); ?>
-                </select>
+            </div>
+      
         <input type="submit" name="submit" value="Enregistrer les modifications">
     </form>
 </body>

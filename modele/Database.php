@@ -89,7 +89,10 @@ class Database
         $stmt->execute();
         return true;
     }
-    //
+    //MANAL POUR EDITPROFIL
+    
+    
+
     public function AlterUser($nom, $prenom, $mail, $date_de_naissance, $description, $ville, $interests, $photo, $idpromos)
     {
         try {
