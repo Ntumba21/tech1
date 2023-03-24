@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -476,6 +476,9 @@ class Database
     
         if (!$user_id || !$friend_id) {
             return false; 
+        }
+        if ($user_email == $friend_email) {
+            return false;
         }
     
         // Il faut voir si les amis sont dans la table amis !! je vous deteste
