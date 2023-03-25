@@ -126,54 +126,33 @@ $db = new Database();
                 </div>
                 
             </div><!-- home left end here -->
-
+            <!-- je modifie ici manal  -->
             <!-- home center start here -->
 
             <div class="home-center">
-                <div class="home-center-wrapper">
-                    <div class="stories">
-                        <h3 class="mini-headign">Mes amis</h3>
-                        <div class="stories-wrapper">
+            <div class="home-center-wrapper">
+            <?php $friends = $db-> affichefriends($_SESSION['iduser']); ?>
+            <div class="friend">
+            <h3 class="heading">Friend Requests <span>see all</span></h3>
+            <?php if (!empty($friends)): ?>
 
-                            <div class="single-stories">
-                                <div>
-                                    <img src="images/us2.png"  alt="user">
-                                    <i class="fa-solid fa-circle-plus"></i>
-                                    <b>Create Stories</b>
-                                </div>
-                            </div>
+            <!-- Ajout d'un bloc pour chaque ami -->
+            <?php foreach ($friendsList as $friend) { ?>
 
-                            <div class="single-stories">
-                                <div>
-                                    <img src="images/ss.jpg" alt="ss">
-                                    <b>Your Name</b>
-                                </div>
-                            </div>
+            <div class="single-stories">
+                <div>
+                    <!-- Utilisation de l'avatar de l'ami -->
+                    <img src="<?= $friend['photo'] ?>" alt="<?= $friend['nom'] ?>">
+                    <b><?= $friend['nom'] ?></b>
+                </div>
+            </div>
 
-                            <div class="single-stories">
-                                <div>
-                                    <img src="images/ss2.jpg" alt="ss2">
-                                    <b>Your Name</b>
-                                </div>
-                            </div>
+            <?php } ?>
+           
 
-                            <div class="single-stories">
-                                <div>
-                                    <img src="images/ss3.jpg" alt="ss3">
-                                    <b>Your Name</b>
-                                </div>
-                            </div>
+        
+        </div>
 
-                            <div class="single-stories">
-                                <div>
-                                    <img src="images/ss4.jpg" alt="ss4">
-                                    <b>Your Name</b>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
 
 
                     <div class="createPost">
