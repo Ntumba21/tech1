@@ -16,7 +16,7 @@ $db = new Database();
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <title>facebook.com</title>
     <!-- style css link -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
     <!-- fontawesome css link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -36,21 +36,14 @@ $db = new Database();
                     <input type="search">
                     <i class="fas fa-search"></i>
                 </div>
-                <div class="iconBox1">
-                    <i class="fa-solid fa-house"></i>
-                    <i class="fa-solid fa-user-group"></i>
-                </div>
                 <div class="iconBox2">
-                    <i class="fa-brands fa-facebook-messenger"></i>
+                <i class="fa-solid fa-house"></i>
                     <i class="fa-solid fa-bell"></i>
                     <label><img src="images/us2.png" alt="user"></label>
-                    <i class="fa-solid fa-caret-down"></i>
                 </div>
             </div>
         </div>
     </header>
-
-
 
 
 
@@ -67,36 +60,43 @@ $db = new Database();
 <div class="event-friend">
 <?php $user = $db->getUserByEmaill($_SESSION['mail']);?>
         <div class="friend">
-        <div style="margin-top:100px">
+        <h3 class="heading">Profil</h3>
+        <div style="margin-top:5px">
         <img class="rounded-circle" src="<?php echo $user['photo'] ?>" width="100" alt="user">
       </div>
 
-    <form action="../controller/editprofil.php" method="POST" enctype="multipart/form-data">
-      <label for="nom">Nom*: </label>
-      <input type="text" id="nom" name="nom" value="<?php echo $user["nom"]; ?>"><br>
-
-      <label for="prenom">Prénom*: </label>
-      <input type="text" id="prenom" name="prenom" value="<?php echo $user["prenom"]; ?>"><br>
-
-      <label for="date_de_naissance">Date de naissance*: </label>
-      <input type="date" id="date_de_naissance" name="date_de_naissance" value="<?php echo $user["date_de_naissance"]; ?>"><br>
-
-      <label for="description">Description: </label>
-      <textarea id="description" name="description"><?php echo $user["description"]; ?></textarea><br>
-
-      <label for="ville">Ville: </label>
-      <input type="text" id="ville" name="ville" value="<?php echo $user["ville"]; ?>"><br>
-
-      <label for="interests">Centres d'intérêt: </label>
-      <input type="text" id="interests" name="interests" value="<?php echo $user["interests"]; ?>"><br>
-
-      <label for="photo">Photo:</label>
-      <input type="file" name="photo"><br><br>
-      
-        <input type="submit" name="submit" value="Enregistrer les modifications">
-    </form>
+      <h4><?php echo $user["nom"]; ?></h4>
+      <h4><?php echo $user["prenom"]; ?></h4>
+      <h4><?php echo $user["date_de_naissance"]; ?></h4>
+      <h4><?php echo $user["description"]; ?></h4>
+      <h4><?php echo $user["ville"]; ?></h4>
+      <h4><?php echo $user["interests"]; ?></h4>
+    
         </div>
     </div>
+
+    <div class="event-friend">
+        <div class="friend">
+            <h3 class="heading">Edit profil</h3>
+            <form action="../controller/editprofil.php" method="POST" enctype="multipart/form-data">
+            <?php $db->getUserByEmaill($_SESSION['mail']);?>
+
+<textarea id="description" name="description" placeholder="description"></textarea><br>
+
+<input type="text" id="ville" name="ville" placeholder="ville"><br>
+
+<input type="text" id="interests" name="interests" placeholder="interests"><br>
+
+<input type="file" name="photo" placeholder="photo"><br><br>
+
+  <input type="submit" name="submit" value="Edit">
+</form>
+        </div>
+    </div>
+
+
+
+    
                  
                 
             </div><!-- home left end here -->

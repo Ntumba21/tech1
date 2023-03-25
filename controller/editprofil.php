@@ -7,16 +7,13 @@ require_once("../controller/session.php");
 
 // Initialisez la variable pour stocker les messages d'erreur ou de succès
 $message = "";
+$mail= $_SESSION['mail'];
 
 // Vérifiez si le formulaire a été soumis
 if (isset($_POST['submit'])) {
 
 
   // Récupérez les données du formulaire
-      $nom = $_POST["nom"];
-      $prenom = $_POST["prenom"];
-      $mail = $_SESSION["mail"];
-      $date_de_naissance = $_POST["date_de_naissance"];
       $description = $_POST["description"];
       $ville = $_POST["ville"];
       $interests = $_POST["interests"];
@@ -36,17 +33,15 @@ if (isset($_POST['submit'])) {
     }
   
  
-
+  
 
 
 
   // Vérifiez si les champs obligatoires sont vides
-  if (empty($nom) || empty($prenom) || empty($mail) || empty($date_de_naissance)) {
-    $message = "Tous les champs marqués d'un astérisque (*) sont obligatoires.";
-  } else {
+ 
     // Modifiez le profil de l'utilisateur dans la base de données
     $database = new Database();
-    $result = $database->AlterUser($nom, $prenom, $mail,  $date_de_naissance, $description, $ville, $interests, $photo);
+    $result = $database->AlterUser($description, $ville, $interests, $photo,$mail);
 
     if ($result) {
       $message = "Votre profil a été modifié avec succès.";
@@ -54,10 +49,6 @@ if (isset($_POST['submit'])) {
       $message = "Une erreur s'est produite lors de la modification de votre profil. Veuillez réessayer.";
     }
   }
-}
-
-// Obtenez les informations sur l'utilisateur actuellement connecté
-$database = new Database();
-$user = $database->getUserByEmaill($_SESSION["mail"]);
+  
 
 

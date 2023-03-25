@@ -101,20 +101,17 @@ class Database
     
     
 
-    public function AlterUser($nom, $prenom, $mail, $date_de_naissance, $description, $ville, $interests, $photo)
+    public function AlterUser($description, $ville, $interests, $photo,$mail)
     {
         try {
             
-            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo WHERE mail = :mail';
+            $sql = 'UPDATE user SET description = :description, ville = :ville, interests = :interests, photo = :photo WHERE mail = :mail';
             $stmt = self::$database->prepare($sql);
-            $stmt->bindParam(':mail', $mail);
-            $stmt->bindParam(':nom', $nom);
-            $stmt->bindParam(':prenom', $prenom);
-            $stmt->bindParam(':date_de_naissance', $date_de_naissance);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':ville', $ville);
             $stmt->bindParam(':interests', $interests);
             $stmt->bindParam(':photo', $photo);
+            $stmt->bindParam(':mail', $mail); 
             $stmt->execute();
             return true;
         } catch (PDOException $e) {

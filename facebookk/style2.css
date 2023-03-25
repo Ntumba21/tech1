@@ -173,7 +173,7 @@ header{
     justify-content: space-between;
 }
 .home-left{
-    width: 22%;
+    width: 25%;
     overflow: hidden;
 }
 
@@ -314,7 +314,7 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: 50%;
+    width: 70%;
     overflow: hidden;
 }
 .home-center .stories,

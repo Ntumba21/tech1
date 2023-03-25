@@ -36,15 +36,12 @@ $db = new Database();
                     <input type="search">
                     <i class="fas fa-search"></i>
                 </div>
-                <div class="iconBox1">
-                    <i class="fa-solid fa-house"></i>
-                    <i class="fa-solid fa-user-group"></i>
-                </div>
                 <div class="iconBox2">
-                    <i class="fa-brands fa-facebook-messenger"></i>
+                <i class="fa-solid fa-house"></i>
                     <i class="fa-solid fa-bell"></i>
-                    <label><img src="images/us2.png" alt="user"></label>
-                    <i class="fa-solid fa-caret-down"></i>
+                    <label>  <a href="../facebookk/profil.php">
+                    <img src="images/us2.png" alt="user">
+                     </label>
                 </div>
             </div>
         </div>
