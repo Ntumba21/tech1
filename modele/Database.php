@@ -396,26 +396,8 @@ class Database
         }
     }
 
-    //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS
+    //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS AMITIE
 
-    public function sendMessage($sender_id, $receiver_id, $content) {
-        $sql = "INSERT INTO message (contenu, date, iduser, idamis) VALUES (:content, NOW(), :sender_id, :receiver_id)";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':content', $content);
-        $stmt->bindParam(':sender_id', $sender_id);
-        $stmt->bindParam(':receiver_id', $receiver_id);
-        $stmt->execute();
-    }
-
-    public function getMessagesBetweenUsers($sender_id, $receiver_id) {
-        $sql= "SELECT * FROM message WHERE (iduser = :sender_id AND idamis = :receiver_id) OR (iduser = :receiver_id AND idamis = :sender_id) ORDER BY date ASC";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':sender_id', $sender_id);
-        $stmt->bindParam(':receiver_id', $receiver_id);
-        $stmt->execute();
-        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $messages;
-    }
 
     public function defaultamitié2($mail){
         $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
@@ -548,6 +530,34 @@ class Database
         return $friends;
     }
     
+
+  //Message
+    public function getUserById($id) {
+        $sql = "SELECT * FROM user WHERE iduser = :id";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getMessages($id_user, $id_amis) {
+        $sql = "SELECT * FROM message WHERE (iduser = :id_user AND idamis  = :id_amis) OR (iduser = :id_amis AND idamis = :id_user) ORDER BY date ASC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':id_user', $id_user);
+        $stmt->bindParam(':id_amis', $id_amis);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function sendMessage($id_user, $id_amis, $message) {
+        $sql = "INSERT INTO message (iduser, idamis, contenu, date) VALUES (:id_user, :id_amis, :message, NOW())";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':id_user', $id_user);
+        $stmt->bindParam(':id_amis', $id_amis);
+        $stmt->bindParam(':message', $message);
+
+        return $stmt->execute();
+    }
 }
     
 
