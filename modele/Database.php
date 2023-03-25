@@ -500,17 +500,22 @@ class Database
 
     
     public function getFriendRequestsAll($id) {
-
         $stmt = self::$database->prepare('SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 2');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-        $idDemande=$stmt->fetch();
-
-        $stmt = self::$database->prepare('SELECT * FROM user WHERE iduser = :id');
-        $stmt->bindParam(':id', $idDemande);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $idDemandes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+        $friendRequests = [];
+        foreach ($idDemandes as $idDemande) {
+            $stmt = self::$database->prepare('SELECT * FROM user WHERE iduser = :id');
+            $stmt->bindParam(':id', $idDemande);
+            $stmt->execute();
+            $friendRequests[] = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+    
+        return $friendRequests;
     }
+    
 
     public function acceptFriendRequest($requester_id, $user_id) {
         $stmt = self::$database->prepare('UPDATE user_has_amis

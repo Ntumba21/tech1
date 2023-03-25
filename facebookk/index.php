@@ -1,3 +1,12 @@
+<?php 
+require_once '../modele/Database.php';
+require_once '../controller/session.php';
+$user_email = $_SESSION['mail'];
+$db = new Database();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,58 +51,51 @@
     </header>
 
 
-<!-- header section end -->
-<!-- home section start -->
+
 
 
 <div class="home">
     <div class="container">
         <div class="home-weapper">
 
-            <!-- home left start here -->
+           <!--GAUCHE-->
             <div class="home-left">
-                <div class="messenger">
-                    <div class="messenger-search">
-                        <i class="fa-solid fa-user-group"></i>
-                        <h4>Ajout ami</h4>
-                        <input type="search" placeholder="Search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                    <ul>
+                 <!-- BON-->
+            <div class="messenger">
+  <div class="messenger-search">
+    <i class="fa-solid fa-user-group"></i>
+    <h4>Ajout ami</h4>
+    <form action="../controller/addAmis.php" method="post">
+      <input type="email" name="friend_email" id="friend_email" required>
+      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
+  </div>
+</div>
+<!--FIN BON -->
+
+<div class="event-friend">
+<?php $friendRequests = $db->getFriendRequestsAll($_SESSION['iduser']); ?>
+        <div class="friend">
+            <h3 class="heading">Friend Requests <span>see all</span></h3>
+            <?php if (!empty($friendRequests)): ?>
+                <ul>
+                    <?php foreach ($friendRequests as $request): ?>
                         <li>
-                            <img src="images/us2.png" alt="user">
-                            <b>amis1</b>
-                            <i class="fa-solid fa-user-group"></i>
+                            <img src="<?= htmlspecialchars($request['photo']) ?>" alt="user">
+                            <b><?= htmlspecialchars($request['prenom']) ?> <?= htmlspecialchars($request['nom']) ?></b>
+                            <form action="../controller/demandeAjout.php" method="post">
+                                <input type="hidden" name="requester_id" value="<?= $request['iduser'] ?>">
+                                <button type="submit" name="accept">confirm</button>
+                                <button type="submit" name="reject" class="friend-remove">remove</button>
+                            </form>
                         </li>
-
-                        <li>
-                            <img src="images/us3.png" alt="user">
-                            <b>Amis2 </b>
-                            <i class="fa-solid fa-user-group"></i>
-                        </li>
-
-                        <li>
-                            <img src="images/us4.png" alt="user">
-                            <b>Amis3 </b>
-                            <i class="fa-solid fa-user-group"></i>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="event-friend">
-                    <div class="friend">
-                        <h3 class="heading">Friend Requests <span>see all</span></h3>
-                        <ul>
-                            <li><img src="images/us4.png"  alt="user"></li>
-                            <li>
-                                <b>AMI</b>
-                                <p>Lorem ipsum dolor sit amet.</p>
-                                <button>confirm</button><button class="friend-remove">remove</button>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p>No friend requests.</p>
+            <?php endif; ?>
+        </div>
+    </div>
 
                 <div class="messenger">
                     <div class="messenger-search">
