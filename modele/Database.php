@@ -426,6 +426,8 @@ class Database
         return $messages;
     }
 
+
+    //AMI ashley PAS TOUCHE
     public function defaultamitié2($mail){
         $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
         $stmt2->bindParam(':mail', $mail);
@@ -450,8 +452,8 @@ class Database
     
                 $idamis = self::$database->lastInsertId();
     
-                $sql = 'INSERT INTO `user_has_amis` (`iduser`, `idamis`) 
-                        VALUES (:iduser, :idamis)';
+                $sql = 'INSERT INTO `user_has_amis` (`iduser`, `idamis`,`statut`) 
+                        VALUES (:iduser, :idamis , `accepter`)';
                 $stmt = self::$database->prepare($sql);
                 $stmt->bindParam(':iduser', $iduser);
                 $stmt->bindParam(':idamis', $idamis);
@@ -504,7 +506,7 @@ class Database
     
         if (!$alreadyConnected) {
             //sinon on peut inserer dans userhasamis
-            $stmt = self::$database->prepare('INSERT INTO user_has_amis (iduser, idamis) VALUES (:user_id, :idamis)');
+            $stmt = self::$database->prepare('INSERT INTO user_has_amis (iduser, idamis,statut) VALUES (:user_id, :idamis, `attente`)');
             $stmt->bindParam(':user_id', $user_id);
             $stmt->bindParam(':idamis', $idamis);
             $stmt->execute();
@@ -512,6 +514,35 @@ class Database
     
         return true;
     }
+
+    //A arranger
+
+    public function getFriendRequests($id) {
+
+        $stmt = self::$database->prepare('SELECT idamis FROM user_has_amis WHERE iduser = :id AND statut = "attente" ');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function acceptFriendRequest($requester_id, $user_id) {
+        $stmt = self::$database->prepare('UPDATE user_has_amis
+                                SET statut = "accepter"
+                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = "attente"');
+        $stmt->bindParam(':requester_id', $requester_id);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+    }
+
+    public function rejectFriendRequest($requester_id, $user_id) {
+        $stmt = self::$database->prepare('DELETE FROM user_has_amis
+                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = "attente"');
+        $stmt->bindParam(':requester_id', $requester_id);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+    }
+
+    
     
     
 
