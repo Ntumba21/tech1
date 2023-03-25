@@ -396,7 +396,7 @@ class Database
         }
     }
 
-    //ash
+    //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS
 
     public function sendMessage($sender_id, $receiver_id, $content) {
         $sql = "INSERT INTO message (contenu, date, iduser, idamis) VALUES (:content, NOW(), :sender_id, :receiver_id)";

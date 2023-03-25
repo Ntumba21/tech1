@@ -5,36 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <link rel="stylesheet" href="../view/style/message.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("form.chat-form").on("submit", function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "/controller/message.php?action=send&receiver_id=<?php echo $_GET['receiver_id']; ?>",
-                    data: $(this).serialize(),
-                    success: function() {
-                        $("textarea").val("");
-                        loadMessages();
-                    }
-                });
-            });
-
-            function loadMessages() {
-                $.ajax({
-                    type: "GET",
-                    url: "/controller/message.php?action=getMessages&receiver_id=<?php echo $_GET['receiver_id']; ?>",
-                    success: function(data) {
-                        $(".conversation").html(data);
-                    }
-                });
-            }
-
-            loadMessages();
-            setInterval(loadMessages, 3000);
-        });
-    </script>
 </head>
 <body>
    
@@ -42,7 +12,7 @@
 
     <div class="nav-top">
         <div class="location">
-            <img src="../media/left-chevron.svg">
+            <img src="ressources/left-chevron.svg">
             <p>Back</p>
         </div>
 
@@ -53,7 +23,22 @@
     </div>
 
     <div class="conversation">
-        <!-- Les messages seront chargés ici -->
+        <div class="talk left">
+            <img src="ressources/avatar2.jpg">
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="talk right">
+            <p>Lorem ipsum dolor sit amet.</p>
+            <img src="ressources/avatar1.jpg">
+        </div>
+        <div class="talk left">
+            <img src="ressources/avatar2.jpg">
+            <p>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="talk right">
+            <p>Lorem ipsum dolor sit amet.</p>
+            <img src="ressources/avatar1.jpg">
+        </div>
     </div>
 
 
@@ -61,15 +46,18 @@
 
         <div class="container-inputs-stuffs">
 
+            <div class="files-logo-cont">
+                <img src="ressources/paperclip.svg">
+            </div>
 
             <div class="group-inp">
-                <textarea name="content" placeholder="Enter your message here" minlength="1" maxlength="1500"></textarea>
-                <img src="../media/smile.svg">
+                <textarea placeholder="Enter your message here" minlength="1" maxlength="1500"></textarea>
+                <img src="ressources/smile.svg">
             </div>
 
 
-            <button class="submit-msg-btn" type="submit">
-                <img src="../media/send.svg">
+            <button class="submit-msg-btn">
+                <img src="ressources/send.svg">
             </button>
         </div>
 

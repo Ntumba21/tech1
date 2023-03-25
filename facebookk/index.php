@@ -97,33 +97,32 @@ $db = new Database();
         </div>
     </div>
 
-                <div class="messenger">
-                    <div class="messenger-search">
-                        <i class="fa-solid fa-user-group"></i>
-                        <h4>Messenger</h4>
-                        <input type="search" placeholder="Search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                    <ul>
-                        <li>
-                            <img src="images/us2.png" alt="user">
-                            <b>amis1 </b>
-                            <i class="fa-brands fa-facebook-messenger"></i>
-                        </li>
+    <div class="messenger">
+    <div class="messenger-search">
+        <i class="fa-solid fa-user-group"></i>
+        <h4>Messenger</h4>
+        <input type="search" placeholder="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <ul>
+        <?php
+        $friends = $db-> affichefriends($_SESSION['iduser']); // Utiliser la fonction affichefriends pour récupérer la liste des amis
 
-                        <li>
-                            <img src="images/us3.png" alt="user">
-                            <b>Amis2</b>
-                            <i class="fa-brands fa-facebook-messenger"></i>
-                        </li>
+        foreach ($friends as $friend) {
+            ?>
+            <li>
+                <img src="<?php echo $friend['photo']; ?>" alt="user">
+                <b><?php echo $friend['nom'] . ' ' . $friend['prenom']; ?></b>
+                <a href="../view/message.php?id=<?php echo $friend['iduser']; ?>">
+                    <i class="fa-brands fa-facebook-messenger"></i>
+                </a>
+            </li>
+            <?php
+        }
+        ?>
+    </ul>
+</div>
 
-                        <li>
-                            <img src="images/us4.png" alt="user">
-                            <b>Ami3 </b>
-                            <i class="fa-brands fa-facebook-messenger"></i>
-                        </li>
-                    </ul>
-                </div>
                 
             </div><!-- home left end here -->
 
