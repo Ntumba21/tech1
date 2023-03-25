@@ -46,11 +46,6 @@ $user = $database->getUserByEmaill($mail);
 
       <label for="photo">Photo:</label>
       <input type="file" name="photo"><br><br>
-      <div class="form-group">
-                <label for="idpromos">Promos :</label>
-                    <!-- Ajoutez les options pour les différentes promotions ici -->
-                    <?php ShowPromoEleve(); ?>
-            </div>
       
         <input type="submit" name="submit" value="Enregistrer les modifications">
     </form>

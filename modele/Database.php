@@ -98,7 +98,7 @@ class Database
     {
         try {
             
-            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
+            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo WHERE mail = :mail';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':mail', $mail);
             $stmt->bindParam(':nom', $nom);
@@ -108,7 +108,6 @@ class Database
             $stmt->bindParam(':ville', $ville);
             $stmt->bindParam(':interests', $interests);
             $stmt->bindParam(':photo', $photo);
-            $stmt->bindParam(':idpromos', $idpromos);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {

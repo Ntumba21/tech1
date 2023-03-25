@@ -13,19 +13,28 @@ if (isset($_POST['submit'])) {
 
 
   // Récupérez les données du formulaire
-  $nom = $_POST["nom"];
-  $prenom = $_POST["prenom"];
-  $mail = $_POST["mail"];
-  $date_de_naissance = $_POST["date_de_naissance"];
-  $description = $_POST["description"];
-  $ville = $_POST["ville"];
-  $interests = $_POST["interests"];
-  $photo = $_POST["photo"];  
-  //$photo = $_FILES['photo']; //traitement different car fichier photo
-	//$filename = $photo["name"]; //recup nom origin du fichier 
-  //$tempname = $photo["tmp_name"];  //temporaire pour upload le fichier en attendant de le mettre dans le c
-	//$upload= move_uploaded_file($tempname,"../media/".$filename); //function
-  $idpromos = $_POST["idpromos"];
+      $nom = $_POST["nom"];
+      $prenom = $_POST["prenom"];
+      $mail = $_SESSION["mail"];
+      $date_de_naissance = $_POST["date_de_naissance"];
+      $description = $_POST["description"];
+      $ville = $_POST["ville"];
+      $interests = $_POST["interests"];
+      $idpromos = $_POST["idpromos"];
+      $photo = null;
+      if(isset($_FILES['photo']) && $_FILES['photo']['error'] === 0) {
+        // Récupère le chemin de l'image temporaire
+        $tmpFilePath = $_FILES['photo']['tmp_name'];
+
+        // Crée un nom unique pour l'image
+        $fileName = uniqid() . '-' . $_FILES['photo']['name'];
+
+        // Déplace l'image vers le dossier des images
+        $filePath = '../upload/avatar/'.$fileName;
+        move_uploaded_file($tmpFilePath, $filePath);
+
+        $photo = $filePath;
+    }
   
  
 
@@ -52,6 +61,4 @@ if (isset($_POST['submit'])) {
 $database = new Database();
 $user = $database->getUserByEmaill($_SESSION["mail"]);
 
-// Chargez la vue
-require_once("../view/profil.php");
-?>
+
