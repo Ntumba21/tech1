@@ -20,7 +20,7 @@ class Database
         $sql = 'SELECT * FROM user';
         $stmt = self::$database->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getUserByType($type){
         $sql = 'SELECT * FROM user WHERE type = :type';
@@ -74,7 +74,6 @@ class Database
             $stmt->execute();
         return true;
     }
-
     
     public function getUserByEmaill($email) {
       $sql = 'SELECT * FROM user WHERE mail = ?';
@@ -98,7 +97,7 @@ class Database
     {
         try {
             
-            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo WHERE mail = :mail';
+            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':mail', $mail);
             $stmt->bindParam(':nom', $nom);
@@ -108,6 +107,7 @@ class Database
             $stmt->bindParam(':ville', $ville);
             $stmt->bindParam(':interests', $interests);
             $stmt->bindParam(':photo', $photo);
+            $stmt->bindParam(':idpromos', $idpromos);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -138,7 +138,7 @@ class Database
             return true;
         } catch (PDOException $e) {
             echo "Erreur PDO : " . $e->getMessage();
-            return false; 
+            return false;
         }        
     }
     public function registerPromo($mail, $idpromos){
@@ -187,21 +187,6 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function GetPromosByID($iduser){
-        $sql = "SELECT idpromos FROM user_has_promos WHERE iduser = :iduser";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':iduser', $iduser);
-        $stmt->execute();
-        $idpromos = $stmt->fetchAll();
-        $idpromos = $idpromos[0]['idpromos'];
-        $sql = "SELECT nom FROM promos WHERE idpromos = :idpromos";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpromos', $idpromos);
-        $stmt->execute();
-        return $stmt->fetchAll();
-
-    }
-
 
     //Admin function
 
@@ -424,130 +409,6 @@ class Database
         $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $messages;
     }
-
-
-    //AMI ashley PAS TOUCHE
-    public function defaultamitié2($mail){
-        $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
-        $stmt2->bindParam(':mail', $mail);
-        $stmt2->execute();
-        $iduser = $stmt2->fetchColumn();
-    
-        $stmt2 = self::$database->prepare('SELECT idpromos FROM user_has_promos WHERE iduser = :id');
-        $stmt2->bindParam(':id', $iduser);
-        $stmt2->execute();
-        $idpromo = $stmt2->fetchColumn();
-    
-        $sql2 = "SELECT iduser FROM user_has_promos WHERE idpromos = :promo";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':promo', $idpromo);
-        $stmt2->execute();
-    
-        while ($idami = $stmt2->fetchColumn()) {
-            if ($idami != $iduser) {
-                $stmt3 = self::$database->prepare('INSERT INTO amis (idamis) VALUES (:idami)');
-                $stmt3->bindParam(':idami', $idami);
-                $stmt3->execute();
-    
-                $idamis = self::$database->lastInsertId();
-    
-                $sql = 'INSERT INTO `user_has_amis` (`iduser`, `idamis`,`statut`) 
-                        VALUES (:iduser, :idamis , `accepter`)';
-                $stmt = self::$database->prepare($sql);
-                $stmt->bindParam(':iduser', $iduser);
-                $stmt->bindParam(':idamis', $idamis);
-                $stmt->execute();
-            }
-        }
-    
-        return true;
-    
-    }
-
-
-    public function addFriend($user_email, $friend_email) {
-        $stmt = self::$database->prepare('SELECT iduser FROM user WHERE mail = :email');
-        $stmt->bindParam(':email', $user_email);
-        $stmt->execute();
-        $user_id = $stmt->fetchColumn();
-    
-        $stmt->bindParam(':email', $friend_email);
-        $stmt->execute();
-        $friend_id = $stmt->fetchColumn();
-    
-        if (!$user_id || !$friend_id) {
-            return false; 
-        }
-        if ($user_email == $friend_email) {
-            return false;
-        }
-    
-        // Il faut voir si les amis sont dans la table amis !! je vous deteste
-        $stmt = self::$database->prepare('SELECT idamis FROM amis WHERE idamis = :iduser');
-        $stmt->bindParam(':iduser', $friend_id);
-        $stmt->execute();
-        $idamis = $stmt->fetchColumn();
-    
-        if (!$idamis) {
-            // sinon on l'ajoute, je vous hai
-            $stmt = self::$database->prepare('INSERT INTO amis (idamis) VALUES (:iduser)');
-            $stmt->bindParam(':iduser', $friend_id);
-            $stmt->execute();
-            $idamis = self::$database->lastInsertId();
-        }
-    
-        // voir si les amis sont deja amis BANDE DE MECHANT
-        $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE iduser = :user_id AND idamis = :idamis');
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':idamis', $idamis);
-        $stmt->execute();
-        $alreadyConnected = $stmt->fetchColumn() > 0;
-    
-        if (!$alreadyConnected) {
-            //sinon on peut inserer dans userhasamis
-            $stmt = self::$database->prepare('INSERT INTO user_has_amis (iduser, idamis,statut) VALUES (:user_id, :idamis, `attente`)');
-            $stmt->bindParam(':user_id', $user_id);
-            $stmt->bindParam(':idamis', $idamis);
-            $stmt->execute();
-        }
-    
-        return true;
-    }
-
-    //A arranger
-
-    public function getFriendRequests($id) {
-
-        $stmt = self::$database->prepare('SELECT idamis FROM user_has_amis WHERE iduser = :id AND statut = "attente" ');
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function acceptFriendRequest($requester_id, $user_id) {
-        $stmt = self::$database->prepare('UPDATE user_has_amis
-                                SET statut = "accepter"
-                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = "attente"');
-        $stmt->bindParam(':requester_id', $requester_id);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->execute();
-    }
-
-    public function rejectFriendRequest($requester_id, $user_id) {
-        $stmt = self::$database->prepare('DELETE FROM user_has_amis
-                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = "attente"');
-        $stmt->bindParam(':requester_id', $requester_id);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->execute();
-    }
-
-    
-    
-    
-
-   
-
-    
 }
     
 

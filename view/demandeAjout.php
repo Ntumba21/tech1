@@ -1,13 +1,9 @@
 <?php
-session_start();
-require_once 'Database.php';
-require_once 'FriendController.php';
+require_once '../modele/Database.php';
+require_once '../controller/session.php';
 
 $db = new Database();
-$friendController = new FriendController($db);
-
-// Get friend requests for the current user
-$friendRequests = $friendController->getFriendRequests($_SESSION['user_email']);
+$friendRequests = $db->getFriendRequests($_SESSION['iduser']);
 ?>
 
 <!DOCTYPE html>
@@ -24,9 +20,9 @@ $friendRequests = $friendController->getFriendRequests($_SESSION['user_email']);
         <ul>
             <?php foreach ($friendRequests as $request): ?>
                 <li>
-                    <?= htmlspecialchars($request['requester_email']) ?> wants to be your friend.
-                    <form action="" method="post">
-                        <input type="hidden" name="requester_id" value="<?= $request['requester_id'] ?>">
+                    <?= htmlspecialchars($request['iduser']) ?> Veut etre ton ami
+                    <form action="../controller/demandeAjout.php" method="post">
+                        <input type="hidden" name="requester_id" value="<?= $request['iduser']?>">
                         <input type="submit" name="accept" value="Accept">
                         <input type="submit" name="reject" value="Reject">
                     </form>
