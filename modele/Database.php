@@ -60,6 +60,14 @@ class Database
             return $stmt->rowCount();
       }
       public function DeleteUserById($user_id){
+        $sql4 = "DELETE FROM amis INNER JOIN user_has_amis ON amis.idamis = user_has_amis.idamis WHERE user_has_amis.iduser = :user";
+            $stmt4 = self::$database->prepare($sql4);
+            $stmt4->bindParam(':user', $user_id);
+            $stmt4->execute();
+        $sql1 = "DELETE FROM user_has_amis WHERE iduser = :user";
+            $stmt1 = self::$database->prepare($sql1);
+            $stmt1->bindParam(':user', $user_id);
+            $stmt1->execute();
           $sql2 = "DELETE FROM user_has_promos WHERE iduser = :user";
             $stmt2 = self::$database->prepare($sql2);
             $stmt2->bindParam(':user', $user_id);
