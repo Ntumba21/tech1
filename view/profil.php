@@ -22,7 +22,7 @@ $user = $database->getUserByEmaill($mail);
     <div id="left-container-account ">
       
       <div style="margin-top:100px">
-        <img class="rounded-circle" src="<?php echo $user['photo'] ?>" width="100" alt="">
+        <img class="rounded-circle" src="<?php echo $user['photo'] ?>" width="100" alt="user">
       </div>
 
     <form action="../controller/editprofil.php" method="POST" enctype="multipart/form-data">

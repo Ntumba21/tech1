@@ -105,7 +105,7 @@ class Database
     {
         try {
             
-            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo, idpromos = :idpromos WHERE mail = :mail';
+            $sql = 'UPDATE user SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,  description = :description, ville = :ville, interests = :interests, photo = :photo WHERE mail = :mail';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':mail', $mail);
             $stmt->bindParam(':nom', $nom);
@@ -115,7 +115,6 @@ class Database
             $stmt->bindParam(':ville', $ville);
             $stmt->bindParam(':interests', $interests);
             $stmt->bindParam(':photo', $photo);
-            $stmt->bindParam(':idpromos', $idpromos);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -534,7 +533,7 @@ class Database
         $stmt->execute();
     }
     public function affichefriends($id) {
-        $stmt = self::$database->prepare('SELECT idamis FROM user_has_amis WHERE iduser = :id AND statut = 1');
+        $stmt = self::$database->prepare('SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 1');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);

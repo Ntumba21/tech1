@@ -61,69 +61,43 @@ $db = new Database();
            <!--GAUCHE-->
             <div class="home-left">
                  <!-- BON-->
-            <div class="messenger">
-  <div class="messenger-search">
-    <i class="fa-solid fa-user-group"></i>
-    <h4>Ajout ami</h4>
-    <form action="../controller/addAmis.php" method="post">
-      <input type="email" name="friend_email" id="friend_email" required>
-      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
-  </div>
-</div>
+      
 <!--FIN BON -->
 
 <div class="event-friend">
-<?php $friendRequests = $db->getFriendRequestsAll($_SESSION['iduser']); ?>
+<?php $user = $db->getUserByEmaill($_SESSION['mail']);?>
         <div class="friend">
-            <h3 class="heading">Friend Requests <span>see all</span></h3>
-            <?php if (!empty($friendRequests)): ?>
-                <ul>
-                    <?php foreach ($friendRequests as $request): ?>
-                        <li>
-                            <img src="<?= htmlspecialchars($request['photo']) ?>" alt="user">
-                            <b><?= htmlspecialchars($request['prenom']) ?> <?= htmlspecialchars($request['nom']) ?></b>
-                            <form action="../controller/demandeAjout.php" method="post">
-                                <input type="hidden" name="requester_id" value="<?= $request['iduser'] ?>">
-                                <button type="submit" name="accept">confirm</button>
-                                <button type="submit" name="reject" class="friend-remove">remove</button>
-                            </form>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>No friend requests.</p>
-            <?php endif; ?>
+        <div style="margin-top:100px">
+        <img class="rounded-circle" src="<?php echo $user['photo'] ?>" width="100" alt="user">
+      </div>
+
+    <form action="../controller/editprofil.php" method="POST" enctype="multipart/form-data">
+      <label for="nom">Nom*: </label>
+      <input type="text" id="nom" name="nom" value="<?php echo $user["nom"]; ?>"><br>
+
+      <label for="prenom">Prénom*: </label>
+      <input type="text" id="prenom" name="prenom" value="<?php echo $user["prenom"]; ?>"><br>
+
+      <label for="date_de_naissance">Date de naissance*: </label>
+      <input type="date" id="date_de_naissance" name="date_de_naissance" value="<?php echo $user["date_de_naissance"]; ?>"><br>
+
+      <label for="description">Description: </label>
+      <textarea id="description" name="description"><?php echo $user["description"]; ?></textarea><br>
+
+      <label for="ville">Ville: </label>
+      <input type="text" id="ville" name="ville" value="<?php echo $user["ville"]; ?>"><br>
+
+      <label for="interests">Centres d'intérêt: </label>
+      <input type="text" id="interests" name="interests" value="<?php echo $user["interests"]; ?>"><br>
+
+      <label for="photo">Photo:</label>
+      <input type="file" name="photo"><br><br>
+      
+        <input type="submit" name="submit" value="Enregistrer les modifications">
+    </form>
         </div>
     </div>
-
-                <div class="messenger">
-                    <div class="messenger-search">
-                        <i class="fa-solid fa-user-group"></i>
-                        <h4>Messenger</h4>
-                        <input type="search" placeholder="Search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                    <ul>
-                        <li>
-                            <img src="images/us2.png" alt="user">
-                            <b>amis1 </b>
-                            <i class="fa-brands fa-facebook-messenger"></i>
-                        </li>
-
-                        <li>
-                            <img src="images/us3.png" alt="user">
-                            <b>Amis2</b>
-                            <i class="fa-brands fa-facebook-messenger"></i>
-                        </li>
-
-                        <li>
-                            <img src="images/us4.png" alt="user">
-                            <b>Ami3 </b>
-                            <i class="fa-brands fa-facebook-messenger"></i>
-                        </li>
-                    </ul>
-                </div>
+                 
                 
             </div><!-- home left end here -->
 
@@ -131,29 +105,13 @@ $db = new Database();
 
             <div class="home-center">
                 <div class="home-center-wrapper">
-                    <div class="stories">
-                        <h3 class="mini-headign">Mes amis</h3>
-                        <div class="stories-wrapper">
-                        <?php $affichefriends = $db->affichefriends($_SESSION['iduser']); ?>
-
-                        <?php foreach ($affichefriends as $request): ?>
-                <div class="single-stories">
-                    <div>
-                        <img src="<?= htmlspecialchars($request['photo']) ?>" alt="user">
-                        <b><?= htmlspecialchars($request['prenom']) ?> <?= htmlspecialchars($request['nom']) ?></b>
-                        </form>
-                    </div>
-            </div>
-            <?php endforeach; ?>
-
-                        </div>
                         
                     </div>
 
 
                     <div class="createPost">
 
-                        <h3 class="mini-headign">Create Post</h3>
+                        <h3 class="mini-headign">Modify Post</h3>
                         <div class="post-text">
                             <img src="images/us2.png" alt="user">
                             <input type="text-area" placeholder="Bonjour, quesque vous voulez poster aujourd'hui ?">
@@ -218,44 +176,7 @@ $db = new Database();
                 </div> <!-- home center wrapper end -->
             </div> <!-- home center end -->
 
-            <div class="home-right">
-                <div class="home-right-wrapper">
-
-                    <div class="event-friend">
-                        <div class="event">
-                            <h3 class="heading">Upcoming Events <span>see all</span></h3>
-                            <img src="images/eve.jpg" alt="event-img">
-                            <div class="event-date">
-                                <h3>21 <b>july</b></h3>
-                                <h4>United state of America <span>New York City</span></h4>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                    </div>
-
-                    
-
-                    <div class="create-page">
-                        <ul>
-                            <li>
-                                <i class="fa-solid fa-circle-plus"></i>
-                                <h4>Create Page & Groups</h4>
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </li>
-                            <li>
-                                <img src="images/group.jpg" alt="groups">
-                            </li>
-                            <li>
-                                <b>simple group or page name <span>200k Members</span></b>
-                                <button>Join Group</button>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div><!-- home right wrapper end -->
-            </div><!-- home right end -->
+            
 
 
 
