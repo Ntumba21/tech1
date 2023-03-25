@@ -24,8 +24,10 @@ $currentUser = $db->getUserById($_SESSION['iduser']);
 <div class="chat-global">
     <div class="nav-top">
         <div class="location">
-            <img src="ressources/left-chevron.svg">
-            <p>Back</p>
+        <a href="../facebookk/index.php" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+        <img src="../media/left-chevron.svg">
+        <p>Back</p>
+    </a>
         </div>
 
         <div class="utilisateur">
@@ -48,17 +50,12 @@ $currentUser = $db->getUserById($_SESSION['iduser']);
         <input type="hidden" name="id_amis" value="<?php echo $id_amis; ?>">
 
         <div class="container-inputs-stuffs">
-            <div class="files-logo-cont">
-                <img src="ressources/paperclip.svg">
-            </div>
-
             <div class="group-inp">
                 <textarea name="message" placeholder="Enter your message here" minlength="1" maxlength="1500"></textarea>
-                <img src="ressources/smile.svg">
             </div>
 
             <button type="submit" class="submit-msg-btn">
-                <img src="ressources/send.svg">
+                <img src="../media/send.svg">
             </button>
         </div>
     </form>
