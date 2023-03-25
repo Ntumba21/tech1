@@ -20,7 +20,6 @@ if (isset($_POST['submit'])) {
       $description = $_POST["description"];
       $ville = $_POST["ville"];
       $interests = $_POST["interests"];
-      $idpromos = $_POST["idpromos"];
       $photo = null;
       if(isset($_FILES['photo']) && $_FILES['photo']['error'] === 0) {
         // Récupère le chemin de l'image temporaire
@@ -47,7 +46,7 @@ if (isset($_POST['submit'])) {
   } else {
     // Modifiez le profil de l'utilisateur dans la base de données
     $database = new Database();
-    $result = $database->AlterUser($nom, $prenom, $mail,  $date_de_naissance, $description, $ville, $interests, $photo, $idpromos);
+    $result = $database->AlterUser($nom, $prenom, $mail,  $date_de_naissance, $description, $ville, $interests, $photo);
 
     if ($result) {
       $message = "Votre profil a été modifié avec succès.";

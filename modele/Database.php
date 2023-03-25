@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -94,7 +94,7 @@ class Database
     
     
 
-    public function AlterUser($nom, $prenom, $mail, $date_de_naissance, $description, $ville, $interests, $photo, $idpromos)
+    public function AlterUser($nom, $prenom, $mail, $date_de_naissance, $description, $ville, $interests, $photo)
     {
         try {
             
