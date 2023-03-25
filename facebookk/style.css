@@ -80,7 +80,7 @@ header{
     width: 7%;
 }
 .logoBox img{
-    width: 60px;
+    width: 150px;
 }
 .searchBox{
     width: 38%;
@@ -90,14 +90,14 @@ header{
     width: 25%;
     display: flex;
     justify-content: space-between;
-    padding: 0 25px;
+    padding: 0 100px;
     border-right: 2px solid var(--border);
 }
 .iconBox2{
     width: 25%;
     display: flex;
     justify-content: space-between;
-    padding: 0 25px;
+    padding: 0 50px;
     position: relative;
 }
 .searchBox input{
