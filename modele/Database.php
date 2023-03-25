@@ -533,6 +533,22 @@ class Database
         $stmt->bindParam(':user_id', $requester_id);
         $stmt->execute();
     }
+    public function affichefriends($id) {
+        $stmt = self::$database->prepare('SELECT idamis FROM user_has_amis WHERE iduser = :id AND statut = 1');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $friends = [];
+        foreach ($idAmis as $idAmi) {
+            $stmt = self::$database->prepare('SELECT * FROM user WHERE iduser = :id');
+            $stmt->bindParam(':id', $idAmi);
+            $stmt->execute();
+            $friends[] = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+    
+        return $friends;
+    }
+    
 }
     
 
