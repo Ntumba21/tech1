@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -138,7 +138,7 @@ class Database
             return true;
         } catch (PDOException $e) {
             echo "Erreur PDO : " . $e->getMessage();
-            return false;
+            return false; 
         }        
     }
     public function registerPromo($mail, $idpromos){
@@ -464,7 +464,6 @@ class Database
 
 
     public function addFriend($user_email, $friend_email) {
-        // Get the user IDs for both the user and the friend
         $stmt = self::$database->prepare('SELECT iduser FROM user WHERE mail = :email');
         $stmt->bindParam(':email', $user_email);
         $stmt->execute();
@@ -475,7 +474,10 @@ class Database
         $friend_id = $stmt->fetchColumn();
     
         if (!$user_id || !$friend_id) {
-            return false; // Either the user or the friend was not found
+            return false; 
+        }
+        if ($user_email == $friend_email) {
+            return false;
         }
     
         // Il faut voir si les amis sont dans la table amis !! je vous deteste
