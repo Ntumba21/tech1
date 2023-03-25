@@ -498,6 +498,20 @@ class Database
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    
+    public function getFriendRequestsAll($id) {
+
+        $stmt = self::$database->prepare('SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 2');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $idDemande=$stmt->fetch();
+
+        $stmt = self::$database->prepare('SELECT * FROM user WHERE iduser = :id');
+        $stmt->bindParam(':id', $idDemande);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function acceptFriendRequest($requester_id, $user_id) {
         $stmt = self::$database->prepare('UPDATE user_has_amis
                                 SET statut = 1
