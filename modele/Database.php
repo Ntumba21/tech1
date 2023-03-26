@@ -400,30 +400,10 @@ class Database
     }
 
     //amitier
-    public function defaultFriend($mail, $idpromo){
-        $sql = "SELECT * FROM user WHERE idpromo = :idpromo";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpromo', $idpromo);
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        $sql2 = "SELECT iduser FROM user WHERE mail = :mail";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':mail', $mail);
-        $stmt2->execute();
-        $iduser = $stmt2->fetch();
-        $iduser = $iduser[0];
-        foreach ($result as $key => $value) {
-            $sql3 = "INSERT INTO amis (iduser1, iduser2) VALUES (:iduser1, :iduser2)";
-            $stmt3 = self::$database->prepare($sql3);
-            $stmt3->bindParam(':iduser1', $iduser);
-            $stmt3->bindParam(':iduser2', $value['iduser']);
-            $stmt3->execute();
-        }
-    }
 
     //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS AMITIE
 
-    public function defaultamitié($mail){
+    public function defaultFriend($mail){
         $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
         $stmt2->bindParam(':mail', $mail);
         $stmt2->execute();
