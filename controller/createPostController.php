@@ -4,13 +4,13 @@ require_once('../controller/session.php');
 
 
   function create() {
-    if(isset($_POST['type']) && isset($_POST['titre']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['lieu'])) {
+    if(isset($_POST['type']) && isset($_POST['titre']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['lieu']) && isset($_POST['adresse_lieu'])) {
       $type = $_POST['type'];
       $titre = $_POST['titre'];
       $contenu = $_POST['contenu'];
       $date = $_POST['date'];
       $lieu = $_POST['lieu'];
-      //$for = $_POST['for'];
+      $adresselieu = $_POST['adresse_lieu'];
       $photo = null;
       
       // Vérifie si une image a été ajoutée
@@ -27,13 +27,13 @@ require_once('../controller/session.php');
         
         $photo = $filePath;
       }
-      $mail= $_SESSION["mail"];
+      $id= $_SESSION["iduser"];
      $data = new Database();
       // Ajoute le post à la base de données
-      $data->CreatePost($type, $titre, $contenu, $date, $lieu, $photo,$mail);
+      $data->CreatePost2($type, $titre, $contenu, $date, $lieu, $adresselieu, $photo,$id);
 
       // Redirige vers la page d'accueil
-      header('Location: ../view/home.php');
+      header('Location: ../facebookk/index.php');
       exit();
     }
   }

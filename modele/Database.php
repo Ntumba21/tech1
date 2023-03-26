@@ -555,6 +555,48 @@ class Database
 
         return $stmt->execute();
     }
+
+
+    //create contenu
+    public function CreatePost2($type,$titre, $contenu, $date, $lieuNom,$lieuAdresse, $photo, $iduser){
+
+        $sql = "INSERT INTO post (type, titre, contenu, date, photo) 
+                VALUES (:type, :titre, :contenu, :date, :photo)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->execute();
+
+        $idpost = self::$database->lastInsertId();
+
+        $sql4 = "INSERT INTO post_user (idpost, iduser) VALUES (:idpost, :iduser)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost);
+        $stmt4->bindParam(':iduser', $iduser);
+        $stmt4->execute();
+
+        $sql = 'INSERT INTO `lieu` (`nom`, `adresse`) 
+                VALUES (:nom, :adresse)';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $lieuNom);
+        $stmt->bindParam(':adresse', $lieuAdresse);
+        $stmt->execute();
+        $stmt->fetch();
+
+        $idlieu = self::$database->lastInsertId();
+
+        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) 
+        VALUES (:idlieu, :idpost)';
+       $stmt = self::$database->prepare($sql);
+       $stmt->bindParam(':idlieu', $idlieu);
+       $stmt->bindParam(':idpost', $idpost);
+       $idlieu=$stmt->execute();
+
+        return true;
+    }
 }
     
 
