@@ -16,7 +16,7 @@
 <main class="content">
     <section>
         <h1>supprimer un post</h1>
-        <form name="supprimer" method="post" action="../../controller/admin/post.php">
+        <form name="supprimer-post" method="post" action="../../controller/admin/post.php">
             <label for="idpost">idpost</label>
             <table>
                 <tr>
@@ -32,7 +32,13 @@
                     <th>interests</th>
                 </tr>
             </table>
-            <input type="submit" name="submit" value="supprimer">
+            <input type="submit" name="submit-delete" value="supprimer">
+    </section>
+    <section>
+        <h1>Ajouter un Post</h1>
+        <form name="ajouter-post" method="post" action="../../controller/admin/post.php">
+
+        </form>
     </section>
 </main>
 </body>
