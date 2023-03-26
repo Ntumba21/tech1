@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -399,9 +399,8 @@ class Database
         return $stmt->fetchAll();
     }
 
-    //amitier
 
-    //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS AMITIE
+    //ash AMITIÉ
 
     public function defaultFriend($mail){
         $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
