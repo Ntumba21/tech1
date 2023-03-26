@@ -11,7 +11,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
     //redirectToHome(); 
  //$redirectUrl = "../facebookk/profil.php"; // use an absolute path
  //echo '<script>window.location.href = "'.$redirectUrl.'";</script>';
- $redirectUrl = "../view/createPost.php"; // use an absolute path
+ $redirectUrl = "../facebookk/index.php"; // use an absolute path
  echo '<script>window.location.href = "'.$redirectUrl.'";</script>';
  } else {
     $_SESSION['alert'] = 'Identifiants incorrects ';
