@@ -371,6 +371,17 @@ class Database
         return $var[0][0];
     }
     public function StatUserFriend(){
+        $sql = "SELECT user.mail, COUNT(user_has_amis.iduser) as num_friends 
+                FROM user
+                JOIN user_has_amis ON user_has_amis.iduser_friend = user.iduser
+                GROUP BY user.iduser
+                ORDER BY num_friends DESC
+                LIMIT 5";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    public function StatUserMessage(){
         $sql = "SELECT user.mail, COUNT(*) AS message_count
                 FROM message
                 JOIN user ON message.iduser = user.iduser

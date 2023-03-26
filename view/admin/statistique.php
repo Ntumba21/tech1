@@ -31,6 +31,16 @@ $showuser = $data->ShowMaxUser();
                         <?php MakeStatForMessage(); ?>
                     </table>
                 </section>
+            <section>
+                <h2>Les utilisateurs ayant créé le plus d'amis:</h2>
+                <table>
+                    <tr>
+                        <th>Mail</th>
+                        <th>Nombre de message</th>
+                    </tr>
+                    <?php MakeStatForFriendship(); ?>
+                </table>
+            </section>
         </main>
         <footer>
             <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
