@@ -715,16 +715,4 @@ public function ajouterAmi($userId, $amiId)
             return false;
         }
     }
-
-
-    
 }
-    
-
-
-
-
-
-
-
-
