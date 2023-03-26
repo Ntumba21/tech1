@@ -41,7 +41,7 @@ $db = new Database();
                     <i class="fa-solid fa-bell"></i>
                     <label>  <a href="../facebookk/profil.php">
                     <img src="images/us2.png" alt="user">
-                     </label>
+                     </label></a>
                 </div>
             </div>
         </div>
@@ -61,13 +61,15 @@ $db = new Database();
             <div class="messenger">
   <div class="messenger-search">
     <i class="fa-solid fa-user-group"></i>
-    <h4>Ajout ami</h4>
-    <form action="../controller/addAmis.php" method="post">
+    <h4>Ajout ami</h4> 
+    <form action="../controller/addAmis.php" method="post"> 
       <input type="email" name="friend_email" id="friend_email" required>
       <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
     </form>
   </div>
 </div>
+
+
 <!--FIN BON -->
 
 <div class="event-friend">
