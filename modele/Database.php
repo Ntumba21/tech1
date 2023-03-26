@@ -362,6 +362,25 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    //admin stat
+    public function ShowMaxUser(){
+        $sql = "SELECT COUNT(iduser) FROM user";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        $var =  $stmt->fetchAll();
+        return $var[0][0];
+    }
+    public function StatUserFriend(){
+        $sql = "SELECT user.mail, COUNT(*) AS message_count
+                FROM message
+                JOIN user ON message.iduser = user.iduser
+                GROUP BY user.iduser
+                ORDER BY message_count DESC
+                LIMIT 5;";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
     //amitier
     public function defaultFriend($mail, $idpromo){
