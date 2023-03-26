@@ -19,7 +19,7 @@ $showuser = $data->ShowMaxUser();
         </header>
         <main class="content">
                 <section>
-                    <p>Le Nombre d'utilisateurs dans le système est:</p> <?php $showuser(); ?>
+                    <p>Le Nombre d'utilisateurs dans le système est:</p> <?php echo $showuser; ?>
                 </section>
                 <section>
                     <h2>Les utilisateurs ayant créé le plus de message dans le systeme:</h2>
