@@ -1,6 +1,7 @@
 <?php
     require_once '../modele/Database.php';
-    function ShowPromoEleve(){
+    function ShowPromoEleve(): void
+    {
         $db = new Database();
         $promos = $db->GetPromos();
         echo '<select name="idpromos">';
@@ -9,7 +10,8 @@
         }
         echo '</select>';
     }
-    function ShowPromoProf(){
+    function ShowPromoProf(): void
+    {
         $db = new Database();
         $promos = $db->GetPromos();
         foreach($promos as $promo){
