@@ -22,12 +22,6 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function getInactiveUser(){
-        $sql = 'SELECT * FROM user WHERE isvalide = 0';
-        $stmt = self::$database->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
     public function getUserByType($type){
         $sql = 'SELECT * FROM user WHERE type = :type';
         $stmt = self::$database->prepare($sql);
