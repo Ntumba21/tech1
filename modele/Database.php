@@ -104,8 +104,6 @@ class Database
         return true;
     }
     //MANAL POUR EDITPROFIL
-    
-    
 
     public function AlterUser($description, $ville, $interests, $photo,$mail)
     {
