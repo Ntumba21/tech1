@@ -448,8 +448,8 @@ class Database
             return false;
         }
     
-        // voir si les amis sont deja amis BANDE DE MECHANT
-        $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE iduser = :user_id AND idamis = :idamis');
+        // voir si les amis sont deja amis 
+        $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE (iduser = :user_id AND idamis = :idamis) OR (iduser = :idamis AND idamis = :user_id)');
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':idamis', $friend_id);
         $stmt->execute();
@@ -463,9 +463,10 @@ class Database
             $attente=2;
             $stmt->bindParam(':attente',$attente);
             $stmt->execute();
+            return true;
+        }else{
+            return false;
         }
-    
-        return true;
     }
 
     public function getFriendRequests($id) {
@@ -558,16 +559,29 @@ class Database
 
 
     //create contenu
-    public function CreatePost2($type,$titre, $contenu, $date, $lieuNom,$lieuAdresse, $photo, $iduser){
+    public function CreatePost2($type,$titre, $contenu, $date, $lieuNom,$lieuAdresse, $photo, $iduser,$etiquette){
+        $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':iduser', $iduser);
+         $stmt->bindParam(':idamis', $etiquette);
+        $stmt->execute();
+        $result=$stmt->fetch();
+ 
+        if (!$result){
+         return false;
+     } else {
+         $idAmis= $result['idamis'];
+     }
 
-        $sql = "INSERT INTO post (type, titre, contenu, date, photo) 
-                VALUES (:type, :titre, :contenu, :date, :photo)";
+        $sql = "INSERT INTO post (type, titre, contenu, date, photo,etiquette) 
+                VALUES (:type, :titre, :contenu, :date, :photo,:etiquette)";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':type', $type);
         $stmt->bindParam(':titre', $titre);
         $stmt->bindParam(':contenu', $contenu);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':etiquette', $idAmis);
         $stmt->execute();
 
         $idpost = self::$database->lastInsertId();
@@ -578,15 +592,25 @@ class Database
         $stmt4->bindParam(':iduser', $iduser);
         $stmt4->execute();
 
+        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom AND adresse= :adresse';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $lieuNom);
+         $stmt->bindParam(':adresse', $lieuAdresse);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
         $sql = 'INSERT INTO `lieu` (`nom`, `adresse`) 
                 VALUES (:nom, :adresse)';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':nom', $lieuNom);
         $stmt->bindParam(':adresse', $lieuAdresse);
         $stmt->execute();
-        $stmt->fetch();
-
         $idlieu = self::$database->lastInsertId();
+    } else {
+        // Le lieu existe déjà dans la base de données, on récupère son ID
+        $idlieu = $result['idlieu'];
+    }
 
         $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) 
         VALUES (:idlieu, :idpost)';
@@ -594,6 +618,7 @@ class Database
        $stmt->bindParam(':idlieu', $idlieu);
        $stmt->bindParam(':idpost', $idpost);
        $idlieu=$stmt->execute();
+
 
         return true;
     }

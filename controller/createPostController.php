@@ -4,13 +4,14 @@ require_once('../controller/session.php');
 
 
   function create() {
-    if(isset($_POST['type']) && isset($_POST['titre']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['lieu']) && isset($_POST['adresse_lieu'])) {
+    if(isset($_POST['type']) && isset($_POST['titre']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['lieu']) && isset($_POST['adresse_lieu'])&& isset($_POST['identification'])) {
       $type = $_POST['type'];
       $titre = $_POST['titre'];
       $contenu = $_POST['contenu'];
       $date = $_POST['date'];
       $lieu = $_POST['lieu'];
       $adresselieu = $_POST['adresse_lieu'];
+      $etiquette = $_POST['identification'];
       $photo = null;
       
       // Vérifie si une image a été ajoutée
@@ -30,7 +31,7 @@ require_once('../controller/session.php');
       $id= $_SESSION["iduser"];
      $data = new Database();
       // Ajoute le post à la base de données
-      $data->CreatePost2($type, $titre, $contenu, $date, $lieu, $adresselieu, $photo,$id);
+      $data->CreatePost2($type, $titre, $contenu, $date, $lieu, $adresselieu, $photo,$id,$etiquette);
 
       // Redirige vers la page d'accueil
       header('Location: ../facebookk/index.php');

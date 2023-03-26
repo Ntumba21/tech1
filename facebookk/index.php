@@ -149,22 +149,26 @@ $db = new Database();
 
                     <div class="createPost">
 
-                        <h3 class="mini-headign">Create Post</h3>
-                        <div class="post-text">
-                            <img src="images/us2.png" alt="user">
-                            <input type="text-area" placeholder="Bonjour, quesque vous voulez poster aujourd'hui ?">
-                        </div>
+                    <form action="../controller/createPostController.php" method="post" enctype="multipart/form-data">
+                    <h3 class="mini-headign">Create post</h3>
+                    <div class="post-text">
+  <input type="hidden" name="action" value="create">
+  <select name="type" id="type">
+    <option value="actualités">Actualités</option>
+    <option value="événements">Événements</option>
+    <option value="général">Général</option>
+  </select><br>
+  <input type="text" name="titre" id="titre" placeholder="Titre"><br>
+  <input type="text" name="contenu" id="contenu" placeholder="Contenu"><br>
+  <input type="date" name="date" id="date" placeholder="Date"><br>
+  <input type="text" name="lieu" id="lieu" placeholder="Nom du lieu"><br>
+  <input type="text" name="adresse_lieu" id="adresse_lieu" placeholder="Adresse"><br>
+  <input type="text" name="identification" id="identification" placeholder="Identification"><br>
+    <input type="file" name="photo" id="photo">
+  </div>
+  <button type="submit">Publier</button>
+</form>
 
-                        <div class="post-icon">
-                            <a href="#" style="background: #ffebed;">
-                            <i style="background: #ff4154;" class="fa-solid fa-camera"></i>
-                            Gallery</a>
-
-                            <a href="#" style="background: #d7ffef;">
-                            <i style="background: #00d181;" class="fa-solid fa-location-dot"></i>
-                            Location</a>
-
-                        </div>
 
                     </div>
 

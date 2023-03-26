@@ -35,6 +35,8 @@
   <input type="text" name="lieu" id="lieu"><br>
   <label for="adresse_lieu">Adresse du lieu :</label>
   <input type="text" name="adresse_lieu" id="adresse_lieu"><br>
+  <label for="identification">Identification</label>
+  <input type="text" name="identification" id="identification"><br>
   <label for="photo">Photo :</label>
   <input type="file" name="photo" id="photo"><br>
   <button type="submit">Publier</button>
