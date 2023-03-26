@@ -396,6 +396,33 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    public function DeletePost($idpost){
+        $sql1= "DELETE FROM post_user WHERE idpost = :idpost";
+        $stmt1 = self::$database->prepare($sql1);
+        $stmt1->bindParam(':idpost', $idpost);
+        $stmt1->execute();
+        $sql2 = "DELETE FROM post_admin WHERE idpost = :idpost";
+        $stmt2 = self::$database->prepare($sql2);
+        $stmt2->bindParam(':idpost', $idpost);
+        $stmt2->execute();
+        $sql3 = "DELETE FROM post_has_lieu WHERE idpost = :idpost";
+        $stmt3 = self::$database->prepare($sql3);
+        $stmt3->bindParam(':idpost', $idpost);
+        $stmt3->execute();
+        $sql4 = "DELETE FROM notification WHERE idpost = :idpost";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost);
+        $stmt4->execute();
+        $sql5 = "DELETE FROM reactions WHERE idpost = :idpost";
+        $stmt5 = self::$database->prepare($sql5);
+        $stmt5->bindParam(':idpost', $idpost);
+        $stmt5->execute();
+        $sql = "DELETE FROM post WHERE idpost = :idpost";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->execute();
+        return true;
+    }
 
 
     //ash AMITIÉ
