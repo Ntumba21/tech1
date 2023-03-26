@@ -1,3 +1,4 @@
+<?php require_once("controller/session.php");  logout(); // ne pas supprimer ça très important ?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>

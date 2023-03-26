@@ -1,3 +1,6 @@
+<?php require_once '../../controller/session.php';
+//pour verifier si la session est valide
+//if(!VerifySession()){header('Location: index.html');} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +12,16 @@
 </head>
 <body>
 <header>
-    <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+    <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo">
     <h1>Welcome Admin</h1>
 </header>
 <div class="content">
     <div class="square">
-    
+
 </head>
 <body>
-    
-    
+
+
 </body>
 </div>
 </div>

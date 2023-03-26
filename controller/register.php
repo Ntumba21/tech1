@@ -98,6 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Valider le mot de passe
     if (!validatePassword($password)) {
         $_SESSION['alert']= "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial.";
+        if($type == 1){
+            $_SESSION['redirection'] = 'register.php';
+        }else{
+            $_SESSION['redirection'] = 'register-prof.php';
+        }
         header('Location: ../view/alert.php');
         exit;
     }
@@ -105,13 +110,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Valider l'email
     if (!validateEmail($mail, $type)) {
         $_SESSION['alert']= "L'adresse e-mail n'est pas valide.";
+        if($type == 1){
+            $_SESSION['redirection'] = 'register.php';
+        }else{
+            $_SESSION['redirection'] = 'register-prof.php';
+        }
         header('Location: ../view/alert.php');
         exit;
     }
 
     // Vérifier si l'email est déjà utilisé
     if(!uniqueEmail($mail)){
-        echo "L'adresse e-mail est déjà utilisée.";
+        if($type == 1){
+            $_SESSION['redirection'] = 'register.php';
+        }else{
+            $_SESSION['redirection'] = 'register-prof.php';
+        }
+        $_SESSION['alert'] = "L'adresse e-mail est déjà utilisée.";
+        header('Location: ../view/alert.php');
         exit;
     }
 
@@ -122,12 +138,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result) {
         if ($type == 1) {
             $data->registerPromo($mail,$idpromos);
-            $data->defaultamitié2($mail);
+            $data->defaultamitié($mail);
         }elseif ($type == 2){
             foreach ($idpromos as $idpromo){
                 $data->registerPromo($mail,$idpromo[0]);
             }
             $_SESSION['alert']="Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
+            $_SESSION['redirection'] = 'loginform.php';
             header('Location: ../view/alert.php');
         }
 //        if (sendActivationEmail($mail, $token)) {

@@ -6,7 +6,6 @@ require_once("../controller/session.php");
 //redirectToHome();
 
 // Initialisez la variable pour stocker les messages d'erreur ou de succès
-$message = "";
 $mail= $_SESSION['mail'];
 
 // Vérifiez si le formulaire a été soumis
@@ -44,11 +43,13 @@ if (isset($_POST['submit'])) {
     $result = $database->AlterUser($description, $ville, $interests, $photo,$mail);
 
     if ($result) {
-      $message = "Votre profil a été modifié avec succès.";
+        $_SESSION['alert'] = "Votre profil a été modifié avec succès.";
     } else {
-      $message = "Une erreur s'est produite lors de la modification de votre profil. Veuillez réessayer.";
+        $_SESSION['alert'] = "Une erreur s'est produite lors de la modification de votre profil. Veuillez réessayer.";
     }
-  }
+    $_SESSION['redirection'] = 'profil.php';
+    header('Location: ../view/alert.php');
+}
   
 
 

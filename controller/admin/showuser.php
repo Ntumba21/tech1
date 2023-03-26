@@ -16,6 +16,7 @@ function ShowUser(){
         echo "<td>{$row['photo']}</td>";
         $promo =$data->GetPromosByID($row['iduser']);
         echo "<td>{$promo[0]['nom']}</td>";
+        echo "<td>{$row['isvalide']}</td>";
         echo "</tr>";
     }
     echo "</table>";

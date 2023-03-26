@@ -1,13 +1,12 @@
 <?php
     require_once ('..\..\modele\Database.php');
     require_once ('..\..\controller\session.php');
-    if (isset($_POST["promos"])){
+    if (isset($_POST["addpromo"])){
         $data = new Database();
-        $admin = $data->AddPromo($_POST["promos"]);
-        //echo $_POST["promos"];
-        echo 'Donnée ajoutée';
+        $admin = $data->AddPromo($_POST["addpromo"]);
+        $_SESSION['alert'] = 'Donnée ajoutée';
 
     }else{
-        echo 'Donnée pas ajoutée';
+        $_SESSION['alert'] = 'Donnée pas ajoutée';
     }
       

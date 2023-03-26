@@ -13,13 +13,16 @@ function Session($mail="", $iduser="", $connect=false) {
 
 }
 
-function VerifySession() {
+function VerifySession(): bool{
     if (isset($_SESSION["session"]) && $_SESSION["session"]){
         return true;
     } else {
         return false;
     }
    
+}
+function logout(){
+    session_destroy();
 }
 
 

@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -59,11 +59,20 @@ class Database
             $stmt->execute();
             return $stmt->rowCount();
       }
+      public function BlockUser($id): bool
+      {
+        try {
+            $sql = 'UPDATE user SET isvalide = 0 WHERE iduser = :id';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+      }
       public function DeleteUserById($user_id){
-        $sql4 = "DELETE FROM amis INNER JOIN user_has_amis ON amis.idamis = user_has_amis.idamis WHERE user_has_amis.iduser = :user";
-            $stmt4 = self::$database->prepare($sql4);
-            $stmt4->bindParam(':user', $user_id);
-            $stmt4->execute();
         $sql1 = "DELETE FROM user_has_amis WHERE iduser = :user";
             $stmt1 = self::$database->prepare($sql1);
             $stmt1->bindParam(':user', $user_id);
@@ -193,14 +202,6 @@ class Database
     }
 
     //Admin function
-
-    public function DeletePromo($nom){
-        $sql = "DELETE FROM promos WHERE nom = :nom";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':nom', $nom);
-        $stmt->execute();
-        return true;
-    }
     public function AddPromo($nom){
         $sql = "INSERT INTO promos (nom) VALUES (:nom)";
         $stmt = self::$database->prepare($sql);
@@ -354,7 +355,13 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function ShowPostByUSer($iduser){
+    public function ShowPostByUser($mail){
+        $sql2= "SELECT iduser FROM user WHERE mail = :mail";
+        $stmt2 = self::$database->prepare($sql2);
+        $stmt2->bindParam(':mail', $mail);
+        $stmt2->execute();
+        $iduser = $stmt2->fetch();
+        $iduser = $iduser[0];
         $sql = "SELECT * FROM post 
                 inner join post_user on post.idpost = post_user.idpost 
                 WHERE iduser = :iduser ORDER BY date DESC";
@@ -371,32 +378,10 @@ class Database
         return $stmt->fetchAll();
     }
 
-    //amitier
-    public function defaultFriend($mail, $idpromo){
-        $sql = "SELECT * FROM user WHERE idpromo = :idpromo";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpromo', $idpromo);
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        $sql2 = "SELECT iduser FROM user WHERE mail = :mail";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':mail', $mail);
-        $stmt2->execute();
-        $iduser = $stmt2->fetch();
-        $iduser = $iduser[0];
-        foreach ($result as $key => $value) {
-            $sql3 = "INSERT INTO amis (iduser1, iduser2) VALUES (:iduser1, :iduser2)";
-            $stmt3 = self::$database->prepare($sql3);
-            $stmt3->bindParam(':iduser1', $iduser);
-            $stmt3->bindParam(':iduser2', $value['iduser']);
-            $stmt3->execute();
-        }
-    }
 
     //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS AMITIE
 
-
-    public function defaultamitié2($mail){
+    public function defaultamitié($mail){
         $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
         $stmt2->bindParam(':mail', $mail);
         $stmt2->execute();
@@ -448,7 +433,7 @@ class Database
             return false;
         }
     
-        // voir si les amis sont deja amis BANDE DE MECHANT
+        // voir si les amis sont deja amis
         $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE iduser = :user_id AND idamis = :idamis');
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':idamis', $friend_id);

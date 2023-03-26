@@ -13,6 +13,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
  echo '<script>window.location.href = "'.$redirectUrl.'";</script>';
  } else {
     $_SESSION['alert'] = 'Identifiants incorrects ';
+     $_SESSION['redirection'] = 'loginform.php';
      header('Location: ../view/alert.php');
  }
 }
