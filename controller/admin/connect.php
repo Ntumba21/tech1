@@ -8,8 +8,9 @@
            Session($admin[0]["mail"],$admin[0]["password"],true);
            redirectToHomeAdmin();
         }else{
-            echo "pas d'utilisateur";
-
+            $_SESSION['alert'] = "pas d'utilisateur";
+            $_SESSION['redirection'] = 'admin/index.html';
+            header('Location: ../../view/alert.php');
         }
 
 

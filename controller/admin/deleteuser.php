@@ -11,5 +11,7 @@
         }else{
             echo $_SESSION['alert']="Suppression échouée";
         }
+        $_SESSION['redirection'] = 'admin/manage-user.php';
+        header('Location: ../../view/alert.php');
     }
        
