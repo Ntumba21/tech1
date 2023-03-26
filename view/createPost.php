@@ -20,15 +20,23 @@
 <form action="../controller/createPostController.php" method="post" enctype="multipart/form-data">
   <input type="hidden" name="action" value="create">
   <label for="type">Type :</label>
-  <input type="text" name="type" id="type"><br>
+    <select name="type" id="type">
+        <option value="actualités">Actualités</option>
+        <option value="événements">Événements</option>
+        <option value="général">Général</option>
+    </select><br>
   <label for="titre">Titre :</label>
   <input type="text" name="titre" id="titre"><br>
   <label for="contenu">Contenu :</label>
   <textarea name="contenu" id="contenu"></textarea><br>
   <label for="date">Date :</label>
   <input type="date" name="date" id="date"><br>
-  <label for="lieu">Lieu :</label>
+  <label for="lieu">Nom du lieu :</label>
   <input type="text" name="lieu" id="lieu"><br>
+  <label for="adresse_lieu">Adresse du lieu :</label>
+  <input type="text" name="adresse_lieu" id="adresse_lieu"><br>
+  <label for="identification">Identification</label>
+  <input type="text" name="identification" id="identification"><br>
   <label for="photo">Photo :</label>
   <input type="file" name="photo" id="photo"><br>
   <button type="submit">Publier</button>

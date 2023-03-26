@@ -149,67 +149,67 @@ $db = new Database();
 
                     <div class="createPost">
 
-                        <h3 class="mini-headign">Create Post</h3>
-                        <div class="post-text">
-                            <img src="images/us2.png" alt="user">
-                            <input type="text-area" placeholder="Bonjour, quesque vous voulez poster aujourd'hui ?">
-                        </div>
+                    <form action="../controller/createPostController.php" method="post" enctype="multipart/form-data">
+                    <h3 class="mini-headign">Create post</h3>
+                    <div class="post-text">
+  <input type="hidden" name="action" value="create">
+  <select name="type" id="type">
+    <option value="actualités">Actualités</option>
+    <option value="événements">Événements</option>
+    <option value="général">Général</option>
+  </select><br>
+  <input type="text" name="titre" id="titre" placeholder="Titre"><br>
+  <input type="text" name="contenu" id="contenu" placeholder="Contenu"><br>
+  <input type="date" name="date" id="date" placeholder="Date"><br>
+  <input type="text" name="lieu" id="lieu" placeholder="Nom du lieu"><br>
+  <input type="text" name="identification" id="identification" placeholder="Identification">
+  <input type="file" name="photo" id="photo">
+    </div>
+  <button type="submit">Publier</button>
+</form>
 
-                        <div class="post-icon">
-                            <a href="#" style="background: #ffebed;">
-                            <i style="background: #ff4154;" class="fa-solid fa-camera"></i>
-                            Gallery</a>
-
-                            <a href="#" style="background: #d7ffef;">
-                            <i style="background: #00d181;" class="fa-solid fa-location-dot"></i>
-                            Location</a>
-
-                        </div>
 
                     </div>
-
-                   
-                    <div class="fb-post1">
-                        <div class="fb-post1-container">
-                            <div class="fb-post1-header">
+                    <div class="fb-post1-header">
                                 <ul>
                                     <li>see all</li>
                                     <li>recent</li>
                                 </ul>
                             </div>
+                    <?php $post = $db->showPostUser($_SESSION['iduser']); ?>
+                    <?php foreach ($post as $p) {?>
+                    <div class="fb-post1">
+                        <div class="fb-post1-container">
                             <div class="fb-p1-main">
-                                <div class="post-title">
-                                    <img src="images/us2.png" alt="user picture">
-                                    <ul>
-                                        <li><h3>User<span> .2 hours ago</span></h3></li>
-                                        <li><span>02 march at 12:55 PM</span></li>
-                                    </ul>
-                                    <p>Hello Everyone 
-                                    </p>
-                                </div>
-
-                                <div class="post-images">
-                                    <div class="post-images1">
-                                        <img src="images/pp.jpg" alt="post images 01">
-                                        <img src="images/pp2.jpg" alt="post images 02">
-                                        <img src="images/pp3.jpg" alt="post images 03">
-                                    </div>
-                                    <div class="post-images2">
-                                        <img src="images/pp4.jpg" alt="post images 04">
-                                    </div>
-                                </div>
-
-                                <div class="like-comment">
-                                    <ul>
-                                        <li>
-                                            <img src="images/love.png" alt="love">
-                                            <span>22k like</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                <?php
+    echo '<div class="post">';
+    echo '<div class="post-header">';
+    echo '<h2>' . $p['titre'] . '</h2>';
+    echo '<span>' . $p['date'] . '</span>';
+    echo '<p>' . $p['etiquette'] . '</p>';
+    echo '</div>';
+    echo '<div class="post-body">';
+    echo '<p>' . $p['contenu'] . '</p>';
+    if ($p['photo']) {
+        echo '<img src="' . $p['photo'] . '" alt="photo">';
+    }
+    echo '</div>';
+    echo '<div class="post-footer">';
+    echo '<div class="like-comment">';
+    echo '<ul>';
+    echo '<li>';
+    echo '<img src="images/love.png" alt="love">';
+    echo '<span>' . $p['nblike'] . ' like</span>';
+    echo '</li>';
+    echo '</ul>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+}?>
+                
 
                 </div> <!-- home center wrapper end -->
             </div> <!-- home center end -->

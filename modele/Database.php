@@ -59,20 +59,11 @@ class Database
             $stmt->execute();
             return $stmt->rowCount();
       }
-      public function BlockUser($id): bool
-      {
-        try {
-            $sql = 'UPDATE user SET isvalide = 0 WHERE iduser = :id';
-            $stmt = self::$database->prepare($sql);
-            $stmt->bindParam(':id', $id);
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return false;
-        }
-      }
       public function DeleteUserById($user_id){
+        $sql4 = "DELETE FROM amis INNER JOIN user_has_amis ON amis.idamis = user_has_amis.idamis WHERE user_has_amis.iduser = :user";
+            $stmt4 = self::$database->prepare($sql4);
+            $stmt4->bindParam(':user', $user_id);
+            $stmt4->execute();
         $sql1 = "DELETE FROM user_has_amis WHERE iduser = :user";
             $stmt1 = self::$database->prepare($sql1);
             $stmt1->bindParam(':user', $user_id);
@@ -355,13 +346,7 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function ShowPostByUser($mail){
-        $sql2= "SELECT iduser FROM user WHERE mail = :mail";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':mail', $mail);
-        $stmt2->execute();
-        $iduser = $stmt2->fetch();
-        $iduser = $iduser[0];
+    public function ShowPostByUSer($iduser){
         $sql = "SELECT * FROM post 
                 inner join post_user on post.idpost = post_user.idpost 
                 WHERE iduser = :iduser ORDER BY date DESC";
@@ -378,6 +363,27 @@ class Database
         return $stmt->fetchAll();
     }
 
+    //amitier
+    public function defaultFriend($mail, $idpromo){
+        $sql = "SELECT * FROM user WHERE idpromo = :idpromo";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpromo', $idpromo);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $sql2 = "SELECT iduser FROM user WHERE mail = :mail";
+        $stmt2 = self::$database->prepare($sql2);
+        $stmt2->bindParam(':mail', $mail);
+        $stmt2->execute();
+        $iduser = $stmt2->fetch();
+        $iduser = $iduser[0];
+        foreach ($result as $key => $value) {
+            $sql3 = "INSERT INTO amis (iduser1, iduser2) VALUES (:iduser1, :iduser2)";
+            $stmt3 = self::$database->prepare($sql3);
+            $stmt3->bindParam(':iduser1', $iduser);
+            $stmt3->bindParam(':iduser2', $value['iduser']);
+            $stmt3->execute();
+        }
+    }
 
     //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS AMITIE
 
@@ -434,7 +440,7 @@ class Database
         }
     
         // voir si les amis sont deja amis
-        $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE iduser = :user_id AND idamis = :idamis');
+        $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE (iduser = :user_id AND idamis = :idamis) OR (iduser = :idamis AND idamis = :user_id)');
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':idamis', $friend_id);
         $stmt->execute();
@@ -448,9 +454,10 @@ class Database
             $attente=2;
             $stmt->bindParam(':attente',$attente);
             $stmt->execute();
+            return true;
+        }else{
+            return false;
         }
-    
-        return true;
     }
 
     public function getFriendRequests($id) {
@@ -540,6 +547,87 @@ class Database
 
         return $stmt->execute();
     }
+
+
+    //create contenu
+    public function CreatePost2($type,$titre, $contenu, $date,$lieu, $photo, $iduser,$etiquette){
+        $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':iduser', $iduser);
+         $stmt->bindParam(':idamis', $etiquette);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
+         return false;
+     } else {
+         $idAmis= $result['idamis'];
+     }
+
+        $sql = "INSERT INTO post (type, titre, contenu, date, photo,etiquette) 
+                VALUES (:type, :titre, :contenu, :date, :photo,:etiquette)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':etiquette', $idAmis);
+        $stmt->execute();
+
+        $idpost = self::$database->lastInsertId();
+
+        $sql4 = "INSERT INTO post_user (idpost, iduser) VALUES (:idpost, :iduser)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost);
+        $stmt4->bindParam(':iduser', $iduser);
+        $stmt4->execute();
+
+        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
+        $sql = 'INSERT INTO `lieu` (`nom`) 
+                VALUES (:nom)';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $idlieu = self::$database->lastInsertId();
+    } else {
+        // Le lieu existe déjà dans la base de données, on récupère son ID
+        $idlieu = $result['idlieu'];
+    }
+
+        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) 
+        VALUES (:idlieu, :idpost)';
+       $stmt = self::$database->prepare($sql);
+       $stmt->bindParam(':idlieu', $idlieu);
+       $stmt->bindParam(':idpost', $idpost);
+       $idlieu=$stmt->execute();
+
+
+        return true;
+    }
+
+
+    //Voir ses postes
+
+    public function showPostUser($id){
+        $sql4 = "SELECT p.* FROM post_user pu 
+        JOIN post p ON pu.idpost = p.idpost 
+        WHERE pu.iduser = :iduser 
+        ORDER BY p.date DESC";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':iduser', $id);
+        $stmt4->execute();
+        $posts = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+        return $posts;
+    }
+
+
 }
     
 
