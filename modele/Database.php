@@ -657,7 +657,7 @@ class Database
         return $posts;
     }
 
-    //Recherche user
+    //Recherche user POUR BARRE DE RECHERCHE AMI
     public function rechercherUtilisateur($utilisateur)
     {
         $reg = self::$database->prepare("SELECT * FROM user WHERE nom LIKE ? LIMIT 10");
@@ -666,6 +666,45 @@ class Database
     }
 
 
+
+    public function addFriendNOM($user_email, $friend_name, $friend_surname) {
+        $stmt = self::$database->prepare('SELECT iduser FROM user WHERE mail = :email');
+        $stmt->bindParam(':email', $user_email);
+        $stmt->execute();
+        $user_id = $stmt->fetchColumn();
+    
+        // Recherche d'ami par nom et prénom
+        $stmt = self::$database->prepare('SELECT iduser FROM user WHERE nom = :name AND prenom = :surname');
+        $stmt->bindParam(':name', $friend_name);
+        $stmt->bindParam(':surname', $friend_surname);
+        $stmt->execute();
+        $friend_id = $stmt->fetchColumn();
+    
+        if (!$user_id || !$friend_id) {
+            return false;
+        }
+    
+        // Vérifier si les utilisateurs sont déjà amis
+        $stmt = self::$database->prepare('SELECT COUNT(*) FROM user_has_amis WHERE (iduser = :user_id AND idamis = :idamis) OR (iduser = :idamis AND idamis = :user_id)');
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':idamis', $friend_id);
+        $stmt->execute();
+        $alreadyConnected = $stmt->fetchColumn() > 0;
+    
+        if (!$alreadyConnected) {
+            // Si les utilisateurs ne sont pas encore amis, les ajouter dans la table user_has_amis
+            $stmt = self::$database->prepare('INSERT INTO user_has_amis (iduser, idamis, statut) VALUES (:user_id, :idamis, :attente)');
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':idamis', $friend_id);
+            $attente = 2;
+            $stmt->bindParam(':attente', $attente);
+            $stmt->execute();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }
     
 
