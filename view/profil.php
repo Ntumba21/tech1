@@ -3,7 +3,9 @@ require_once '../modele/Database.php';
 require_once '../controller/editprofil.php';
 require_once '../controller/session.php';
 require_once '../controller/login.php';
-require_once '../controller/promo.php'; 
+require_once '../controller/promo.php';
+// decommenter pour activer la verification de session
+//if(!VerifySession()){header('Location: ../index.php');}
 
 $mail= $_SESSION['mail'];
 $database = new Database();

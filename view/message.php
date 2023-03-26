@@ -1,6 +1,8 @@
 <?php
 require_once '../controller/session.php';
 require_once '../modele/Database.php';
+// decommenter pour activer la verification de session
+//if(!VerifySession()){header('Location: ../index.php');}
 
 $id_amis = $_GET['id'];
 $id_user = $_SESSION['iduser'];

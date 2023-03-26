@@ -1,3 +1,6 @@
+<?php require_once("../controller/session.php");
+// decommenter pour activer la verification de session
+//if(!VerifySession()){header('Location: ../index.php');} ?>
 <!DOCTYPE html>
 <html>
   <head>
