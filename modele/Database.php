@@ -559,7 +559,7 @@ class Database
 
 
     //create contenu
-    public function CreatePost2($type,$titre, $contenu, $date, $lieuNom,$lieuAdresse, $photo, $iduser,$etiquette){
+    public function CreatePost2($type,$titre, $contenu, $date,$lieu, $photo, $iduser,$etiquette){
         $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
         $stmt = self::$database->prepare($sql5);
         $stmt->bindParam(':iduser', $iduser);
@@ -592,19 +592,17 @@ class Database
         $stmt4->bindParam(':iduser', $iduser);
         $stmt4->execute();
 
-        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom AND adresse= :adresse';
+        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
         $stmt = self::$database->prepare($sql5);
-        $stmt->bindParam(':nom', $lieuNom);
-         $stmt->bindParam(':adresse', $lieuAdresse);
+        $stmt->bindParam(':nom', $lieu);
         $stmt->execute();
         $result=$stmt->fetch();
 
         if (!$result){
-        $sql = 'INSERT INTO `lieu` (`nom`, `adresse`) 
-                VALUES (:nom, :adresse)';
+        $sql = 'INSERT INTO `lieu` (`nom`) 
+                VALUES (:nom)';
         $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':nom', $lieuNom);
-        $stmt->bindParam(':adresse', $lieuAdresse);
+        $stmt->bindParam(':nom', $lieu);
         $stmt->execute();
         $idlieu = self::$database->lastInsertId();
     } else {
@@ -621,7 +619,24 @@ class Database
 
 
         return true;
+    } 
+
+
+    //Voir ses postes
+
+    public function showPostUser($id){
+        $sql4 = "SELECT p.* FROM post_user pu 
+        JOIN post p ON pu.idpost = p.idpost 
+        WHERE pu.iduser = :iduser 
+        ORDER BY p.date DESC";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':iduser', $id);
+        $stmt4->execute();
+        $posts = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+        return $posts;
     }
+    
+
 }
     
 
