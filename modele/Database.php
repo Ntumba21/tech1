@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -98,8 +98,6 @@ class Database
         return true;
     }
     //MANAL POUR EDITPROFIL
-    
-    
 
     public function AlterUser($description, $ville, $interests, $photo,$mail)
     {
@@ -392,32 +390,38 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
-
-    //amitier
-    public function defaultFriend($mail, $idpromo){
-        $sql = "SELECT * FROM user WHERE idpromo = :idpromo";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpromo', $idpromo);
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        $sql2 = "SELECT iduser FROM user WHERE mail = :mail";
+    public function DeletePost($idpost){
+        $sql1= "DELETE FROM post_user WHERE idpost = :idpost";
+        $stmt1 = self::$database->prepare($sql1);
+        $stmt1->bindParam(':idpost', $idpost);
+        $stmt1->execute();
+        $sql2 = "DELETE FROM post_admin WHERE idpost = :idpost";
         $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':mail', $mail);
+        $stmt2->bindParam(':idpost', $idpost);
         $stmt2->execute();
-        $iduser = $stmt2->fetch();
-        $iduser = $iduser[0];
-        foreach ($result as $key => $value) {
-            $sql3 = "INSERT INTO amis (iduser1, iduser2) VALUES (:iduser1, :iduser2)";
-            $stmt3 = self::$database->prepare($sql3);
-            $stmt3->bindParam(':iduser1', $iduser);
-            $stmt3->bindParam(':iduser2', $value['iduser']);
-            $stmt3->execute();
-        }
+        $sql3 = "DELETE FROM post_has_lieu WHERE idpost = :idpost";
+        $stmt3 = self::$database->prepare($sql3);
+        $stmt3->bindParam(':idpost', $idpost);
+        $stmt3->execute();
+        $sql4 = "DELETE FROM notification WHERE idpost = :idpost";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost);
+        $stmt4->execute();
+        $sql5 = "DELETE FROM reactions WHERE idpost = :idpost";
+        $stmt5 = self::$database->prepare($sql5);
+        $stmt5->bindParam(':idpost', $idpost);
+        $stmt5->execute();
+        $sql = "DELETE FROM post WHERE idpost = :idpost";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->execute();
+        return true;
     }
 
-    //ash NE PAS TOUCHER LES FONCTIONS d'EN DESSOUS AMITIE
 
-    public function defaultamitié($mail){
+    //ash AMITIÉ
+
+    public function defaultFriend($mail){
         $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
         $stmt2->bindParam(':mail', $mail);
         $stmt2->execute();

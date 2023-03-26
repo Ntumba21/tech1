@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result) {
         if ($type == 1) {
             $data->registerPromo($mail,$idpromos);
-            $data->defaultamitié($mail);
+            $data->defaultFriend($mail);
         }elseif ($type == 2){
             foreach ($idpromos as $idpromo){
                 $data->registerPromo($mail,$idpromo[0]);
