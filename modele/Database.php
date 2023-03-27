@@ -324,7 +324,7 @@ class Database
     public function StatUserFriend(){
         $sql = "SELECT user.mail, COUNT(user_has_amis.iduser) as num_friends 
                 FROM user
-                JOIN user_has_amis ON user_has_amis.iduser_friend = user.iduser
+                JOIN user_has_amis ON user_has_amis.idamis = user.iduser
                 GROUP BY user.iduser
                 ORDER BY num_friends DESC
                 LIMIT 5";
@@ -346,11 +346,11 @@ class Database
 
     public function StatForMessagePerDay(){
         $sql = "SELECT COUNT(*) AS message_count, DATE_FORMAT(date, '%d/%m/%Y') AS date
-                FROM message
-                GROUP BY DATE_FORMAT(date, '%d/%m/%Y')
-                WHERE date >= DATE_SUB(NOW(), INTERVAL 30 DAY)
-                ORDER BY date DESC
-                LIMIT 7;";
+        FROM message
+        WHERE date >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+        GROUP BY DATE_FORMAT(date, '%d/%m/%Y')
+        ORDER BY date DESC
+        LIMIT 7";
         $stmt = self::$database->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -520,8 +520,15 @@ class Database
     }
 
 
-    //create contenu
+    //create contenu + identification lieu et personne
     public function CreatePost($type,$titre, $contenu, $date,$lieu, $photo, $iduser,$etiquette){
+
+        $sql5 = 'SELECT idamis FROM user WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $etiquette);
+        $stmt->execute();
+        $idamis=$stmt->fetch(); 
+
         $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
         $stmt = self::$database->prepare($sql5);
         $stmt->bindParam(':iduser', $iduser);
@@ -579,6 +586,24 @@ class Database
        $idlieu=$stmt->execute();
         return true;
     }
+
+
+    public function getUserByUsername($username) {
+    $sql = 'SELECT iduser, username FROM user WHERE username = :username';
+    $stmt = self::$database->prepare($sql);
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
+    return $stmt->fetch();
+}
+
+public function getLieuByNom($nom) {
+    $sql = 'SELECT idlieu, nom FROM lieu WHERE nom = :nom';
+    $stmt = self::$database->prepare($sql);
+    $stmt->bindParam(':nom', $nom);
+    $stmt->execute();
+    return $stmt->fetch();
+}
+
 
 
     //Voir ses postes

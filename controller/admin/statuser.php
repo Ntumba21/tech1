@@ -16,7 +16,7 @@ function MakeStatForFriendship(){
     foreach ($user as $row){
         echo "<tr>";
             echo "<td>{$row['mail']}</td>";
-            echo "<td>{$row['num_friends ']}</td>";
+            echo "<td>{$row['num_friends']}</td>";
         echo "</tr>";
     }
 }
@@ -31,14 +31,17 @@ function MakeStaForMessagePerDay(){
     }
     echo "<script>
                         const ctx = document.getElementById('myChart');
-
+                        let Label = ".json_encode($date)." ;
+                        let message = ".json_encode($message)." ;
+                        console.log(Label);
+                        console.log(message);
                         new Chart(ctx, {
                             type: 'line',
                             data: {
-                                labels:".json_encode($date).",
+                                labels: Label,
                                 datasets: [{
                                     label: 'Nombre de message par mois',
-                                    data: ".json_encode($message).",
+                                    data: message,
                                     borderWidth: 1
                                 }]
                             },

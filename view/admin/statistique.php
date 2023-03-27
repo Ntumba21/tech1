@@ -49,10 +49,10 @@ $showuser = $data->ShowMaxUser();
                         <th>Mail</th>
                         <th>Nombre de message</th>
                     </tr>
-                    <?php MakeStaForMessagePerDay(); ?>
                     <div>
                         <canvas id="myChart"></canvas>
                     </div>
+                    <?php MakeStaForMessagePerDay(); ?>
                 </table>
             </section>
         </main>
