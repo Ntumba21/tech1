@@ -7,6 +7,6 @@
         $_SESSION['alert'] = 'Promo ajoutée';
 
     }else{
-        $_SESSION['alert'] = 'Promo pas ajouté';
+        $_SESSION['alert'] = 'Promo pas';
     }
       
