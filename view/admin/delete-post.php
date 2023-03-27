@@ -3,9 +3,25 @@
 //if(!VerifySession()){header('Location: index.html');}
 require_once '../../controller/admin/postfunction.php'?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../view/style/sup.css">
+</head>
+<body>
+<header>
+    <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+    <h1>Delete post</h1>
+</header>
+<div class="content">
+    <div class="square">
+</head>
+</html>
     <section>
-        <h1>supprimer un post</h1>
+     
         <form name="supprimer-post" method="post" action="../../controller/admin/delete-post.php">
             <label for="idpost">idpost</label>
             <table>
@@ -25,4 +41,9 @@ require_once '../../controller/admin/postfunction.php'?>
             </table>
             <input type="submit" name="submit" value="supprimer">
     </section>
+
+    <footer>
+<a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
+</footer>
+</body>
 </html>

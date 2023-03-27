@@ -9,12 +9,15 @@ require_once ("../../controller/promo.php");
 </head>
 <body>
     <header>
+
         <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo">
-        <h1>Connexion</h1>
+        <h1>ajouter une promo</h1>
     </header>
+    <div class="content">
+    <div class="square">
     <main class="content">
             <section>
-                <h1>ajouter une promo</h1>
+                
                 <form method="post" action="../../controller/admin/addpromo.php">
                     <label for="addpromo">mail :</label>
                     <input type="text" id="addpromo" name="addpromo" required><br><br>
@@ -23,6 +26,8 @@ require_once ("../../controller/promo.php");
                 </form>
             </section>
     </main>
+    </div>
+    </div>
     <footer>
         <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
     </footer>

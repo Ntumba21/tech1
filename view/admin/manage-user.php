@@ -5,11 +5,19 @@
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
+        <link rel="stylesheet" href="../../view/style/manage.css">
+
     </head>
     <body>
-    <header>
-        <div>logo</div>
-    </header>
+    <div class="wrapper">
+    <header>    
+       
+        <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
+    <h1>pannel Admin</h1>
+</header>
+<div class="content">
+    <div class="square">
+    
     <section>
         <article>
             <h1>Bloquer un utilisateur</h1>
@@ -29,10 +37,11 @@
                         <th>isvalide</th>
                     </tr>
                     <?php ShowBlockUser(); ?>
-                    <input type="submit" name="submit" value="Debloquer">
+                    <input type="submit" name="submit" value="bloquer">
             </form>
         </article>
         <article>
+<br><br>
             <h1>Debloquer un utilisateur</h1>
             <form action="../../controller/admin/blockuser.php" method="post">
                 <table>
@@ -50,9 +59,10 @@
                         <th>isvalide</th>
                     </tr>
                     <?php ShowUser(); ?>
-                    <input type="submit" name="submit" value="Bloquer">
+                    <input type="submit" name="submit" value="Debloquer">
             </form>
         </article>
+     <br><br>
         <article>
             <h1>Supprimer un utilisateur</h1>
             <form action="../../controller/admin/deleteuser.php" method="post">
@@ -75,8 +85,14 @@
             </form>
         </article>
     </section>
-    <footer>
-        <div>footer</div>
-    </footer>
-    </body>
+    </div>
+</div>
+
+    </div>
+</div>
+
+</body>
+
+
 </html>
+
