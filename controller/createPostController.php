@@ -29,7 +29,7 @@ require_once('../controller/session.php');
       $id= $_SESSION["iduser"];
      $data = new Database();
       // Ajoute le post à la base de données
-      $data->CreatePost2($type, $titre, $contenu, $date, $lieu, $photo,$id,$etiquette);
+      $data->CreatePost($type, $titre, $contenu, $date, $lieu, $photo,$id,$etiquette);
 
       // Redirige vers la page d'accueil
       header('Location: ../facebookk/index.php');
