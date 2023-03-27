@@ -800,6 +800,21 @@ public function ajouterAmi($userId, $amiId)
     }
     
 
+    //reinitialisation mdp
+    function checkEmailExists($email) {
+        $statement = self::$database->prepare("SELECT * FROM user WHERE mail = ?");
+        $statement->execute(array($email));
+        return $statement->fetch();
+    }
+
+    function updatePassword($email, $password) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $statement = self::$database->prepare("UPDATE user SET password = ? WHERE mail = ?");
+        $statement->execute(array($hashedPassword, $email));
+    }
+
+    
+
     
 }
     
