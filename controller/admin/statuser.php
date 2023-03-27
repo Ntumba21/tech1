@@ -20,3 +20,37 @@ function MakeStatForFriendship(){
         echo "</tr>";
     }
 }
+function MakeStaForMessagePerDay(){
+    $data = new Database();
+    $Stats = $data->StatForMessagePerDay();
+    $date = array();
+    $message = array();
+    foreach ($Stats as $stat){
+        $date[] = $stat['date'];
+        $message[] = $stat['message_count'];
+    }
+    echo "<script>
+                        const ctx = document.getElementById('myChart');
+
+                        new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels:".json_encode($date).",
+                                datasets: [{
+                                    label: 'Nombre de message par mois',
+                                    data: ".json_encode($message).",
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>";
+
+
+}

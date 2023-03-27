@@ -17,8 +17,6 @@
         <input type="text" name="titre" id="titre"><br>
         <label for="contenu">Contenu :</label>
         <textarea name="contenu" id="contenu"></textarea><br>
-        <label for="date">Date :</label>
-        <input type="date" name="date" id="date"><br>
         <label for="lieu">Nom du lieu :</label>
         <input type="text" name="lieu" id="lieu"><br>
         <label for="photo">Photo :</label>

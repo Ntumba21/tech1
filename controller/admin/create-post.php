@@ -6,14 +6,14 @@
         $type = $_POST["type"];
         $titre = $_POST['titre'];
         $contenu = $_POST['contenu'];
-        $date = $_POST['date'];
+        $date = date("Y-m-d H:i:s");
         $lieu = $_POST['lieu'];
         $photo = null;
         $interests = $_POST['interet'];
         $etiquette = $_POST['identification'];
         $for = $_POST['for'];
         $link = $_POST['link'];
-        $mail='emmany@gmail.com';
+        $mail= $_SESSION['mail'];
         var_dump ($_POST);
         if (isset($_FILES['photo']) && $_FILES['photo']['error'] === 0) {
             
@@ -28,11 +28,11 @@
             move_uploaded_file($tmpFilePath, $filePath);
             
             $photo = $filePath;
-                
-            $data = new Database();
-            $admin = $data->CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $interests, $etiquette, $for, $link, $mail);
-            
+
         }
+        $data = new Database();
+        $admin = $data->CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $interests, $etiquette, $for, $link, $mail);
+
     }else{
         $_SESSION['alert'] = 'Post pas ajouté';
     }

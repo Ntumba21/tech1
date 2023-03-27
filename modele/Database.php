@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -208,7 +208,7 @@ class Database
     }
     public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $interets, $etiquette, $for, $link, $mail){
         // creer le post
-        $sql = "INSERT INTO post (type, titre, contenu, date, photo, for,link,interets,etiquette) 
+        $sql = "INSERT INTO `post` (`type`, `titre`, `contenu`, `date`, `photo`, `for`, `link`, `interets`, `etiquette`) 
                 VALUES (:type, :titre, :contenu, :date, :photo, :for, :link, :interets, :etiquette)";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':type', $type);
@@ -222,21 +222,23 @@ class Database
         $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
         //recuperer l'id du post creer
-        $sql2 = "SELECT idpost FROM post WHERE titre = :titre AND date = :date";
+        $sql2 = "SELECT idpost FROM post WHERE titre = :titre";
         $stmt2 = self::$database->prepare($sql2);
         $stmt2->bindParam(':titre', $titre);
         $stmt2->execute();
         $idpost = $stmt2->fetch();
-        $idpost = $idpost[0];
+        $idpost = $idpost[0][0];
+        echo("idpost".$idpost);
         //recuperer l'id de l'utilisateur qui a creer le post
-        $sql3 = "SELECT iduser FROM user WHERE mail = :mail";
+        $sql3 = "SELECT idadmin FROM admin WHERE mail = :mail";
         $stmt3 = self::$database->prepare($sql3);
         $stmt3->bindParam(':mail', $mail);
         $stmt3->execute();
-        $idadmin = $stmt3->fetch();
-        $idadmin = $idadmin[0];
+        $idadmin = $stmt3->fetchAll();
+        $idadmin = $idadmin[0][0];
+        echo("idadmin".$idadmin);
         //ajouter l'id du post et l'id de l'utilisateur dans la table post_has_user
-        $sql4 = "INSERT INTO post_has_admin (idpost, iduser) VALUES (:idpost, :iduser)";
+        $sql4 = "INSERT INTO `post_has_admin` (`idpost`, `idadmin`) VALUES (:idpost, :iduser)";
         $stmt4 = self::$database->prepare($sql4);
         $stmt4->bindParam(':idpost', $idpost);
         $stmt4->bindParam(':iduser', $idadmin);
@@ -249,7 +251,7 @@ class Database
         $result=$stmt->fetch();
 
         if (!$result){
-            $sql = 'INSERT INTO `lieu` (`nom`) 
+            $sql = 'INSERT INTO `lieu` (`nom`)
                 VALUES (:nom)';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':nom', $lieu);
@@ -259,7 +261,7 @@ class Database
             // Le lieu existe déjà dans la base de données, on récupère son ID
             $idlieu = $result['idlieu'];
         }
-        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) 
+        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`)
         VALUES (:idlieu, :idpost)';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':idlieu', $idlieu);
@@ -341,6 +343,18 @@ class Database
                 GROUP BY user.iduser
                 ORDER BY message_count DESC
                 LIMIT 5;";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function StatForMessagePerDay(){
+        $sql = "SELECT COUNT(*) AS message_count, DATE_FORMAT(date, '%d/%m/%Y') AS date
+                FROM message
+                GROUP BY DATE_FORMAT(date, '%d/%m/%Y')
+                WHERE date >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                ORDER BY date DESC
+                LIMIT 7;";
         $stmt = self::$database->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
