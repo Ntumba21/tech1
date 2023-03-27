@@ -3,17 +3,6 @@
 //if(!VerifySession()){header('Location: index.html');} ?>
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin</title>
-    <link rel="stylesheet" href="../../view/style/sup.css">
-</head>
-<body>
-<header>
-    <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo">
-    <h1>Admin</h1>
-</header>
-<main class="content">
     <section>
         <h1>supprimer un post</h1>
         <form name="supprimer-post" method="post" action="../../controller/admin/post.php">
@@ -32,17 +21,6 @@
                     <th>interests</th>
                 </tr>
             </table>
-            <input type="submit" name="submit-delete" value="supprimer">
+            <input type="submit" name="submit" value="supprimer">
     </section>
-    <section>
-        <h1>Ajouter un Post</h1>
-        <form name="ajouter-post" method="post" action="../../controller/admin/post.php">
-
-        </form>
-    </section>
-</main>
-</body>
-<footer>
-    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
-</footer>
 </html>

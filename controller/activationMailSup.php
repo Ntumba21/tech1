@@ -3,7 +3,7 @@ require_once '../modele/Database.php';
 
 if(isset($_GET['activate']) && isset($_GET['timestamp'])) {
   $data = new Database();
-  $user = $data->getUserByEmaill($_GET['activate']);
+  $user = $data->getUserByEmail($_GET['activate']);
 
   if($user) {
     if($user['isvalide'] == 0 && (time() - $_GET['timestamp'] <= 60)) {

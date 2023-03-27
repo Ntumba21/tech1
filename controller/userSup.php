@@ -11,7 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 
 if(isset($_POST['mail'])) {
   $data = new Database();
-  $user = $data->getUserByEmaill($_POST['mail']);
+  $user = $data->getUserByEmail($_POST['mail']);
 
   if($user) {
     $data->setUserInactive($user['iduser']);
@@ -43,7 +43,7 @@ if(isset($_POST['mail'])) {
          // Micro timer pour supprimer un user au bout de 60 secondes si il n'est pas validé
          $seconds_to_wait = 60;
          sleep($seconds_to_wait);
-         $user = $data->getUserByEmaill($_POST['mail']);
+         $user = $data->getUserByEmail($_POST['mail']);
          if ($user && $user['isvalide'] == 0) {
            $data->DeleteUserById($user['iduser']);
          }
