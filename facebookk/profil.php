@@ -37,7 +37,10 @@ $db = new Database();
                     <i class="fas fa-search"></i>
                 </div>
                 <div class="iconBox2">
+                
+                <label>  <a href="../facebookk/index.php">
                 <i class="fa-solid fa-house"></i>
+                     </label></a>
                     <i class="fa-solid fa-bell"></i>
                     <label><img src="images/us2.png" alt="user"></label>
                 </div>

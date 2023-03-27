@@ -730,7 +730,29 @@ public function ajouterAmi($userId, $amiId)
             return false;
         }
     }
-
+    public function alterPost($idpost, $iduser, $nouveauTitre, $nouveauContenu) {
+        // Vérifier si l'utilisateur connecté est l'auteur de ce post
+        $sql = "SELECT iduser FROM post_user WHERE idpost = :idpost";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if ($result['iduser'] !== $iduser) {
+            // L'utilisateur connecté n'est pas l'auteur de ce post, retourner une erreur
+            return "Vous n'êtes pas autorisé à modifier ce post.";
+        }
+    
+        // Mettre à jour le post avec les nouvelles données
+        $sql = "UPDATE post SET titre = :nouveauTitre, contenu = :nouveauContenu WHERE idpost = :idpost";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':nouveauTitre', $nouveauTitre);
+        $stmt->bindParam(':nouveauContenu', $nouveauContenu);
+        $stmt->execute();
+    
+        return "Post mis à jour avec succès !";
+    }
+    
 
     
 }
