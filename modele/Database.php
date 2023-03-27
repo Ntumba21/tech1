@@ -665,26 +665,9 @@ class Database
 
 
 
-   public function affichefriends3($id) {
-        $stmt = self::$database->prepare('SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 1');
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        $friends = [];
-        foreach ($idAmis as $idAmi) {
-            $stmt = self::$database->prepare('SELECT * FROM user WHERE iduser = :id');
-            $stmt->bindParam(':id', $idAmi);
-            $stmt->execute();
-            $friends[] = $stmt->fetch(PDO::FETCH_ASSOC);
-        }
-    
-        return $friends;
-    }
-
-
     public function listerNonAmis($userId)
     {
-        $reg = self::$database->prepare("SELECT * FROM user WHERE iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 2) AND iduser != ?");
+        $reg = self::$database->prepare("SELECT * FROM user WHERE iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 2) AND iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 2) AND iduser != ?");
         $reg->execute(array($userId, $userId, $userId));
         return $reg->fetchAll();
     }
@@ -697,9 +680,13 @@ class Database
     }
     
 
+
+
+
+
     //BON
     
-    //Pour les amis recherche
+    //Pour les users recherche mais pas utilise RECHERCHE SUR TT LES UTILISATEURS
     
     public function rechercherUtilisateur($utilisateur)
     {
@@ -707,6 +694,34 @@ class Database
         $reg->execute(array("%$utilisateur%"));
         return $reg->fetchAll();
     }
+
+
+        //MARCHE 
+        public function rechercherNonAmis($utilisateur, $userId)
+        {
+            // Recherche des utilisateurs avec le nom similaire
+            $reg = self::$database->prepare("SELECT * FROM user WHERE nom LIKE ? LIMIT 10");
+            $reg->execute(array("%$utilisateur%"));
+            $users = $reg->fetchAll();
+        
+            $nonAmis = array();
+        
+            foreach ($users as $user) {
+                // Vérification si l'utilisateur est un ami
+                $reg = self::$database->prepare("SELECT COUNT(*) FROM user_has_amis WHERE (iduser = ? AND idamis = ? AND statut IN (1, 2)) OR (iduser = ? AND idamis = ? AND statut IN (1, 2))");
+                $reg->execute(array($userId, $user['iduser'], $user['iduser'], $userId));
+                $isAmi = $reg->fetchColumn() > 0;
+        
+                // Si ce n'est pas un ami, ajoutez-le à la liste des non-amis
+                if (!$isAmi) {
+                    $nonAmis[] = $user;
+                }
+            }
+        
+            return $nonAmis;
+        }
+
+//BON
 
 public function ajouterAmi($userId, $amiId)
 {
@@ -730,6 +745,37 @@ public function ajouterAmi($userId, $amiId)
             return false;
         }
     }
+
+
+  //BON
+
+    public function rechercheAmis($utilisateur, $userId)
+    {
+        // Recherche des utilisateurs avec le nom similaire
+        $reg = self::$database->prepare("SELECT * FROM user WHERE nom LIKE ? LIMIT 10");
+        $reg->execute(array("%$utilisateur%"));
+        $users = $reg->fetchAll();
+    
+        $amis = array();
+    
+        foreach ($users as $user) {
+            // Vérification si l'utilisateur est un ami
+            $reg = self::$database->prepare("SELECT COUNT(*) FROM user_has_amis WHERE (iduser = ? AND idamis = ? AND statut = 1) OR (iduser = ? AND idamis = ? AND statut =1)");
+            $reg->execute(array($userId, $user['iduser'], $user['iduser'], $userId));
+            $isAmi = $reg->fetchColumn() > 0;
+    
+            // Si c'est un ami, ajoutez-le à la liste des amis
+            if ($isAmi) {
+                $amis[] = $user;
+            }
+        }
+    
+        return $amis;
+    }
+    
+
+
+
     public function alterPost($idpost, $iduser, $nouveauTitre, $nouveauContenu) {
         // Vérifier si l'utilisateur connecté est l'auteur de ce post
         $sql = "SELECT iduser FROM post_user WHERE idpost = :idpost";
