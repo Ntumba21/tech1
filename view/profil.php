@@ -9,7 +9,7 @@ require_once '../controller/promo.php';
 
 $mail= $_SESSION['mail'];
 $database = new Database();
-$user = $database->getUserByEmaill($mail);
+$user = $database->getUserByEmail($mail);
 ?>
 <!DOCTYPE html>
 <html>

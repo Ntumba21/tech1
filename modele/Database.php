@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -83,7 +83,7 @@ class Database
         return true;
     }
     
-    public function getUserByEmaill($email) {
+    public function getUserByEmail($email) {
       $sql = 'SELECT * FROM user WHERE mail = ?';
       $stmt = self::$database->prepare($sql);
       $stmt->execute(array($email));
@@ -159,20 +159,6 @@ class Database
     }
     
     //je travail ici MANAL
-    public function GetUsersByID($id){
-        $sql = 'SELECT * FROM user WHERE iduser = :id';
-        $statement = self::$database->prepare($sql);
-        $statement->bindParam(":id", $id, PDO::PARAM_INT);
-        $statement->execute();
-        return $statement->fetchAll();
-    }
-    public function getUserByEmail($mail){
-        $sql = 'SELECT * FROM user WHERE mail = :mail';
-        $statement = self::$database->prepare($sql);
-        $statement->bindParam(":mail", $mail, PDO::PARAM_STR);
-        $statement->execute();
-        return $statement->fetchAll();
-    }
     public function Connect($mail, $password){
         $sql = "SELECT * FROM `user`
                 WHERE mail = :mail
@@ -422,22 +408,24 @@ class Database
     //ash AMITIÉ
 
     public function defaultFriend($mail){
-        $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
-        $stmt2->bindParam(':mail', $mail);
-        $stmt2->execute();
-        $iduser = $stmt2->fetchColumn();
-    
-        $stmt2 = self::$database->prepare('SELECT idpromos FROM user_has_promos WHERE iduser = :id');
+        $sql1 = "SELECT iduser FROM user WHERE mail = :mail";
+        $stmt1 = self::$database->prepare($sql1);
+        $stmt1->bindParam(':mail', $mail);
+        $stmt1->execute();
+        $iduser = $stmt1->fetchColumn();
+
+        $sql2 ="SELECT idpromos FROM user_has_promos WHERE iduser = :id";
+        $stmt2 = self::$database->prepare($sql2);
         $stmt2->bindParam(':id', $iduser);
         $stmt2->execute();
         $idpromo = $stmt2->fetchColumn();
     
-        $sql2 = "SELECT iduser FROM user_has_promos WHERE idpromos = :promo";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':promo', $idpromo);
-        $stmt2->execute();
+        $sql3 = "SELECT iduser FROM user_has_promos WHERE idpromos = :promo";
+        $stmt3 = self::$database->prepare($sql3);
+        $stmt3->bindParam(':promo', $idpromo);
+        $stmt3->execute();
     
-        while ($idami = $stmt2->fetchColumn()) {
+        while ($idami = $stmt3->fetchColumn()) {
             if ($idami != $iduser) {
     
                 $sql = 'INSERT INTO `user_has_amis` (`iduser`, `idamis`,`statut`) 
@@ -504,14 +492,16 @@ class Database
 
     
     public function getFriendRequestsAll($id) {
-        $stmt = self::$database->prepare('SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 2');
+        $sql="SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 2";
+        $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $idDemandes = $stmt->fetchAll(PDO::FETCH_COLUMN);
     
         $friendRequests = [];
         foreach ($idDemandes as $idDemande) {
-            $stmt = self::$database->prepare('SELECT * FROM user WHERE iduser = :id');
+            $sql="SELECT * FROM user WHERE iduser = :id";
+            $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':id', $idDemande);
             $stmt->execute();
             $friendRequests[] = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -522,29 +512,33 @@ class Database
     
 
     public function acceptFriendRequest($requester_id, $user_id) {
-        $stmt = self::$database->prepare('UPDATE user_has_amis
+        $sql = 'UPDATE user_has_amis
                                 SET statut = 1
-                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = 2');
+                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = 2';
+        $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':requester_id', $user_id);
         $stmt->bindParam(':user_id', $requester_id);
         $stmt->execute();
     }
 
     public function rejectFriendRequest($requester_id, $user_id) {
-        $stmt = self::$database->prepare('DELETE FROM user_has_amis
-                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = 2');
+        $sql = 'DELETE FROM user_has_amis
+                                WHERE iduser = :requester_id AND idamis = :user_id AND statut = 2';
+        $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':requester_id', $user_id);
         $stmt->bindParam(':user_id', $requester_id);
         $stmt->execute();
     }
     public function affichefriends($id) {
-        $stmt = self::$database->prepare('SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 1');
+        $sql = 'SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 1';
+        $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);
         $friends = [];
         foreach ($idAmis as $idAmi) {
-            $stmt = self::$database->prepare('SELECT * FROM user WHERE iduser = :id');
+            $sql = 'SELECT * FROM user WHERE iduser = :id';
+            $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':id', $idAmi);
             $stmt->execute();
             $friends[] = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -634,15 +628,12 @@ class Database
         // Le lieu existe déjà dans la base de données, on récupère son ID
         $idlieu = $result['idlieu'];
     }
-
         $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) 
         VALUES (:idlieu, :idpost)';
        $stmt = self::$database->prepare($sql);
        $stmt->bindParam(':idlieu', $idlieu);
        $stmt->bindParam(':idpost', $idpost);
        $idlieu=$stmt->execute();
-
-
         return true;
     }
 
@@ -663,8 +654,6 @@ class Database
 
 
 
-
-
     public function listerNonAmis($userId)
     {
         $reg = self::$database->prepare("SELECT * FROM user WHERE iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 2) AND iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 2) AND iduser != ?");
@@ -678,13 +667,6 @@ class Database
         $reg->execute(array($userId, $userId, $userId));
         return $reg->fetchAll();
     }
-    
-
-
-
-
-
-    //BON
     
     //Pour les users recherche mais pas utilise RECHERCHE SUR TT LES UTILISATEURS
     
@@ -721,8 +703,6 @@ class Database
             return $nonAmis;
         }
 
-//BON
-
 public function ajouterAmi($userId, $amiId)
 {
         // voir si les amis sont deja amis
@@ -745,9 +725,6 @@ public function ajouterAmi($userId, $amiId)
             return false;
         }
     }
-
-
-  //BON
 
     public function rechercheAmis($utilisateur, $userId)
     {
@@ -802,15 +779,20 @@ public function ajouterAmi($userId, $amiId)
 
     //reinitialisation mdp
     function checkEmailExists($email) {
-        $statement = self::$database->prepare("SELECT * FROM user WHERE mail = ?");
-        $statement->execute(array($email));
+        $sql = "SELECT * FROM user WHERE mail = :mail";
+        $statement = self::$database->prepare($sql);
+        $statement->bindParam(':mail', $email);
+        $statement->execute();
         return $statement->fetch();
     }
 
     function updatePassword($email, $password) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $statement = self::$database->prepare("UPDATE user SET password = ? WHERE mail = ?");
-        $statement->execute(array($hashedPassword, $email));
+        $sql = "UPDATE user SET password = :password WHERE mail = :mail";
+        $statement = self::$database->prepare($sql);
+        $statement->bindParam(':password', $hashedPassword);
+        $statement->bindParam(':mail', $email);
+        $statement->execute();
     }
 
     
