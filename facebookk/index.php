@@ -26,6 +26,7 @@ $db = new Database();
 <!-- header section start -->
 
 
+
     <header>
         <div class="header-container">
             <div class="header-wrapper">
@@ -46,7 +47,7 @@ $db = new Database();
             </div>
         </div>
     </header>
-
+    
 
 
 
@@ -255,29 +256,11 @@ $db = new Database();
                 </div><!-- home right wrapper end -->
             </div><!-- home right end -->
 
-
-
-
-
-
         </div>
     </div>
 </div>
-
-
-
-
 <!-- home section end -->
 
-<script>
-    var darkButton = document.querySelector(".darkTheme");
-
-    darkButton.onclick = function(){
-        darkButton.classList.toggle("button-Active");
-        document.body.classList.toggle("dark-color")
-    }
-
-</script>
 
 </body>
 </html>
