@@ -181,7 +181,7 @@ $db = new Database();
                                     <li>recent</li>
                                 </ul>
                             </div>
-                    <?php $post = $db->ShowPostAmi($_SESSION['id']); ?>
+                    <?php $post = $db->ShowPostAmi($_SESSION['iduser']); ?>
                     <?php foreach ($post as $p) {?>
                     <div class="fb-post1">
                         <div class="fb-post1-container">
