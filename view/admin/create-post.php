@@ -5,7 +5,7 @@
 <html>
     <section class="createPost">
     <h1>Ajouter un Post</h1>
-    <form name="ajouter-post" method="post" action="../../controller/admin/post.php">
+    <form name="ajouter-post" method="post" action="../../controller/admin/create-post.php">
         <input type="hidden" name="action" value="create">
         <label for="type">Type :</label>
         <select name="type" id="type">

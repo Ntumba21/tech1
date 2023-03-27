@@ -22,7 +22,7 @@
 <body>
 <?php include_once 'create-post.php'; ?>
 <?php include_once 'delete-post.php'; ?>
-<?php //include_once 'update-post.php'; ?>
+<?php //include_once 'update-delete-post.php'; ?>
 <?php include_once 'statistique.php'; ?>
 <?php include_once 'promo.php'; ?>
 <?php include_once 'manage-user.php'; ?>
