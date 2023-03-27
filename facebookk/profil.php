@@ -37,7 +37,10 @@ $db = new Database();
                     <i class="fas fa-search"></i>
                 </div>
                 <div class="iconBox2">
+                
+                <label>  <a href="../facebookk/index.php">
                 <i class="fa-solid fa-house"></i>
+                     </label></a>
                     <i class="fa-solid fa-bell"></i>
                     <label><img src="images/us2.png" alt="user"></label>
                 </div>
@@ -58,7 +61,7 @@ $db = new Database();
 <!--FIN BON -->
 
 <div class="event-friend">
-<?php $user = $db->getUserByEmaill($_SESSION['mail']);?>
+<?php $user = $db->getUserByEmail($_SESSION['mail']);?>
         <div class="friend">
         <h3 class="heading">Profil</h3>
         <div style="margin-top:5px">
@@ -79,7 +82,7 @@ $db = new Database();
         <div class="friend">
             <h3 class="heading">Edit profil</h3>
             <form action="../controller/editprofil.php" method="POST" enctype="multipart/form-data">
-            <?php $db->getUserByEmaill($_SESSION['mail']);?>
+            <?php $db->getUserByEmail($_SESSION['mail']);?>
 
 <textarea id="description" name="description" placeholder="description"></textarea><br>
 
