@@ -181,7 +181,7 @@ $db = new Database();
                                     <li>recent</li>
                                 </ul>
                             </div>
-                    <?php $post = $db->showPost($_SESSION['iduser']); ?>
+                    <?php $post = $db->ShowPostAmi($_SESSION['id']); ?>
                     <?php foreach ($post as $p) {?>
                     <div class="fb-post1">
                         <div class="fb-post1-container">
@@ -190,8 +190,9 @@ $db = new Database();
     echo '<div class="post">';
     echo '<div class="post-header">';
     echo '<h2>' . $p['titre'] . '</h2>';
-    echo '<span>' . $p['date'] . '</span>';
-    echo '<p>' . $p['etiquette'] . '</p>';
+    echo '<span>' . $p['date'] . '</span><br>'; 
+    echo '<a href="../facebookk/profileUnique.php?id=' . $p['etiquette'] . '">' . $p['user_nom'] . '</a><br>';
+    echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . $p['lieu_nom'] . '</a>';
     echo '</div>';
     echo '<div class="post-body">';
     echo '<p>' . $p['contenu'] . '</p>';

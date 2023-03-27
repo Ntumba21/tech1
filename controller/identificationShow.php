@@ -9,9 +9,9 @@
           $lieu = $data->getLieuByNom($username_or_lieu);
 
           if ($user) {
-              return '<a href="profile.php?id=' . $user['iduser'] . '">' . $user['username'] . '</a>';
+              return '<a href="../facebookk/profileUnique.php?id=' . $user['iduser'] . '">' . $user['nom'] . '</a>';
           } elseif ($lieu) {
-              return '<a href="lieu.php?id=' . $lieu['idlieu'] . '">' . $lieu['nom'] . '</a>';
+              return '<a href="../facebookk/lieuPost.php?id=' . $lieu['idlieu'] . '">' . $lieu['nom'] . '</a>';
           } else {
               return $matches[0];
           }

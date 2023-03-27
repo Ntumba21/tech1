@@ -523,7 +523,7 @@ class Database
     //create contenu + identification lieu et personne
     public function CreatePost($type,$titre, $contenu, $date,$lieu, $photo, $iduser,$etiquette){
 
-        $sql5 = 'SELECT idamis FROM user WHERE nom = :nom';
+        $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
         $stmt = self::$database->prepare($sql5);
         $stmt->bindParam(':nom', $etiquette);
         $stmt->execute();
@@ -532,14 +532,14 @@ class Database
         $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
         $stmt = self::$database->prepare($sql5);
         $stmt->bindParam(':iduser', $iduser);
-         $stmt->bindParam(':idamis', $etiquette);
+         $stmt->bindParam(':idamis', $idamis['iduser']);
         $stmt->execute();
         $result=$stmt->fetch();
 
         if (!$result){
          return false;
      } else {
-         $idAmis= $result['idamis'];
+         $idAmis= $idamis['iduser'];
      }
 
         $sql = "INSERT INTO post (type, titre, contenu, date, photo,etiquette) 
@@ -608,18 +608,80 @@ public function getLieuByNom($nom) {
 
     //Voir ses postes
 
-    public function showPostUser($id){
-        $sql4 = "SELECT p.* FROM post_user pu 
-        JOIN post p ON pu.idpost = p.idpost 
-        WHERE pu.iduser = :iduser 
-        ORDER BY p.date DESC";
-        $stmt4 = self::$database->prepare($sql4);
-        $stmt4->bindParam(':iduser', $id);
-        $stmt4->execute();
-        $posts = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-        return $posts;
+    public function ShowPostALL(){
+        $sql = "SELECT post.*, user.iduser, user.nom AS user_nom, user.prenom, lieu.idlieu, lieu.nom AS lieu_nom
+                FROM post
+                INNER JOIN user ON post.etiquette = user.iduser
+                INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+                INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+                ORDER BY post.date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
+
+    public function showPostUser($id){
+        $sql = "SELECT post.*, user.iduser, user.nom AS user_nom, user.prenom, lieu.idlieu, lieu.nom AS lieu_nom
+                FROM post_user
+                INNER JOIN post ON post_user.idpost = post.idpost
+                INNER JOIN user ON post.etiquette = user.iduser
+                INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+                INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+                WHERE post_user.iduser = :iduser
+                ORDER BY post.date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':iduser', $id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+    public function ShowPostAmi($iduser){
+        $sql = "SELECT post.*, user.iduser, user.nom AS user_nom, user.prenom, lieu.idlieu, lieu.nom AS lieu_nom
+                FROM post
+                INNER JOIN user ON post.etiquette = user.iduser
+                INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+                INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+                INNER JOIN user_has_amis ON user.iduser = user_has_amis.idamis
+                WHERE ((user_has_amis.iduser = :iduser) OR (user_has_amis.idamis = :iduser)) AND user_has_amis.statut = 1
+                ORDER BY post.date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+    public function getNomByLieu($id) {
+        $sql = "SELECT * FROM lieu WHERE idlieu = :id";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function ShowPostByLieu($id_lieu){
+        $sql = "SELECT post.*, user.iduser, user.nom AS user_nom, user.prenom, lieu.idlieu, lieu.nom AS lieu_nom
+                FROM post
+                INNER JOIN user ON post.etiquette = user.iduser
+                INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+                INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+                WHERE lieu.idlieu = :id_lieu
+                ORDER BY post.date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':id_lieu', $id_lieu);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
+    
+    
+    //show Post ami
+    
+
+    
+    
 
 
     public function listerNonAmis($userId)
