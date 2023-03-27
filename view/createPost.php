@@ -47,8 +47,8 @@
 
 </div>
 </div>
-</body>
 <footer>
-<a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
+    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
 </footer>
+</body>
 </html>

@@ -1,6 +1,4 @@
 <?php
 
 require_once ('modele/Database.php');
-$data = new Database();
-$showuser = $data->ShowMaxUser();
-var_dump($showuser);
+echo date("Y-m-d H:i:s");

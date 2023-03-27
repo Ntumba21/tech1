@@ -10,6 +10,7 @@ $showuser = $data->ShowMaxUser();
 <html lang="fr">
     <head>
         <title>Statistique</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link rel="stylesheet" href="../../view/style/sup.css">
     </head>
     <body>
@@ -39,6 +40,19 @@ $showuser = $data->ShowMaxUser();
                         <th>Nombre de message</th>
                     </tr>
                     <?php MakeStatForFriendship(); ?>
+                </table>
+            </section>
+            <section>
+                <h2>Message sur les 30 derniers jours</h2>
+                <table>
+                    <tr>
+                        <th>Mail</th>
+                        <th>Nombre de message</th>
+                    </tr>
+                    <?php MakeStaForMessagePerDay(); ?>
+                    <div>
+                        <canvas id="myChart"></canvas>
+                    </div>
                 </table>
             </section>
         </main>
