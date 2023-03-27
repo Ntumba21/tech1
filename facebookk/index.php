@@ -97,7 +97,7 @@ $db = new Database();
     </div>
     <ul>
         <?php
-        $friends = $db-> affichefriends($_SESSION['iduser']); // Utiliser la fonction affichefriends pour récupérer la liste des amis
+        $friends = $db-> ShowFriends($_SESSION['iduser']); // Utiliser la fonction affichefriends pour récupérer la liste des amis
 
         foreach ($friends as $friend) {
             ?>
@@ -135,7 +135,7 @@ $db = new Database();
                         
                         <h3 class="mini-headign">Mes amis</h3>
                         <div class="stories-wrapper">
-                        <?php $affichefriends = $db->affichefriends($_SESSION['iduser']); ?>
+                        <?php $affichefriends = $db->ShowFriends($_SESSION['iduser']); ?>
 
                         <?php foreach ($affichefriends as $request): ?>
                 <div class="single-stories">
