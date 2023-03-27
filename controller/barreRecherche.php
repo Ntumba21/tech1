@@ -15,8 +15,9 @@ if ($action == 'ajouterAmi') {
     // Recherche d'utilisateur
     else if (isset($_GET['user'])) {
         $user = (string)trim($_GET['user']);
+        $userId = $_SESSION['iduser']; 
 
-        $resultats = $rechercheModel->rechercherUtilisateur($user);
+        $resultats = $rechercheModel->rechercherNonAmis($user, $userId);
 
         if (count($resultats) > 0) {
             echo '<div class="result-search">';
