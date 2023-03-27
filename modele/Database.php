@@ -222,12 +222,7 @@ class Database
         $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
         //recuperer l'id du post creer
-        $sql2 = "SELECT idpost FROM post WHERE titre = :titre";
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':titre', $titre);
-        $stmt2->execute();
-        $idpost = $stmt2->fetch();
-        $idpost = $idpost[0][0];
+        $idpost = self::$database->lastInsertId();
         echo("idpost".$idpost);
         //recuperer l'id de l'utilisateur qui a creer le post
         $sql3 = "SELECT idadmin FROM admin WHERE mail = :mail";
