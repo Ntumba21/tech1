@@ -31,7 +31,7 @@
                 if (utilisateur != "") {
                     $.ajax({
                         type: 'GET',
-                        url: 'Projet-Tech/controller/barreRecherche.php',
+                        url: 'Projet-Tech/controller/barreRechercheCreate.php',
                         data: 'user=' + encodeURIComponent(utilisateur),
                         success: function (data) {
                             $('.search-result').html(data);
@@ -43,7 +43,7 @@
                                 // Ajoutez un ami lorsque l'utilisateur clique sur le nom d'un utilisateur dans la liste de recherche
                                 $.ajax({
                                     type: 'GET',
-                                    url: 'Projet-Tech/controller/barreRecherche.php',
+                                    url: 'Projet-Tech/controller/barreRechercheCreate.php',
                                     data: {
                                         action: 'ajouterAmi',
                                         ami_id: amiId,
