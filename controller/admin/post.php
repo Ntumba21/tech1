@@ -33,6 +33,7 @@ if(isset($_POST['submit'])){
     if(isset($_POST['idpost'])){
         $data = new Database();
         $data->DeletePost($_POST['idpost']);
-        header('Location: post.php');
+        header('Location: delete-post.php');
     }
 }
+
