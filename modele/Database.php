@@ -680,13 +680,24 @@ class Database
     
         return $friends;
     }
+
+
     public function listerNonAmis($userId)
     {
-        $reg = self::$database->prepare("SELECT * FROM user WHERE iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 1) AND iduser != ?");
+        $reg = self::$database->prepare("SELECT * FROM user WHERE iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 2) AND iduser != ?");
+        $reg->execute(array($userId, $userId, $userId));
+        return $reg->fetchAll();
+    }
+
+    public function listerAmis($userId)
+    {
+        $reg = self::$database->prepare("SELECT * FROM user WHERE iduser IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 1) AND iduser IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 1) AND iduser != ?");
         $reg->execute(array($userId, $userId, $userId));
         return $reg->fetchAll();
     }
     
+
+    //BON
     
     //Pour les amis recherche
     
