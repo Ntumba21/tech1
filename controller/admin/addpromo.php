@@ -4,9 +4,9 @@
     if (isset($_POST["addpromo"])){
         $data = new Database();
         $admin = $data->AddPromo($_POST["addpromo"]);
-        $_SESSION['alert'] = 'Donnée ajoutée';
+        $_SESSION['alert'] = 'Promo ajoutée';
 
     }else{
-        $_SESSION['alert'] = 'Donnée pas ajoutée';
+        $_SESSION['alert'] = 'Promo pas ajouté';
     }
       
