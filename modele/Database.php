@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -206,9 +206,8 @@ class Database
         $stmt->execute();
         return $stmt-> fetchAll();
     }
-    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $mail){
+    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $interets, $etiquette, $for, $link, $mail){
         // creer le post
-        $for = 0;
         $sql = "INSERT INTO post (type, titre, contenu, date, photo, for,link,interets,etiquette) 
                 VALUES (:type, :titre, :contenu, :date, :photo, :for, :link, :interets, :etiquette)";
         $stmt = self::$database->prepare($sql);
