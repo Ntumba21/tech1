@@ -16,7 +16,7 @@ function MakeStatForFriendship(){
     foreach ($user as $row){
         echo "<tr>";
             echo "<td>{$row['mail']}</td>";
-            echo "<td>{$row['num_friends ']}</td>";
+            echo "<td>{$row['num_friends']}</td>";
         echo "</tr>";
     }
 }
