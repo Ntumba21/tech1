@@ -11,10 +11,11 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
+        
     }
     public function getUser(){
         $sql = 'SELECT * FROM user';
@@ -648,31 +649,123 @@ public function ajouterAmi($userId, $amiId)
         return $amis;
     }
     
-
-
-
-    public function alterPost($idpost, $iduser, $nouveauTitre, $nouveauContenu) {
-        // Vérifier si l'utilisateur connecté est l'auteur de ce post
-        $sql = "SELECT iduser FROM post_user WHERE idpost = :idpost";
+   //MODIFIER LES POST USER
+    function getPostById($idpost) {
+        $sql = "SELECT * FROM post WHERE idpost = :idpost";
+        $statement = self::$database->prepare($sql);
+        $statement->bindParam(':idpost', $idpost, PDO::PARAM_INT);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette) {
+        // Vérifier si l'utilisateur a le droit de modifier le post
+        $sql = 'SELECT iduser FROM post_user WHERE idpost = :idpost';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':idpost', $idpost);
         $stmt->execute();
         $result = $stmt->fetch();
-        if ($result['iduser'] !== $iduser) {
-            // L'utilisateur connecté n'est pas l'auteur de ce post, retourner une erreur
-            return "Vous n'êtes pas autorisé à modifier ce post.";
+        $iduser = $_SESSION['iduser'];
+        if (!$result || $result['iduser'] != $iduser) {
+            return false;
         }
     
-        // Mettre à jour le post avec les nouvelles données
-        $sql = "UPDATE post SET titre = :nouveauTitre, contenu = :nouveauContenu WHERE idpost = :idpost";
+        // Mettre à jour les informations du post
+        $sql = 'UPDATE post SET type = :type, titre = :titre, contenu = :contenu, date = :date, photo = :photo, etiquette = :etiquette WHERE idpost = :idpost';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':idpost', $idpost);
-        $stmt->bindParam(':nouveauTitre', $nouveauTitre);
-        $stmt->bindParam(':nouveauContenu', $nouveauContenu);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
     
-        return "Post mis à jour avec succès !";
+        // Mettre à jour le lieu associé au post
+        $sql = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if (!$result) {
+            // Le lieu n'existe pas encore dans la base de données, on l'ajoute
+            $sql = 'INSERT INTO lieu (nom) VALUES (:nom)';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':nom', $lieu);
+            $stmt->execute();
+            $idlieu = self::$database->lastInsertId();
+        } else {
+            // Le lieu existe déjà dans la base de données, on récupère son ID
+            $idlieu = $result['idlieu'];
+        }
+    
+        // Mettre à jour la relation entre le post et le lieu
+        $sql = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':idlieu', $idlieu);
+        $stmt->execute();
+    
+        return true;
     }
+    
+
+    public function alterPost3($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette){
+        // Vérifier si l'utilisateur a le droit de modifier le post
+        $sql = 'SELECT iduser FROM post_user WHERE idpost = :idpost';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $iduser=$_SESSION['iduser'];
+        if (!$result || $result['iduser'] != $iduser) {
+            return false;
+       
+        }
+   
+        // Mettre à jour les informations du post
+        $sql = 'UPDATE post SET `type` = :type, titre = :titre, contenu = :contenu, `date` = :date, photo = :photo, etiquette = :etiquette WHERE idpost = :idpost';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':etiquette', $etiquette);
+        $stmt->execute();
+        //var_dump($stmt->errorInfo());
+    
+        // Mettre à jour le lieu associé au post
+        $sql = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if (!$result) {
+            // Le lieu n'existe pas encore dans la base de données, on l'ajoute
+            $sql = 'INSERT INTO `lieu` (`nom`) VALUES (:nom)';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':nom', $lieu);
+            $stmt->execute();
+            $idlieu = self::$database->lastInsertId();
+        } else {
+            // Le lieu existe déjà dans la base de données, on récupère son ID
+            $idlieu = $result['idlieu'];
+        }
+    
+        // Mettre à jour la relation entre le post et le lieu
+        $sql = 'UPDATE `post_has_lieu` SET `idlieu` = :idlieu WHERE `idpost` = :idpost';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':idlieu', $idlieu);
+        $stmt->execute();
+    
+        return true;
+    }
+    
+    
     
 
     //reinitialisation mdp

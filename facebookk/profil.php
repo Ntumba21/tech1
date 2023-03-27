@@ -165,6 +165,10 @@ $db = new Database();
     echo '<img src="images/love.png" alt="love">';
     echo '<span>' . $p['nblike'] . ' like</span>';
     echo '</li>';
+    echo '<div class="post-actions">';
+echo '<a href="../view/editpost.php?id=' . $p['idpost'] . '">Edit your post</a>';
+echo '</div>';
+
     echo '</ul>';
     echo '</div>';
     echo '</div>';
@@ -172,6 +176,7 @@ $db = new Database();
     echo '</div>';
     echo '</div>';
     echo '</div>';
+    
 }?>
                 
                 </div> <!-- home center wrapper end -->
