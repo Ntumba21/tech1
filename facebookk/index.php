@@ -59,16 +59,7 @@ $db = new Database();
            <!--GAUCHE-->
             <div class="home-left">
                  <!-- BON-->
-            <div class="messenger">
-  <div class="messenger-search">
-    <i class="fa-solid fa-user-group"></i>
-    <h4>Ajout ami</h4> 
-    <form action="../controller/addAmis.php" method="post"> 
-      <input type="email" name="friend_email" id="friend_email" required>
-      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
-  </div>
-</div>
+           
 
 
 <!--FIN BON -->
@@ -130,7 +121,18 @@ $db = new Database();
 
             <div class="home-center">
                 <div class="home-center-wrapper">
+                <div class="messenger">
+                <div class="messenger-search">
+                <i class="fa-solid fa-user-group"></i>
+                <h4>Ajout ami</h4> 
+            <div class="form-group">
+                    <input class="form-control" type="text" id="search-user" value="" placeholder="Rechercher un ou plusieurs utilisateurs" autocomplete="off" />
+                    <div class="search-result"></div>
+                </div>
+  </div>
+</div>
                     <div class="stories">
+                        
                         <h3 class="mini-headign">Mes amis</h3>
                         <div class="stories-wrapper">
                         <?php $affichefriends = $db->affichefriends($_SESSION['iduser']); ?>
@@ -260,7 +262,58 @@ $db = new Database();
     </div>
 </div>
 <!-- home section end -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Recherche d'utilisateurs
+    $("#search-user").keyup(function () {
+      var utilisateur = $(this).val();
 
+      if (utilisateur != "") {
+        $.ajax({
+          type: "GET",
+          url: "../controller/barreRecherche.php",
+          data: "user=" + encodeURIComponent(utilisateur),
+          success: function (data) {
+            $(".search-result").show();
+          
+            $(".search-result").html(data);
+           
+            $(".search-result a").click(function (e) {
+              e.preventDefault();
+              var nomPrenom = $(this).text();
+              var amiId = $(this).data("ami-id");
+
+              // Ajoutez un ami lorsque l'utilisateur clique sur le nom d'un utilisateur dans la liste de recherche
+              $.ajax({
+                type: "GET",
+                url: "../controller/barreRecherche.php",
+                data: {
+                  action: "ajouterAmi",
+                  ami_id: amiId,
+                },
+                success: function (response) {
+                  $("#search-user").val("");
+                  $(".search-result").html("");
+                  console.log(response);
+                },
+                error: function (xhr, status, error) {
+                  console.log(response);
+                },
+              });
+            });
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      } else {
+        $(".search-result").html("");
+        $(".search-result").hide();
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
