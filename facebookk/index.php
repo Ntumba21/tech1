@@ -254,7 +254,8 @@ $db = new Database();
                     <div class="create-page">
                         <ul>
                             <li>
-                                <i class="fa-solid fa-circle-plus"></i>
+                            <a href="createpostActualite.php">
+                                <i class="fa-solid fa-circle-plus"></i></a>
                                 <h4>Actualités</h4>
                                 <?php $lastActualite = $db->getLastActualite();?>
                             </li>
