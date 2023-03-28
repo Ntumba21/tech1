@@ -6,7 +6,7 @@
         $data = new Database();
         //decryptage du mot de passe
         $password = $_POST['password'];
-        $password = password_hash($password, PASSWORD_DEFAULT);
+//        $password = password_hash($password, PASSWORD_DEFAULT);
         $admin = $data->ConnectAdmin($_POST['mail'], $password);
         if (count($admin) >0){
            Session($admin[0]["mail"],$admin[0]["password"],true);

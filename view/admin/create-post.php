@@ -32,14 +32,8 @@
         <input type="text" name="titre" id="titre"><br>
         <label for="contenu">Contenu :</label>
         <textarea name="contenu" id="contenu"></textarea><br>
-        <label for="date">Date :</label>
-        <input type="date" name="date" id="date"><br>
         <label for="lieu">Nom du lieu :</label>
         <input type="text" name="lieu" id="lieu"><br>
-        <label for="adresse_lieu">Adresse du lieu :</label>
-        <input type="text" name="adresse_lieu" id="adresse_lieu"><br>
-        <label for="identification">Identification</label>
-        <input type="text" name="identification" id="identification"><br>
         <label for="photo">Photo :</label>
         <input type="file" name="photo" id="photo"><br>
         <label for="for">Pour :</label>
@@ -48,7 +42,7 @@
             <option value="1">Eleve</option>
             <option value="2">Professeur</option>
         </select><br>
-        <button type="submit" name="Create-post">Publier</button>
+        <button type="submit" name="submit">Publier</button>
     </form>
 </section>
 </div>

@@ -214,10 +214,10 @@ class Database
         $stmt->execute();
         return $stmt-> fetchAll();
     }
-    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $interets, $etiquette, $for, $link, $mail){
+    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $for, $mail){
         // creer le post
         $sql = "INSERT INTO `post` (`type`, `titre`, `contenu`, `date`, `photo`, `for`, `link`, `interets`, `etiquette`) 
-                VALUES (:type, :titre, :contenu, :date, :photo, :for, :link, :interets, :etiquette)";
+                VALUES (:type, :titre, :contenu, :date, :photo, :for)";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':type', $type);
         $stmt->bindParam(':titre', $titre);
@@ -225,9 +225,9 @@ class Database
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':photo', $photo);
         $stmt->bindParam(':for', $for);
-        $stmt->bindParam(':link', $link);
-        $stmt->bindParam(':interets', $interets);
-        $stmt->bindParam(':etiquette', $etiquette);
+//        $stmt->bindParam(':link', $link);
+//        $stmt->bindParam(':interets', $interets);
+//        $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
         //recuperer l'id du post creer
         $idpost = self::$database->lastInsertId();
@@ -273,17 +273,7 @@ class Database
         return true;
     }
 
-    public function ShowPostAdmin(){
-        $sql = "SELECT * FROM post 
-                inner join post_admin on post.idpost = post_admin.idpost 
-                WHERE idadmin = :idadmin 
-                ORDER BY date DESC";
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idadmin', $_SESSION['iduser']);
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        return $result;
-    }
+
     // post fonction user
 
     public function ShowPost(){
