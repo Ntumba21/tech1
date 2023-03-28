@@ -30,7 +30,23 @@ if (isset($_POST['submit'])) {
     } else {
         echo "La mise à jour du post a échoué.";
     }
-} else {
+} 
+else if (isset($_POST['delete'])) {
+    // Récupération de l'ID du post à supprimer
+    $idpost = isset($_POST['idpost']) ? $_POST['idpost'] : '';
+
+   
+        // Appel à la fonction deletePost
+        $result = $database->DeletePost($idpost);
+
+        // Vérification du résultat de la suppression
+        if ($result) {
+            echo "Le post a été supprimé avec succès.";
+        } else {
+            echo "La suppression du post a échoué.";
+        }
+    }
+ else {
     // Récupération de l'ID du post à modifier
     $idpost = isset($_GET['idpost']) ? $_GET['idpost'] : '';
 

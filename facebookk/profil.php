@@ -115,19 +115,10 @@ $db = new Database();
                     <div class="createPost">
 
                         <h3 class="mini-headign">Modify Post</h3>
-                        <div class="post-text">
-                            <img src="images/us2.png" alt="user">
-                            <input type="text-area" placeholder="Bonjour, quesque vous voulez poster aujourd'hui ?">
-                        </div>
+                        
 
                         <div class="post-icon">
-                            <a href="#" style="background: #ffebed;">
-                            <i style="background: #ff4154;" class="fa-solid fa-camera"></i>
-                            Gallery</a>
-
-                            <a href="#" style="background: #d7ffef;">
-                            <i style="background: #00d181;" class="fa-solid fa-location-dot"></i>
-                            Location</a>
+                           
 
                         </div>
 
@@ -135,10 +126,7 @@ $db = new Database();
 
                    
                     <div class="fb-post1-header">
-                                <ul>
-                                    <li>see all</li>
-                                    <li>recent</li>
-                                </ul>
+                               
                             </div>
                     <?php $post = $db->showPostUser($_SESSION['iduser']); ?>
                     <?php foreach ($post as $p) {?>
