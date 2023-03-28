@@ -7,7 +7,7 @@ require_once('../controller/session.php');
       $type = $_POST['type'];
       $titre = $_POST['titre'];
       $contenu = $_POST['contenu'];
-      $date = $_POST['date'];
+      $date = date("Y-m-d H:i:s");
       $lieu = $_POST['lieu'];
       $etiquette = $_POST['identification'];
       $photo = null;

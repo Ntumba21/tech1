@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     $type = isset($_POST['type']) ? $_POST['type'] : '';
     $titre = isset($_POST['titre']) ? $_POST['titre'] : '';
     $contenu = isset($_POST['contenu']) ? $_POST['contenu'] : '';
-    $date = isset($_POST['date']) ? $_POST['date'] : '';
+    $date = date("Y-m-d H:i:s");
     $lieu = isset($_POST['lieu']) ? $_POST['lieu'] : '';
     $photo = isset($_POST['photo']) ? $_POST['photo'] : '';
     $iduser = isset($_POST['iduser']) ? $_POST['iduser'] : '';

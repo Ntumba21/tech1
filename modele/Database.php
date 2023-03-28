@@ -293,30 +293,38 @@ class Database
     }
     //TODO : faire la fonction pour modifier un post
     public function AlterAllPost($mail,$idpost, $titre, $contenu, $date, $photo, $interets, $etiquette, $for, $link,$lieu){
-        $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
-        $stmt = self::$database->prepare($sql);
+        if($photo == NULL){
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
+            $stmt = self::$database->prepare($sql);
+
+            $stmt->bindParam(':date', $date);
+        }else{
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':photo', $photo);
+        }
         $stmt->bindParam(':idpost', $idpost);
         $stmt->bindParam(':titre', $titre);
         $stmt->bindParam(':contenu', $contenu);
         $stmt->bindParam(':date', $date);
-        $stmt->bindParam(':photo', $photo);
         $stmt->bindParam(':for', $for);
-        $stmt->bindParam(':link', $link);
-        $stmt->bindParam(':interets', $interets);
-        $stmt->bindParam(':etiquette', $etiquette);
+//        $stmt->bindParam(':link', $link);
+//        $stmt->bindParam(':interets', $interets);
+//        $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
+
         // Mettre à jour le lieu associé au post
-        $sql = 'SELECT idlieu FROM lieu WHERE nom = :nom';
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':nom', $lieu);
-        $stmt->execute();
-        $result = $stmt->fetch();
+        $sql1 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt1 = self::$database->prepare($sql1);
+        $stmt1->bindParam(':nom', $lieu);
+        $stmt1->execute();
+        $result = $stmt1->fetch();
         if (!$result) {
             // Le lieu n'existe pas encore dans la base de données, on l'ajoute
-            $sql = 'INSERT INTO lieu (nom) VALUES (:nom)';
-            $stmt = self::$database->prepare($sql);
-            $stmt->bindParam(':nom', $lieu);
-            $stmt->execute();
+            $sql2 = 'INSERT INTO lieu (nom) VALUES (:nom)';
+            $stmt2 = self::$database->prepare($sql2);
+            $stmt2->bindParam(':nom', $lieu);
+            $stmt2->execute();
             $idlieu = self::$database->lastInsertId();
         } else {
             // Le lieu existe déjà dans la base de données, on récupère son ID
@@ -324,11 +332,11 @@ class Database
         }
 
         // Mettre à jour la relation entre le post et le lieu
-        $sql = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpost', $idpost);
-        $stmt->bindParam(':idlieu', $idlieu);
-        $stmt->execute();
+        $sql3 = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
+        $stmt3 = self::$database->prepare($sql3);
+        $stmt3->bindParam(':idpost', $idpost);
+        $stmt3->bindParam(':idlieu', $idlieu);
+        $stmt3->execute();
         return true;
     }
     public function DeletePost($idpost){
