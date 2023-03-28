@@ -74,7 +74,7 @@ class Database
             return $stmt->rowCount();
       }
       public function DeleteUserById($user_id){
-        $sql4 = "DELETE FROM amis INNER JOIN user_has_amis ON amis.idamis = user_has_amis.idamis WHERE user_has_amis.iduser = :user";
+            $sql4 = "DELETE FROM amis INNER JOIN user_has_amis ON amis.idamis = user_has_amis.idamis WHERE user_has_amis.iduser = :user";
             $stmt4 = self::$database->prepare($sql4);
             $stmt4->bindParam(':user', $user_id);
             $stmt4->execute();
@@ -102,7 +102,6 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 
 
     //MANAL POUR EDITPROFIL
@@ -152,7 +151,8 @@ class Database
         }        
     }
     public function registerPromo($mail, $idpromos){
-        $stmt2 = self::$database->prepare('SELECT iduser FROM user WHERE mail = :mail');
+        $sql2 = 'SELECT iduser FROM user WHERE mail = :mail';
+        $stmt2 = self::$database->prepare($sql2);
         $stmt2->bindParam(':mail', $mail);
         $stmt2->execute();
         $iduser = $stmt2->fetch();
@@ -284,6 +284,46 @@ class Database
         $stmt = self::$database->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+    //TODO : faire la fonction pour modifier un post
+    public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $etiquette, $for, $link){
+        $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':for', $for);
+        $stmt->bindParam(':link', $link);
+        $stmt->bindParam(':interets', $interets);
+        $stmt->bindParam(':etiquette', $etiquette);
+        $stmt->execute();
+        // Mettre à jour le lieu associé au post
+        $sql = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if (!$result) {
+            // Le lieu n'existe pas encore dans la base de données, on l'ajoute
+            $sql = 'INSERT INTO lieu (nom) VALUES (:nom)';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':nom', $lieu);
+            $stmt->execute();
+            $idlieu = self::$database->lastInsertId();
+        } else {
+            // Le lieu existe déjà dans la base de données, on récupère son ID
+            $idlieu = $result['idlieu'];
+        }
+
+        // Mettre à jour la relation entre le post et le lieu
+        $sql = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':idlieu', $idlieu);
+        $stmt->execute();
+        return true;
     }
     public function DeletePost($idpost){
         $sql1= "DELETE FROM post_user WHERE idpost = :idpost";
@@ -537,10 +577,10 @@ class Database
         $result=$stmt->fetch();
 
         if (!$result){
-         return false;
-     } else {
-         $idAmis= $idamis['iduser'];
-     }
+            return false;
+         } else {
+             $idAmis= $idamis['iduser'];
+         }
 
         $sql = "INSERT INTO post (type, titre, contenu, date, photo,etiquette) 
                 VALUES (:type, :titre, :contenu, :date, :photo,:etiquette)";

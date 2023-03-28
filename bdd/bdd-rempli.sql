@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : lun. 27 mars 2023 à 18:52
+-- Généré le : lun. 27 mars 2023 à 23:40
 -- Version du serveur : 10.6.11-MariaDB
 -- Version de PHP : 8.0.26
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `projet-tech`
 --
+CREATE DATABASE IF NOT EXISTS `projet-tech` DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci;
+USE `projet-tech`;
 
 -- --------------------------------------------------------
 
@@ -47,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `lieu` (
                                       `idlieu` int(11) NOT NULL AUTO_INCREMENT,
                                       `nom` varchar(255) DEFAULT NULL,
                                       PRIMARY KEY (`idlieu`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Déchargement des données de la table `lieu`
@@ -55,7 +57,8 @@ CREATE TABLE IF NOT EXISTS `lieu` (
 
 INSERT INTO `lieu` (`idlieu`, `nom`) VALUES
                                          (1, 'tamere'),
-                                         (2, 'tam');
+                                         (2, 'tam'),
+                                         (5, 'oui');
 
 -- --------------------------------------------------------
 
@@ -133,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `post` (
                                       `interets` varchar(255) DEFAULT NULL,
                                       `etiquette` varchar(255) DEFAULT NULL,
                                       PRIMARY KEY (`idpost`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Déchargement des données de la table `post`
@@ -156,21 +159,25 @@ INSERT INTO `post` (`idpost`, `type`, `titre`, `contenu`, `date`, `photo`, `nbli
                                                                                                                                               (14, 'actualitÃ©s', 'ash', 'chiant', '2023-03-16 00:00:00', NULL, NULL, NULL, 0, NULL, NULL, '4'),
                                                                                                                                               (15, 'gÃ©nÃ©ral', '', '', '2023-03-17 00:00:00', NULL, NULL, NULL, 0, NULL, NULL, '4'),
                                                                                                                                               (16, 'gÃ©nÃ©ral', 'aller', 'aller', '2023-03-09 00:00:00', '../upload/post/6421d56d88822-logo ECEBOOK.png', NULL, NULL, 0, NULL, NULL, '4'),
-                                                                                                                                              (17, 'actualitÃ©s', 'hjbdakaed', 'ash', '2023-03-24 00:00:00', '../upload/post/6421d5d57ff0e-logo ECEBOOK.png', NULL, NULL, 0, NULL, NULL, '4');
+                                                                                                                                              (17, 'actualitÃ©s', 'hjbdakaed', 'ash', '2023-03-24 00:00:00', '../upload/post/6421d5d57ff0e-logo ECEBOOK.png', NULL, NULL, 0, NULL, NULL, '4'),
+                                                                                                                                              (18, 'actualitÃ©s', 'kljh', 'hj', '2023-03-02 00:00:00', NULL, NULL, NULL, 0, NULL, NULL, '4'),
+                                                                                                                                              (19, 'actualitÃ©s', 'pasgentil', '', '2023-03-16 00:00:00', '../upload/post/6421eccca943d-logo ECEBOOK.png', NULL, NULL, 0, NULL, NULL, '1'),
+                                                                                                                                              (20, 'actualitÃ©s', 'boonjour', 'chiant', '2023-03-27 00:00:00', '../upload/post/6421eff7c305b-logo ECEBOOK.png', NULL, NULL, 0, NULL, NULL, '1'),
+                                                                                                                                              (21, 'actualitÃ©s', 'alors', 'la', '2023-03-10 00:00:00', NULL, NULL, NULL, 0, NULL, NULL, '1');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `post_admin`
+-- Structure de la table `post_has_admin`
 --
 
-DROP TABLE IF EXISTS `post_admin`;
-CREATE TABLE IF NOT EXISTS `post_admin` (
-                                            `idpost` int(11) NOT NULL,
-                                            `idadmin` int(11) NOT NULL,
-                                            PRIMARY KEY (`idpost`,`idadmin`),
-                                            KEY `fk_post_has_Admin_Admin1_idx` (`idadmin`),
-                                            KEY `fk_post_has_Admin_post1_idx` (`idpost`)
+DROP TABLE IF EXISTS `post_has_admin`;
+CREATE TABLE IF NOT EXISTS `post_has_admin` (
+                                                `idpost` int(11) NOT NULL,
+                                                `idadmin` int(11) NOT NULL,
+                                                PRIMARY KEY (`idpost`,`idadmin`),
+                                                KEY `fk_post_has_Admin_Admin1_idx` (`idadmin`),
+                                                KEY `fk_post_has_Admin_post1_idx` (`idpost`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
@@ -206,7 +213,11 @@ INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) VALUES
                                                      (1, 15),
                                                      (1, 16),
                                                      (1, 17),
-                                                     (2, 5);
+                                                     (1, 18),
+                                                     (1, 19),
+                                                     (1, 20),
+                                                     (2, 5),
+                                                     (5, 21);
 
 -- --------------------------------------------------------
 
@@ -243,7 +254,11 @@ INSERT INTO `post_user` (`iduser`, `idpost`) VALUES
                                                  (4, 14),
                                                  (4, 15),
                                                  (4, 16),
-                                                 (4, 17);
+                                                 (4, 17),
+                                                 (4, 18),
+                                                 (4, 19),
+                                                 (4, 20),
+                                                 (4, 21);
 
 -- --------------------------------------------------------
 
@@ -345,11 +360,11 @@ CREATE TABLE IF NOT EXISTS `user_has_amis` (
 --
 
 INSERT INTO `user_has_amis` (`iduser`, `idamis`, `statut`) VALUES
-                                                               (1, 4, 1),
+                                                               (1, 4, 2),
                                                                (3, 1, 1),
                                                                (3, 2, 1),
-                                                               (4, 1, 1),
-                                                               (4, 2, 1),
+                                                               (4, 1, 2),
+                                                               (4, 2, 2),
                                                                (4, 3, 2);
 
 -- --------------------------------------------------------
@@ -379,3 +394,63 @@ INSERT INTO `user_has_promos` (`iduser`, `idpromos`, `statut`) VALUES
                                                                    (4, 10, NULL);
 
 --
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `message`
+--
+ALTER TABLE `message`
+    ADD CONSTRAINT `fk_message_user` FOREIGN KEY (`iduser`) REFERENCES `user` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `notification`
+--
+ALTER TABLE `notification`
+    ADD CONSTRAINT `fk_notification_post1` FOREIGN KEY (`idpost`) REFERENCES `post` (`idpost`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_notification_user1` FOREIGN KEY (`iduser`) REFERENCES `user` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `post_has_admin`
+--
+ALTER TABLE `post_has_admin`
+    ADD CONSTRAINT `fk_post_has_Admin_Admin1` FOREIGN KEY (`idadmin`) REFERENCES `admin` (`idadmin`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_post_has_Admin_post1` FOREIGN KEY (`idpost`) REFERENCES `post` (`idpost`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `post_has_lieu`
+--
+ALTER TABLE `post_has_lieu`
+    ADD CONSTRAINT `fk_lieu_has_post_lieu1` FOREIGN KEY (`idlieu`) REFERENCES `lieu` (`idlieu`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_lieu_has_post_post1` FOREIGN KEY (`idpost`) REFERENCES `post` (`idpost`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `post_user`
+--
+ALTER TABLE `post_user`
+    ADD CONSTRAINT `fk_user_has_post_post1` FOREIGN KEY (`idpost`) REFERENCES `post` (`idpost`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_user_has_post_user1` FOREIGN KEY (`iduser`) REFERENCES `user` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `reactions`
+--
+ALTER TABLE `reactions`
+    ADD CONSTRAINT `fk_reactions_post1` FOREIGN KEY (`post_idpost`) REFERENCES `post` (`idpost`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `user_has_amis`
+--
+ALTER TABLE `user_has_amis`
+    ADD CONSTRAINT `fk_user_has_amis_user1` FOREIGN KEY (`iduser`) REFERENCES `user` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `user_has_promos`
+--
+ALTER TABLE `user_has_promos`
+    ADD CONSTRAINT `fk_user_has_promos_promos1` FOREIGN KEY (`idpromos`) REFERENCES `promos` (`idpromos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_user_has_promos_user1` FOREIGN KEY (`iduser`) REFERENCES `user` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
