@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -685,18 +685,29 @@ public function getLieuByNom($nom) {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    //like
+    public function likes($idpost, $mail,$like){
+        $sql2= 'SELECT iduser FROM user WHERE mail = :mail';
+        $stmt2 = self::$database->prepare($sql2);
+        $stmt2->bindParam(':mail', $mail);
+        $stmt2->execute();
+        $iduser = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $iduser = $iduser['iduser'];
+        $sql = 'INSERT INTO `likes` (`idpost`, `iduser`, `like`) 
+                VALUES (:idpost, :iduser, :like)';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->bindParam(':like', $like);
+        return true;
+    }
     
     
     
     //show Post ami
-    
 
-    
-    
-
-
-    public function listerNonAmis($userId)
-    {
+    public function listerNonAmis($userId){
         $reg = self::$database->prepare("SELECT * FROM user WHERE iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 1) AND iduser NOT IN (SELECT iduser FROM user_has_amis WHERE idamis = ? AND statut = 2) AND iduser NOT IN (SELECT idamis FROM user_has_amis WHERE iduser = ? AND statut = 2) AND iduser != ?");
         $reg->execute(array($userId, $userId, $userId));
         return $reg->fetchAll();
