@@ -21,6 +21,7 @@ function ShowUser(){
     }
 }
 
+
 function ShowActiveUser(){
     $data = new Database();
     $user = $data->getActiveUser();

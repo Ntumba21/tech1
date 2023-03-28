@@ -23,7 +23,7 @@
                 <i class="fa-solid fa-house"></i>
                     <i class="fa-solid fa-bell"></i>
                     <label>  <a href="../../facebookk/profil.php">
-                    <img src="images/us2.png" alt="user">
+                    <img src="../../facebookk/images/us2.png" alt="user">
                      </label></a>
                 </div>
             </div>
@@ -40,10 +40,6 @@
                  <!-- BON-->
            
 
-  
-
-                 <body>
-   
 
                     <div class="square">
                         <article>
@@ -81,7 +77,7 @@
     
     </footer>
 </body>
-
+</html>
 
 
 

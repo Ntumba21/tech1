@@ -5,18 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="../view/style/stylee.css">
-
-
+    <link rel="stylesheet" href="../view/style/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-
 <header>
-    <img src="../media/logo ECEBOOK.png" alt="Logo" class="logo">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="logoBox">
+                    <img src="../media/logo ECEBOOK.png" alt="logo">
+                </div>
+                <div class="searchBox">
+                    <input type="search">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="iconBox2">
+                <i class="fa-solid fa-house"></i>
+                    <i class="fa-solid fa-bell"></i>
+                    <label>  <a href="../../facebookk/profil.php">
+                    <img src="../facebookk/images/us2.png" alt="user">
+                     </label></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="home">
+    <div class="container">
+        <div class="home-weapper">
+
+           <!--GAUCHE-->
+            <div class="home-left">
+                 <!-- BON-->
+  
     <h1>Inscription</h1>
-</header>
-<div class="content">
-    <div class="square">
+
 
         <form action="../controller/register.php" method="post">
         <div class="form-group">
