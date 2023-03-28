@@ -632,6 +632,73 @@ class Database
         return true;
     }
 
+    public function CreatePostActualite($type,$titre, $contenu, $date,$lieu, $photo, $iduser,$etiquette,$link){
+
+        $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $etiquette);
+        $stmt->execute();
+        $idamis=$stmt->fetch(); 
+
+        $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':iduser', $iduser);
+         $stmt->bindParam(':idamis', $idamis['iduser']);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
+            return false;
+         } else {
+             $idAmis= $idamis['iduser'];
+         }
+
+        $sql = "INSERT INTO post (type, titre, contenu, date, photo,etiquette,link) 
+                VALUES (:type, :titre, :contenu, :date, :photo,:etiquette,:link)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':etiquette', $idAmis);
+        $stmt->bindParam(':link', $link);
+        $stmt->execute();
+
+        $idpost = self::$database->lastInsertId();
+
+        $sql4 = "INSERT INTO post_user (idpost, iduser) VALUES (:idpost, :iduser)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost);
+        $stmt4->bindParam(':iduser', $iduser);
+        $stmt4->execute();
+
+        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
+        $sql = 'INSERT INTO `lieu` (`nom`) 
+                VALUES (:nom)';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $idlieu = self::$database->lastInsertId();
+        } else {
+        // Le lieu existe déjà dans la base de données, on récupère son ID
+            $idlieu = $result['idlieu'];
+        }
+        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) 
+        VALUES (:idlieu, :idpost)';
+       $stmt = self::$database->prepare($sql);
+       $stmt->bindParam(':idlieu', $idlieu);
+       $stmt->bindParam(':idpost', $idpost);
+       $idlieu=$stmt->execute();
+        return true;
+    }
+
 
     public function getUserByUsername($username) {
     $sql = 'SELECT iduser, username FROM user WHERE username = :username';
