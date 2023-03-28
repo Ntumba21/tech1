@@ -41,9 +41,9 @@
            <!--GAUCHE-->
             <div class="home-left">
                  <!-- BON-->
-  
+                 <h1 class="mini-headign">Creer une publication</h1>
 
-
+                 <div class="square">
 <form action="../controller/createPostController.php" method="post" enctype="multipart/form-data">
   <input type="hidden" name="action" value="create">
   <label for="type">Type :</label>
@@ -68,11 +68,11 @@
   <input type="file" name="photo" id="photo"><br>
   <button type="submit">Publier</button>
 </form>
-
+                 </div>
 </div>
 </div>
 <footer>
-    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
+    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
 </footer>
 </body>
 </html>

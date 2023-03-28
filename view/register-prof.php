@@ -39,12 +39,16 @@
             <div class="home-left">
                  <!-- BON-->
   
-    <h1>Inscription</h1>
-
+    
+    <div class="createPost">
+    <h1 class="mini-headign">Inscription</h1>
+   
+    
+                <i class="fa-solid fa-user-group">Professeur</i>
 
         <form action="../controller/register.php" method="post">
         <div class="form-group">
-                <label for="type">Professeur</label>
+                
                 <input type="hidden" name="type" value="2">
             </div>
             <div class="form-group">
@@ -94,9 +98,7 @@
     </div>
 </div>
 
-<footer>
-    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
-</footer>
+
 </body>
 </html>
 

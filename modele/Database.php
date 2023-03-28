@@ -210,6 +210,7 @@ class Database
         $sql = "SELECT * FROM admin WHERE mail = :mail";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -719,7 +720,7 @@ class Database
                 INNER JOIN user ON post_user.iduser = user.iduser
                 INNER JOIN user_has_amis ON user.iduser = user_has_amis.idamis OR user.iduser = user_has_amis.iduser
                 LEFT JOIN user AS etiquette_user ON post.etiquette = etiquette_user.iduser
-                WHERE (user_has_amis.iduser = :iduser OR user_has_amis.idamis = :iduser) AND user_has_amis.statut = 1
+                WHERE (user_has_amis.iduser = :iduser OR user_has_amis.idamis = :iduser) AND user_has_amis.statut = 1 AND post.type = 3
                 ORDER BY post.date DESC";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':iduser', $iduser);
@@ -742,6 +743,38 @@ class Database
       
     }
 
+
+    public function ShowPostEvenement($iduser){
+        $sql = "SELECT DISTINCT post.*, user.iduser, user.nom AS user_nom, user.prenom, etiquette_user.nom 
+        AS etiquette_nom, etiquette_user.prenom AS etiquette_prenom, lieu.idlieu, lieu.nom AS lieu_nom
+                FROM post
+                INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+                INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+                INNER JOIN post_user ON post.idpost = post_user.idpost
+                INNER JOIN user ON post_user.iduser = user.iduser
+                LEFT JOIN user AS etiquette_user ON post.etiquette = etiquette_user.iduser
+                WHERE post.type = 2
+                ORDER BY post.date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+    
+        // Récupérer le nombre de likes pour chaque publication
+        foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
+            $stmt_likes->execute();
+          
+            
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
+      
+    }
 
     public function getNomByLieu($id) {
         $sql = "SELECT * FROM lieu WHERE idlieu = :id";
