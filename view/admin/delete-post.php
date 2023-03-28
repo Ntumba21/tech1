@@ -30,10 +30,7 @@ require_once '../../controller/admin/postfunction.php'?>
                         <th>contenu</th>
                         <th>date</th>
                         <th>photo</th>
-                        <th>nblike</th>
-                        <th>nbdislike</th>
                         <th>destinataire</th>
-                        <th>interests</th>
                     </tr>
                     <?php ShowAllPost(); ?>
                 </table>
