@@ -20,7 +20,7 @@
 </header>
 <div class="content">
     <div class="square">
-    <form name="ajouter-post" method="post" action="../../controller/admin/create-post.php">
+    <form name="ajouter-post" method="post" action="../../controller/admin/create-post.php" enctype="multipart/form-data">
         <input type="hidden" name="action" value="create">
         <label for="type">Type :</label>
         <select name="type" id="type">
