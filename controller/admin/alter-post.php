@@ -2,6 +2,7 @@
 require_once ('..\..\modele\Database.php');
 require_once ('..\..\controller\session.php');
 echo 'hello word';
+//TODO: faire ça
 if (isset($_POST["submit"])){
     $type = $_POST["type"];
     $titre = $_POST['titre'];
@@ -31,6 +32,7 @@ if (isset($_POST["submit"])){
 
     }
     $data = new Database();
+    $data->AlterAllPost($type, $titre, $contenu, $date, $lieu, $photo, $mail, $interests, $etiquette, $for, $link);
 
 
 }else{
