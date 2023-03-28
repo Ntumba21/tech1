@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -285,8 +285,17 @@ class Database
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    public function createAdmin($nom,$mail, $password){
+        $sql = "INSERT INTO `admin` (`nameAdmin`, `mail`, `password`) VALUES (:nom, :mail, :password)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+        return true;
+    }
     //TODO : faire la fonction pour modifier un post
-    public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $etiquette, $for, $link){
+    public function AlterAllPost($mail,$idpost, $titre, $contenu, $date, $photo, $interets, $etiquette, $for, $link,$lieu){
         $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':idpost', $idpost);
