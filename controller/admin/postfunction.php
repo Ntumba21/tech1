@@ -12,8 +12,6 @@ function ShowAllPost(): void
         echo "<td>{$row['contenu']}</td>";
         echo "<td>{$row['date']}</td>";
         echo "<td>{$row['photo']}</td>";
-        echo "<td>{$row['nblike']}</td>";
-        echo "<td>{$row['nbdislike']}</td>";
         if($row['for'] == 0){
             echo "<td>Tous</td>";
         }
@@ -23,7 +21,7 @@ function ShowAllPost(): void
         else{
             echo "<td>Proffeseur</td>";
         }
-        echo "<td>{$row['interests']}</td>";
+//        echo "<td>{$row['interests']}</td>";
         echo "</tr>";
     }
 }
