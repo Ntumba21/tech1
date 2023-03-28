@@ -1,5 +1,5 @@
 <?php
-require_once('..\modele\Database.php');
+require_once('../modele/Database.php');
 
 if (isset($_GET['idpost'])) {
     $idpost = $_GET['idpost'];
