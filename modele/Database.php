@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -689,19 +689,24 @@ public function getLieuByNom($nom) {
 
 
     public function ShowPostAmi($iduser){
-        $sql = "SELECT post.*, user.iduser, user.nom AS user_nom, user.prenom, lieu.idlieu, lieu.nom AS lieu_nom
+        $sql = "SELECT DISTINCT post.*, user.iduser, user.nom AS user_nom, user.prenom, etiquette_user.nom AS etiquette_nom, etiquette_user.prenom AS etiquette_prenom, lieu.idlieu, lieu.nom AS lieu_nom
                 FROM post
-                INNER JOIN user ON post.etiquette = user.iduser
                 INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
                 INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
-                INNER JOIN user_has_amis ON user.iduser = user_has_amis.idamis
-                WHERE ((user_has_amis.iduser = :iduser) OR (user_has_amis.idamis = :iduser)) AND user_has_amis.statut = 1
+                INNER JOIN post_user ON post.idpost = post_user.idpost
+                INNER JOIN user ON post_user.iduser = user.iduser
+                INNER JOIN user_has_amis ON user.iduser = user_has_amis.idamis OR user.iduser = user_has_amis.iduser
+                LEFT JOIN user AS etiquette_user ON post.etiquette = etiquette_user.iduser
+                WHERE (user_has_amis.iduser = :iduser OR user_has_amis.idamis = :iduser) AND user_has_amis.statut = 1
                 ORDER BY post.date DESC";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':iduser', $iduser);
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    
+    
 
 
     public function getNomByLieu($id) {

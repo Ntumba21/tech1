@@ -191,9 +191,10 @@ $db = new Database();
                                 <?php
     echo '<div class="post">';
     echo '<div class="post-header">';
+    echo '<h2>' . $p['prenom'] .'</h2>';
     echo '<h2>' . $p['titre'] . '</h2>';
     echo '<span>' . $p['date'] . '</span><br>'; 
-    echo '<a href="../facebookk/profileUnique.php?id=' . $p['etiquette'] . '">' . '@'.$p['user_nom'] . '</a><br>';
+    echo '<a href="../facebookk/profileUnique.php?id=' . $p['etiquette'] . '">' . '@'.$p['etiquette_nom'] . ' ' . $p['etiquette_prenom'] . '</a><br>';
     echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . '@'.$p['lieu_nom'] . '</a>';
     echo '</div>';
     echo '<div class="post-body">';
