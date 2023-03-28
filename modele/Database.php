@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -709,12 +709,28 @@ public function getLieuByIdPost($idpost) {
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':iduser', $id);
         $stmt->execute();
-        return $stmt->fetchAll();
+       
+    
+        $posts = $stmt->fetchAll();
+
+         // Récupérer le nombre de likes pour chaque publication
+         foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
+            $stmt_likes->execute();
+          
+            
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
     }
 
-
     public function ShowPostAmi($iduser){
-        $sql = "SELECT DISTINCT post.*, user.iduser, user.nom AS user_nom, user.prenom, etiquette_user.nom AS etiquette_nom, etiquette_user.prenom AS etiquette_prenom, lieu.idlieu, lieu.nom AS lieu_nom
+        $sql = "SELECT DISTINCT post.*, user.iduser, user.nom AS user_nom, user.prenom, etiquette_user.nom 
+        AS etiquette_nom, etiquette_user.prenom AS etiquette_prenom, lieu.idlieu, lieu.nom AS lieu_nom
                 FROM post
                 INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
                 INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
@@ -727,7 +743,22 @@ public function getLieuByIdPost($idpost) {
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':iduser', $iduser);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $posts = $stmt->fetchAll();
+    
+        // Récupérer le nombre de likes pour chaque publication
+        foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
+            $stmt_likes->execute();
+          
+            
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
+      
     }
 
 
@@ -757,28 +788,46 @@ public function getLieuByIdPost($idpost) {
     }
 
     //like
-    public function likes($idpost, $mail,$like){
-        $sql2= 'SELECT iduser FROM user WHERE mail = :mail';
+    public function likes($idpost, $mail, $like_type) {
+        // Récupérer l'ID de l'utilisateur à partir de son adresse email
+        $sql2 = 'SELECT iduser FROM user WHERE mail = :mail';
         $stmt2 = self::$database->prepare($sql2);
         $stmt2->bindParam(':mail', $mail);
         $stmt2->execute();
         $iduser = $stmt2->fetch(PDO::FETCH_ASSOC);
         $iduser = $iduser['iduser'];
-        $sql = 'INSERT INTO `likes` (`idpost`, `iduser`, `like`) 
-                VALUES (:idpost, :iduser, :like)';
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpost', $idpost);
-        $stmt->bindParam(':iduser', $iduser);
-        $stmt->bindParam(':like', $like);
+
+    
+        // Vérifier si l'utilisateur a déjà aimé le post
+        $sql3 = 'SELECT * FROM likes WHERE idpost = :idpost AND iduser = :iduser';
+        $stmt3 = self::$database->prepare($sql3);
+        $stmt3->bindParam(':idpost', $idpost);
+        $stmt3->bindParam(':iduser', $iduser);
+        $stmt3->execute();
+        $result = $stmt3->fetch(PDO::FETCH_ASSOC);
+    
+        if ($result !== false) {
+            // L'utilisateur a déjà aimé le post, on met à jour le like
+            $sql = 'UPDATE likes SET type = :like_type WHERE idpost = :idpost AND iduser = :iduser';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':idpost', $idpost);
+            $stmt->bindParam(':iduser', $iduser);
+            $stmt->bindParam(':like_type', $like_type);
+            $stmt->execute();
+        } else {
+            // L'utilisateur n'a pas encore aimé le post, on insère un nouveau like
+            $sql = 'INSERT INTO likes (type, idpost, iduser)
+                    VALUES (:like_type, :idpost, :iduser)';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':like_type', $like_type);
+            $stmt->bindParam(':idpost', $idpost);
+            $stmt->bindParam(':iduser', $iduser);
+            $stmt->execute();
+        }
+    
         return true;
     }
-    public function CountLike($idpost){
-        $sql = 'SELECT COUNT(*) AS nblike FROM likes WHERE idpost = :idpost AND `like` = 1';
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpost', $idpost);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC)['nblike'];
-    }
+
     
     
     
@@ -807,6 +856,25 @@ public function getLieuByIdPost($idpost) {
     }
 
 
+
+    public function CountLike($idpost){
+        $sql = 'SELECT COUNT(*) AS nblike FROM likes WHERE idpost = :idpost AND `like` = 1';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result !== false && isset($result['nblike'])) {
+            return $result['nblike'];
+        } else {
+            return 0;
+        }
+    }
+    public function hasLikedPost($idpost, $email)
+    {
+        $stmt =self::$database->prepare("SELECT COUNT(*) FROM likes WHERE idpost = ? AND email = ?");
+        $stmt->execute([$idpost, $email]);
+        return $stmt->fetchColumn() > 0;
+    }
         //MARCHE 
         public function rechercherNonAmis($utilisateur, $userId)
         {
