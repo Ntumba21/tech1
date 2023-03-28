@@ -3,6 +3,7 @@
     require_once ('..\..\controller\session.php');
     $data = new Database();
     if(isset($_POST['submit'])){
+        var_dump($_POST);
         foreach ($_POST['iduser'] as $iduser){
             $result = $data->DeleteUserById($iduser);
         }
