@@ -1,9 +1,9 @@
 <?php
 require_once ('..\..\modele\Database.php');
 require_once ('..\..\controller\session.php');
-echo 'hello word';
 //TODO: faire ça
 if (isset($_POST["submit"])){
+    $idpost = $_POST["id-post"];
     $type = $_POST["type"];
     $titre = $_POST['titre'];
     $contenu = $_POST['contenu'];
@@ -11,7 +11,6 @@ if (isset($_POST["submit"])){
     $lieu = $_POST['lieu'];
     $photo = null;
     $interests = $_POST['interet'];
-    $etiquette = $_POST['identification'];
     $for = $_POST['for'];
     $link = $_POST['link'];
     $mail= $_SESSION['mail'];
@@ -32,9 +31,11 @@ if (isset($_POST["submit"])){
 
     }
     $data = new Database();
-    $data->AlterAllPost($type, $titre, $contenu, $date, $lieu, $photo, $mail, $interests, $etiquette, $for, $link);
-
+//    $data->AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interests, $etiquette, $for, $link,$lieu);
+    $_SESSION['alert'] = 'Post ajouté';
 
 }else{
     $_SESSION['alert'] = 'Post pas ajouté';
 }
+$_SESSION['redirection'] = '../view/admin/alter-post.php?idpost='.$idpost;
+//header('Location: ../../view/alert.php');

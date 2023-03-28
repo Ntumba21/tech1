@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306  "; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -246,29 +246,7 @@ class Database
         $stmt4->bindParam(':iduser', $idadmin);
         $stmt4->execute();
         //ajouter le lieu
-        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
-        $stmt = self::$database->prepare($sql5);
-        $stmt->bindParam(':nom', $lieu);
-        $stmt->execute();
-        $result=$stmt->fetch();
-
-        if (!$result){
-            $sql = 'INSERT INTO `lieu` (`nom`)
-                VALUES (:nom)';
-            $stmt = self::$database->prepare($sql);
-            $stmt->bindParam(':nom', $lieu);
-            $stmt->execute();
-            $idlieu = self::$database->lastInsertId();
-        } else {
-            // Le lieu existe déjà dans la base de données, on récupère son ID
-            $idlieu = $result['idlieu'];
-        }
-        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`)
-        VALUES (:idlieu, :idpost)';
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idlieu', $idlieu);
-        $stmt->bindParam(':idpost', $idpost);
-        $idlieu=$stmt->execute();
+        $this->Makelieu($lieu, $idpost);
         return true;
     }
 
@@ -290,28 +268,8 @@ class Database
         $stmt->execute();
         return true;
     }
-    //TODO : faire la fonction pour modifier un post
-    public function AlterAllPost($mail,$idpost, $titre, $contenu, $date, $photo, $interets, $etiquette, $for, $link,$lieu){
-        if($photo == NULL){
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
-            $stmt = self::$database->prepare($sql);
-
-            $stmt->bindParam(':date', $date);
-        }else{
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
-            $stmt = self::$database->prepare($sql);
-            $stmt->bindParam(':photo', $photo);
-        }
-        $stmt->bindParam(':idpost', $idpost);
-        $stmt->bindParam(':titre', $titre);
-        $stmt->bindParam(':contenu', $contenu);
-        $stmt->bindParam(':date', $date);
-        $stmt->bindParam(':for', $for);
-//        $stmt->bindParam(':link', $link);
-//        $stmt->bindParam(':interets', $interets);
-//        $stmt->bindParam(':etiquette', $etiquette);
-        $stmt->execute();
-
+    //fonction pour gerer les lieux dans le alterpost
+    public function Makelieu($lieu, $idpost){
         // Mettre à jour le lieu associé au post
         $sql1 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
         $stmt1 = self::$database->prepare($sql1);
@@ -336,6 +294,29 @@ class Database
         $stmt3->bindParam(':idpost', $idpost);
         $stmt3->bindParam(':idlieu', $idlieu);
         $stmt3->execute();
+        return true;
+    }
+    public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $etiquette, $for, $link,$lieu){
+        if($photo == NULL){
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
+            $stmt = self::$database->prepare($sql);
+
+            $stmt->bindParam(':date', $date);
+        }else{
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':photo', $photo);
+        }
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':for', $for);
+        $stmt->bindParam(':link', $link);
+        $stmt->bindParam(':interets', $interets);
+        $stmt->bindParam(':etiquette', $etiquette);
+        $stmt->execute();
+        $this->Makelieu($lieu, $idpost);
         return true;
     }
     public function DeletePost($idpost){
@@ -660,23 +641,24 @@ class Database
     return $stmt->fetch();
 }
 
-public function getLieuByNom($nom) {
-    $sql = 'SELECT idlieu, nom FROM lieu WHERE nom = :nom';
-    $stmt = self::$database->prepare($sql);
-    $stmt->bindParam(':nom', $nom);
-    $stmt->execute();
-    return $stmt->fetch();
-}
-public function getLieuByIdPost($idpost) {
-    $sql = 'SELECT lieu.idlieu, lieu.nom 
-            FROM lieu 
-                INNER JOIN post_has_lieu ON lieu.idlieu = post_has_lieu.idlieu 
-            WHERE post_has_lieu.idpost = :idpost';
-    $stmt = self::$database->prepare($sql);
-    $stmt->bindParam(':idpost', $idpost);
-    $stmt->execute();
-    return $stmt->fetch();
-}
+    public function getLieuByNom($nom) {
+        $sql = 'SELECT idlieu, nom FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+    public function getLieuByIdPost($idpost) {
+        $sql = 'SELECT lieu.idlieu, lieu.nom as lieu_nom 
+                FROM lieu 
+                    INNER JOIN post_has_lieu ON lieu.idlieu = post_has_lieu.idlieu 
+                WHERE post_has_lieu.idpost = :idpost';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
 
 
 

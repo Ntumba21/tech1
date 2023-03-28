@@ -5,13 +5,13 @@ function ShowAllPost(): void
     $data = new Database();
     $post = $data->ShowPost();
     foreach ($post as $row) {
-        echo "<tr>";
-        echo "<td> <input type='checkbox' name='idpost[]' value='{$row['idpost']}'</td>";
-        echo "<td>{$row['type']}</td>";
-        echo "<td>{$row['titre']}</td>";
-        echo "<td>{$row['contenu']}</td>";
-        echo "<td>{$row['date']}</td>";
-        echo "<td>{$row['photo']}</td>";
+        echo "<tr>
+                <td><input type='checkbox' name='idpost[]' value='{$row['idpost']}'></td>
+                <td>{$row['type']}</td>
+                <td>{$row['titre']}</td>
+                <td>{$row['contenu']}</td>
+                <td>{$row['date']}</td>
+                <td>{$row['photo']}</td>";
         if($row['for'] == 0){
             echo "<td>Tous</td>";
         }
@@ -29,6 +29,6 @@ function ShowPostinlist(){
     $data = new Database();
     $posts = $data->ShowPost();
     foreach($posts as $post){
-        echo '<option value="'.$post['idpost'].'">'.$post['titre'].'</option>';
+        echo "<option value='{$post['idpost']}'>{$post['titre']}</option>";
     }
 }
