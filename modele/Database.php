@@ -772,6 +772,13 @@ public function getLieuByIdPost($idpost) {
         $stmt->bindParam(':like', $like);
         return true;
     }
+    public function CountLike($idpost){
+        $sql = 'SELECT COUNT(*) AS nblike FROM likes WHERE idpost = :idpost AND `like` = 1';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idpost', $idpost);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['nblike'];
+    }
     
     
     
