@@ -27,9 +27,10 @@ $db = new Database();
 <!-- header section start -->
 
 
-    <header>
+<header>
         <div class="header-container">
             <div class="header-wrapper">
+            <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
                 <div class="logoBox">
                     <img src="../media/logo ECEBOOK.png" alt="logo">
                 </div>
@@ -43,7 +44,7 @@ $db = new Database();
                 <i class="fa-solid fa-house"></i>
                      </label></a>
                     <i class="fa-solid fa-bell"></i>
-                    <label><img src="images/us2.png" alt="user"></label>
+                    <label><img src="<?php echo $user['photo'] ?>" alt="user"></label>
                 </div>
             </div>
         </div>
@@ -113,8 +114,8 @@ $db = new Database();
     echo '<div class="like-comment">';
     echo '<ul>';
     echo '<li>';
-    echo '<img src="images/love.png" alt="love">';
-    echo '<span>' . $p['nblike'] . ' like</span>';
+    echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
     echo '</li>';
     echo '<div class="post-actions">';
 echo '<a href="../view/editpost.php?id=' . $p['idpost'] . '">Edit your post</a>';
@@ -143,7 +144,28 @@ echo '</div>';
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).on('click', '.like-button', function () {
+    var button = $(this);
+    var idpost = button.attr("idpost");
+    $.ajax({
+        url: "../controller/like.php",
+        type: "POST",
+        data: {
+            idpost: idpost
+        },
+        success: function () {
+            // Increment like count
+            var count = parseInt($(".like-count-" + idpost).text()) + 1;
+            $(".like-count-" + idpost).text(count);
 
+            // Disable like button
+            button.prop('disabled', true);
+        }
+    });
+});
+</script>
 
 
 </body>
