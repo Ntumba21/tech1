@@ -20,12 +20,10 @@
 
 </head>
 <body>
-<?php include_once 'create-post.php'; ?>
-<?php include_once 'delete-post.php'; ?>
-<?php //include_once 'update-delete-post.php'; ?>
-<?php include_once 'statistique.php'; ?>
-<?php include_once 'promo.php'; ?>
-<?php include_once 'manage-user.php'; ?>
+<!--TODO ici faut faire les liens vers les differentes autres pages-->
+<!--TODO premier lien vers les statistiques.php-->
+<!--TODO deuxieme lien vers les posts.php-->
+<!--TODO troisieme lien vers les users.php-->
 </body>
 </div>
 </div>

@@ -27,3 +27,10 @@ function ShowAllPost(): void
         echo "</tr>";
     }
 }
+function ShowPostinlist(){
+    $data = new Database();
+    $posts = $data->ShowPost();
+    foreach($posts as $post){
+        echo '<option value="'.$post['idpost'].'">'.$post['titre'].'</option>';
+    }
+}
