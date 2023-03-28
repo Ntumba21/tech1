@@ -712,8 +712,8 @@ public function getLieuByNom($nom) {
         public function rechercherNonAmis($utilisateur, $userId)
         {
             // Recherche des utilisateurs avec le nom similaire
-            $reg = self::$database->prepare("SELECT * FROM user WHERE nom LIKE ? LIMIT 10");
-            $reg->execute(array("%$utilisateur%"));
+            $reg = self::$database->prepare("SELECT * FROM user WHERE nom LIKE ? AND iduser!=? LIMIT 10");
+            $reg->execute(array("%$utilisateur%",$userId));
             $users = $reg->fetchAll();
         
             $nonAmis = array();
