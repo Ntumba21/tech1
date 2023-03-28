@@ -906,6 +906,14 @@ public function ajouterAmi($userId, $amiId)
         $stmt->bindParam(':idpost', $idpost);
         $stmt->bindParam(':idlieu', $idlieu);
         $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $sql = 'DELETE FROM post_has_lieu WHERE idpost = :idpost AND idlieu != :idlieu';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':idpost', $idpost);
+            $stmt->bindParam(':idlieu', $idlieu);
+            $stmt->execute();
+        }
     
         return true;
     }
