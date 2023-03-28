@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307  "; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -206,13 +206,13 @@ class Database
         $stmt->execute();
         return true;
     }
-    public function ConnectAdmin($mail, $password){
-        $sql = "SELECT * FROM admin WHERE mail = :mail AND password = :password";
+    public function ConnectAdmin($mail) {
+        $sql = "SELECT * FROM admin WHERE mail = :mail";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':mail', $mail);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
-        return $stmt-> fetchAll();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $for, $mail, $link){
         // creer le post

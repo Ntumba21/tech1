@@ -7,7 +7,7 @@ if(isset($_POST['submit'])){
     $password = $_POST['password'];
     //cryptage du mot de passe
     var_dump($_POST);
-//    $password = password_hash($password, PASSWORD_DEFAULT);
+   $password = password_hash($password, PASSWORD_DEFAULT);
     var_dump($password);
     $data = new Database();
     $result = $data->createAdmin($nom, $email, $password);

@@ -38,13 +38,16 @@
            <!--GAUCHE-->
             <div class="home-left">
                  <!-- BON-->
-  
-    <h1>Inscription</h1>
 
+                 <div class="createPost">
+    <h1 class="mini-headign">Inscription</h1>
+   
+    
+                <i class="fa-solid fa-user-group">Eleve</i>
       
         <form action="../controller/register.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="type">Elève</label>
+                
                 <input type="hidden" name="type" value="1">
             </div>
             <div class="form-group">
@@ -90,7 +93,7 @@
             </div>
             <button type="submit">Créer un compte</button>
         </form>
-   
+                 </div>
 </div>
 </div>
 

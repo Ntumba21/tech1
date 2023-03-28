@@ -2,20 +2,19 @@
     require_once ('..\..\modele\Database.php');
     require_once ('..\..\controller\session.php');
 
-    if (isset($_POST['mail'])&& $_POST['password']){
+
+    if (isset($_POST['mail']) && isset($_POST['password'])) {
         $data = new Database();
-        //decryptage du mot de passe
+        $mail = $_POST['mail'];
         $password = $_POST['password'];
-//        $password = password_hash($password, PASSWORD_DEFAULT);
-        $admin = $data->ConnectAdmin($_POST['mail'], $password);
-        if (count($admin) >0){
-           Session($admin[0]["mail"],$admin[0]["password"],true);
-           redirectToHomeAdmin();
-        }else{
-            $_SESSION['alert'] = "pas d'utilisateur";
+    
+        $admin = $data->ConnectAdmin($mail);
+        if ($admin && password_verify($password, $admin['password'])) {
+            Session($admin['mail'], $admin['password'], true);
+            redirectToHomeAdmin();
+        } else {
+            $_SESSION['alert'] = "Utilisateur introuvable ou mot de passe incorrect";
             $_SESSION['redirection'] = 'admin/index.html';
             header('Location: ../../view/alert.php');
-        }
-
-
-}
+        }}
+    ?>
