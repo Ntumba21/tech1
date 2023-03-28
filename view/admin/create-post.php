@@ -34,6 +34,8 @@
         <textarea name="contenu" id="contenu"></textarea><br>
         <label for="lieu">Nom du lieu :</label>
         <input type="text" name="lieu" id="lieu"><br>
+        <label for="link">Lien :</label>
+        <input type="text" name="link" id="link"><br>
         <label for="photo">Photo :</label>
         <input type="file" name="photo" id="photo"><br>
         <label for="for">Pour :</label>

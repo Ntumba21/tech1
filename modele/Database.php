@@ -214,10 +214,10 @@ class Database
         $stmt->execute();
         return $stmt-> fetchAll();
     }
-    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $for, $mail){
+    public function CreatePostforAll($type,$titre, $contenu, $date, $lieu, $photo, $for, $mail, $link){
         // creer le post
-        $sql = "INSERT INTO `post` (`type`, `titre`, `contenu`, `date`, `photo`, `for`) 
-                VALUES (:type, :titre, :contenu, :date, :photo, :for)";
+        $sql = "INSERT INTO `post` (`type`, `titre`, `contenu`, `date`, `photo`, `for`, `link`) 
+                VALUES (:type, :titre, :contenu, :date, :photo, :for, :link)";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':type', $type);
         $stmt->bindParam(':titre', $titre);
@@ -225,50 +225,50 @@ class Database
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':photo', $photo);
         $stmt->bindParam(':for', $for);
-//        $stmt->bindParam(':link', $link);
+        $stmt->bindParam(':link', $link);
 //        $stmt->bindParam(':interets', $interets);
 //        $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
         //recuperer l'id du post creer
-//        $idpost = self::$database->lastInsertId();
-//        //recuperer l'id de l'utilisateur qui a creer le post
-//        $sql3 = "SELECT idadmin FROM admin WHERE mail = :mail";
-//        $stmt3 = self::$database->prepare($sql3);
-//        $stmt3->bindParam(':mail', $mail);
-//        $stmt3->execute();
-//        $idadmin = $stmt3->fetchAll();
-//        $idadmin = $idadmin[0][0];
-//        echo("idadmin".$idadmin);
-//        //ajouter l'id du post et l'id de l'utilisateur dans la table post_has_user
-//        $sql4 = "INSERT INTO `post_has_admin` (`idpost`, `idadmin`) VALUES (:idpost, :iduser)";
-//        $stmt4 = self::$database->prepare($sql4);
-//        $stmt4->bindParam(':idpost', $idpost);
-//        $stmt4->bindParam(':iduser', $idadmin);
-//        $stmt4->execute();
-//        //ajouter le lieu
-//        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
-//        $stmt = self::$database->prepare($sql5);
-//        $stmt->bindParam(':nom', $lieu);
-//        $stmt->execute();
-//        $result=$stmt->fetch();
-//
-//        if (!$result){
-//            $sql = 'INSERT INTO `lieu` (`nom`)
-//                VALUES (:nom)';
-//            $stmt = self::$database->prepare($sql);
-//            $stmt->bindParam(':nom', $lieu);
-//            $stmt->execute();
-//            $idlieu = self::$database->lastInsertId();
-//        } else {
-//            // Le lieu existe déjà dans la base de données, on récupère son ID
-//            $idlieu = $result['idlieu'];
-//        }
-//        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`)
-//        VALUES (:idlieu, :idpost)';
-//        $stmt = self::$database->prepare($sql);
-//        $stmt->bindParam(':idlieu', $idlieu);
-//        $stmt->bindParam(':idpost', $idpost);
-//        $idlieu=$stmt->execute();
+        $idpost = self::$database->lastInsertId();
+        //recuperer l'id de l'utilisateur qui a creer le post
+        $sql3 = "SELECT idadmin FROM admin WHERE mail = :mail";
+        $stmt3 = self::$database->prepare($sql3);
+        $stmt3->bindParam(':mail', $mail);
+        $stmt3->execute();
+        $idadmin = $stmt3->fetchAll();
+        $idadmin = $idadmin[0][0];
+        echo("idadmin".$idadmin);
+        //ajouter l'id du post et l'id de l'utilisateur dans la table post_has_user
+        $sql4 = "INSERT INTO `post_has_admin` (`idpost`, `idadmin`) VALUES (:idpost, :iduser)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost);
+        $stmt4->bindParam(':iduser', $idadmin);
+        $stmt4->execute();
+        //ajouter le lieu
+        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
+            $sql = 'INSERT INTO `lieu` (`nom`)
+                VALUES (:nom)';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':nom', $lieu);
+            $stmt->execute();
+            $idlieu = self::$database->lastInsertId();
+        } else {
+            // Le lieu existe déjà dans la base de données, on récupère son ID
+            $idlieu = $result['idlieu'];
+        }
+        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`)
+        VALUES (:idlieu, :idpost)';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':idlieu', $idlieu);
+        $stmt->bindParam(':idpost', $idpost);
+        $idlieu=$stmt->execute();
         return true;
     }
 

@@ -8,11 +8,9 @@
         $contenu = $_POST['contenu'];
         $date = date("Y-m-d H:i:s");
         $lieu = $_POST['lieu'];
-        $photo = null;
-//        $interests = $_POST['interet'];
-//        $etiquette = $_POST['identification'];
+        $photo = null;;
         $for = $_POST['for'];
-//        $link = $_POST['link'];
+        $link = $_POST['link'];
 
         $mail= $_SESSION['mail'];
         var_dump ($_POST);
@@ -32,7 +30,7 @@
 
         }
         $data = new Database();
-        $admin = $data->CreatePostforAll($type, $titre, $contenu, $date, $lieu, $photo, $for, $mail);
+        $admin = $data->CreatePostforAll($type, $titre, $contenu, $date, $lieu, $photo, $for, $mail, $link);
 
     }else{
         $_SESSION['alert'] = 'Post pas ajouté';
