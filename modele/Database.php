@@ -525,6 +525,15 @@ class Database
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+        if (!$idAmis) {
+            $sql = 'SELECT idamis FROM user_has_amis WHERE iduser = :id AND statut = 1';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        }
+    
         $friends = [];
         foreach ($idAmis as $idAmi) {
             $sql = 'SELECT * FROM user WHERE iduser = :id';
@@ -536,6 +545,8 @@ class Database
     
         return $friends;
     }
+    
+    
     
 
   //Message

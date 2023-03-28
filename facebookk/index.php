@@ -137,15 +137,17 @@ $db = new Database();
                         <div class="stories-wrapper">
                         <?php $affichefriends = $db->ShowFriends($_SESSION['iduser']); ?>
 
-                        <?php foreach ($affichefriends as $request): ?>
-                <div class="single-stories">
-                    <div>
-                        <img src="<?= htmlspecialchars($request['photo']) ?>" alt="user">
-                        <b><?= htmlspecialchars($request['prenom']) ?> <?= htmlspecialchars($request['nom']) ?></b>
-                        </form>
+                        <?php $affichefriends = $db->ShowFriends($_SESSION['iduser']); ?>
+
+                     <?php foreach ($affichefriends as $request): ?>
+                     <div class="single-stories">
+                      <div>
+                   <img src="<?= htmlspecialchars($request['photo']) ?>" alt="user">
+                     <b><?= htmlspecialchars($request['prenom']) ?> <?= htmlspecialchars($request['nom']) ?></b>
+                     </div>
                     </div>
-            </div>
-            <?php endforeach; ?>
+                  <?php endforeach; ?>
+
 
                         </div>
                         
