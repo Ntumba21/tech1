@@ -232,19 +232,22 @@ $db = new Database();
             <div class="home-right">
                 <div class="home-right-wrapper">
 
-                    <div class="event-friend">
-                        <div class="event">
-                            <h3 class="heading">Upcoming Events <span>see all</span></h3>
-                            <img src="images/eve.jpg" alt="event-img">
-                            <div class="event-date">
-                                <h3>21 <b>july</b></h3>
-                                <h4>United state of America <span>New York City</span></h4>
-                            </div>
-                        </div>
+                <div class="event-friend">
+    <div class="event">
+        <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
+        <?php $lastEvent = $db->getLastEvent();?>
+        <?php if ($p['photo']) {
+        echo '<img src="' . $p['photo'] . '" alt="event-img">';
+    } ?>
+        <div class="event-date">
+            <h3><?php echo $lastEvent['titre']; ?></h3>
+        </div>
+    </div>
 
-                        <hr>
+    <hr>
 
-                    </div>
+</div>
+
 
                     
 
@@ -252,15 +255,17 @@ $db = new Database();
                         <ul>
                             <li>
                                 <i class="fa-solid fa-circle-plus"></i>
-                                <h4>Create Page & Groups</h4>
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <h4>Actualités</h4>
+                                <?php $lastActualite = $db->getLastActualite();?>
                             </li>
                             <li>
-                                <img src="images/group.jpg" alt="groups">
+                            <?php if ($lastActualite['photo']) {
+        echo '<img src="' . $p['photo'] . '" alt="groups">';
+    } ?>
                             </li>
                             <li>
-                                <b>simple group or page name <span>200k Members</span></b>
-                                <button>Join Group</button>
+                                <b><?php echo $lastActualite['titre']; ?> <span>200k Members</span></b>
+                                <button><a href="all_actualites.php">see all</a></button>
                             </li>
                         </ul>
                     </div>
