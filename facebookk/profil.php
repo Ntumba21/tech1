@@ -1,4 +1,4 @@
-@@ -1,202 +1,226 @@
+
 <?php 
 require_once '../modele/Database.php';
 require_once '../controller/session.php';
@@ -30,6 +30,7 @@ $db = new Database();
     <header>
         <div class="header-container">
             <div class="header-wrapper">
+            <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
                 <div class="logoBox">
                     <img src="../media/logo ECEBOOK.png" alt="logo">
                 </div>
@@ -43,7 +44,7 @@ $db = new Database();
                 <i class="fa-solid fa-house"></i>
                      </label></a>
                     <i class="fa-solid fa-bell"></i>
-                    <label><img src="images/us2.png" alt="user"></label>
+                    <label><img src="<?php echo $user['photo'] ?>" alt="user"></label>
                 </div>
             </div>
         </div>

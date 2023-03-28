@@ -4,6 +4,8 @@ require_once '../modele/Database.php';
 require_once '../controller/session.php';
 $user_email = $_SESSION['mail'];
 $db = new Database();
+
+
 ?>
 
 
@@ -31,6 +33,7 @@ $db = new Database();
     <header>
         <div class="header-container">
             <div class="header-wrapper">
+            <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
                 <div class="logoBox">
                     <img src="../media/logo ECEBOOK.png" alt="logo">
                 </div>
@@ -42,7 +45,7 @@ $db = new Database();
                 <i class="fa-solid fa-house"></i>
                     <i class="fa-solid fa-bell"></i>
                     <label>  <a href="../facebookk/profil.php">
-                    <img src="images/us2.png" alt="user">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user">
                      </label></a>
                 </div>
             </div>
