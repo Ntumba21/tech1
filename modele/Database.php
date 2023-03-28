@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306    "; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307  "; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -909,7 +909,21 @@ class Database
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':id_lieu', $id_lieu);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $posts = $stmt->fetchAll();
+         // Récupérer le nombre de likes pour chaque publication
+         foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
+            $stmt_likes->execute();
+          
+            
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
+        
     }
 
     //like
