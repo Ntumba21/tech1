@@ -123,8 +123,8 @@ if (isset($_GET['id'])) {
     echo '<div class="like-comment">';
     echo '<ul>';
     echo '<li>';
-    echo '<img src="images/love.png" alt="love">';
-    echo '<span>' . $p['nblike'] . ' like</span>';
+    echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
     echo '</li>';
     echo '<div class="post-actions">';
 echo '<a href="../view/editpost.php?id=' . $p['idpost'] . '">Edit your post</a>';
