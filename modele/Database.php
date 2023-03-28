@@ -343,7 +343,7 @@ class Database
         $stmt1 = self::$database->prepare($sql1);
         $stmt1->bindParam(':idpost', $idpost);
         $stmt1->execute();
-        $sql2 = "DELETE FROM post_admin WHERE idpost = :idpost";
+        $sql2 = "DELETE FROM post_has_admin WHERE idpost = :idpost";
         $stmt2 = self::$database->prepare($sql2);
         $stmt2->bindParam(':idpost', $idpost);
         $stmt2->execute();
