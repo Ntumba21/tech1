@@ -39,8 +39,10 @@
             <div class="home-left">
                  <!-- BON-->
   
-
-    <h1>Connexion</h1>
+                 <div class="createPost">
+    <h3 class="mini-headign">Connexion</h3>
+    
+    
 <form action="../controller/login.php" method="post">
     <label for="email">Adresse e-mail :</label>
     <input type="email" name="email" required><br>
