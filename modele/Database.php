@@ -210,7 +210,6 @@ class Database
         $sql = "SELECT * FROM admin WHERE mail = :mail";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':mail', $mail);
-        $stmt->bindParam(':password', $password);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
