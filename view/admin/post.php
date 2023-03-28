@@ -1,4 +1,4 @@
-<?php require_once("../../controller/session.php");  require_once ("../../controller/admin/showuser.php");
+<?php require_once("../../controller/session.php");  require_once ("../../controller/admin/postfunction.php");
 //if(!VerifySession()){header('Location: index.html');}?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,13 @@
     <!--lien pour ajouter un post-->
     <section>
         <h1>Vous voulez modifier quel post?</h1>
-        <form name="post" action="">
+        <form name="post" method="post" action="../../controller/admin/show-alter-post.php">
+            <label for="idpost">idpost</label>
+            <select name="idpost" id="idpost">
+                <?php ShowPostinlist(); ?>
+            </select>
+            <input type="submit" name="submit" value="Modifier">
+        </form>
     </section>
 </main>
 
