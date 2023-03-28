@@ -42,7 +42,7 @@
     
     <div class="createPost">
     <h1 class="mini-headign">Inscription</h1>
-    <div class="fb-post1-header">
+   
     
                 <i class="fa-solid fa-user-group">Professeur</i>
 
@@ -98,9 +98,7 @@
     </div>
 </div>
 
-<footer>
-    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofia </a>
-</footer>
+
 </body>
 </html>
 

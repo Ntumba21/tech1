@@ -41,7 +41,7 @@
 
                  <div class="createPost">
     <h1 class="mini-headign">Inscription</h1>
-    <div class="post-text">
+   
     
                 <i class="fa-solid fa-user-group">Eleve</i>
       
