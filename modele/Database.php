@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307  "; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -354,6 +354,18 @@ class Database
         $stmt->execute();
         $var =  $stmt->fetchAll();
         return $var[0][0];
+    }
+    public function StatLikeByPost(){
+        $sql = "SELECT COUNT(*) AS like_count, post.titre as post_title
+                FROM likes
+                JOIN post ON likes.idpost = post.idpost
+                WHERE likes.type = 'like'
+                GROUP BY post.idpost
+                ORDER BY like_count DESC
+                LIMIT 5";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
     public function StatUserFriend(){
         $sql = "SELECT user.mail, COUNT(user_has_amis.iduser) as num_friends 

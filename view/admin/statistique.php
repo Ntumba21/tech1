@@ -43,6 +43,16 @@ $showuser = $data->ShowMaxUser();
                 </table>
             </section>
             <section>
+                <h2>les 5 posts ayant le plus de like:</h2>
+                <table>
+                    <tr>
+                        <th>Titre du post</th>
+                        <th>Nombre de likes</th>
+                    </tr>
+                    <?php MakeStatForlikePerPost(); ?>
+                </table>
+            </section>
+            <section>
                 <h2>Message sur les 30 derniers jours</h2>
                 <table>
                     <tr>
