@@ -1,4 +1,5 @@
 <?php
+require_once ('..\..\modele\Database.php');
 function ShowAllPost(): void
 {
     $data = new Database();
