@@ -165,9 +165,9 @@ $db = new Database();
                     <div class="post-text">
   <input type="hidden" name="action" value="create">
   <select name="type" id="type">
-    <option value="actualités">Actualités</option>
-    <option value="événements">Événements</option>
-    <option value="général">Général</option>
+    <option value="1">Actualités</option>
+    <option value="2">Événements</option>
+    <option value="3">Général</option>
   </select><br>
   <input type="text" name="titre" id="titre" placeholder="Titre"><br>
   <input type="text" name="contenu" id="contenu" placeholder="Contenu"><br>
