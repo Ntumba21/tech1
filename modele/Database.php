@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -206,10 +206,11 @@ class Database
         $stmt->execute();
         return true;
     }
-    public function ConnectAdmin($mail){
-        $sql = "SELECT * FROM admin WHERE mail = :mail";
+    public function ConnectAdmin($mail, $password){
+        $sql = "SELECT * FROM admin WHERE mail = :mail AND password = :password";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
         return $stmt-> fetchAll();
     }
@@ -685,7 +686,7 @@ class Database
         INNER JOIN user ON post_user.iduser = user.iduser
         INNER JOIN user_has_amis ON user.iduser = user_has_amis.idamis OR user.iduser = user_has_amis.iduser
         LEFT JOIN user AS etiquette_user ON post.etiquette = etiquette_user.iduser
-                WHERE post_user.iduser = :iduser AND post.type = 'Général'
+                WHERE post_user.iduser = :iduser
                 ORDER BY post.date DESC";
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':iduser', $id);
@@ -699,6 +700,7 @@ class Database
             $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
             $stmt_likes = self::$database->prepare($sql_likes);
             $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
             $stmt_likes->execute();
           
             
