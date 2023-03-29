@@ -18,13 +18,15 @@
     create, delete, modify a post and send message
 </h2>
 </div>
-<div class="container">
+<div class="container" >
     
 
     <h2>Vous etes?</h2>
     <button onclick="window.location.href='view/admin/index.html'">ADMIN</button>
-    <button onclick="window.location.href='view/register'">ELEVE</button>
-    <button onclick="window.location.href='view/register-prof'">PROFESSEUR</button>
+    <button onclick="window.location.href='view/loginform'">ME CONNECTER</button>
+    <button onclick="window.location.href='view/register'">CREER UN COMPTE ELEVE</button>
+    <button onclick="window.location.href='view/register-prof'">CREER UN COMPTE PROFESSEUR</button>
+   
    
 
 

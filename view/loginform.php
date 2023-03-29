@@ -17,7 +17,7 @@
     create, delete, modify a post and send message
 </h2>
 </div>
-<div class="container">
+<div class="container" style="background-color: transparent">
     <div class="form">
         <form action="../controller/login.php" method="post">
 
@@ -35,7 +35,7 @@
             <p><a href="../view/reinitialisationMDP.php">forgot password?</a><br></p>
             <div class="btn">
 
-            <button>create New Account<a href="../view/register.php"></a></button>
+            
             </div>
         </form>
     </div>
