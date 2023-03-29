@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../view/alert.php');
         exit;
     }
-    $password = $password //ici que hache passeword
+    $password = $password; //ici que hache passeword
      //Créer un nouvel utilisateur
     $data = new Database();
     $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $token);
