@@ -28,6 +28,12 @@ $data = webscraping();
 <body>
     
 <!-- header section start -->
+<script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+
 
 
 
@@ -50,7 +56,7 @@ $data = webscraping();
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="../controller/logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>
@@ -220,7 +226,7 @@ $data = webscraping();
     echo '<div class="like-comment">';
     echo '<ul>';
     echo '<li>';
-    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'" onclick="refreshPage()">';
     echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
     echo '</li>';
     echo '<li>';

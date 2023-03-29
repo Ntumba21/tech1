@@ -23,21 +23,30 @@
                  <div class="createPost">
     <h3 class="mini-headign">Connexion</h3>
     
+
+<div class="textbox">
+<h1>Connexion</h1>
+<h2>ECEBOOK helps you to connect, 
     
 <form action="../controller/login.php" method="post">
+<div class="form">
     <label for="email">Adresse e-mail :</label>
     <input type="email" name="email" required><br>
-
+    <div class="form">
     <label for="password">Mot de passe :</label>
     <input type="password" name="password" required>
-
+    <div class="form">
     <button type="submit">Se connecter</button>
-</form>
+    </form>
+    <p><a href="../view/reinitialisationMDP.php">forgot password?</a><br></p>
+    <div class="btn">
+                   
+    <button>create New Account<a href="../view/register.php"></button>
+                 </div>
+
     </div>
 </div>
 
 </body>
-<footer>
-    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
-</footer>
+
 </html>

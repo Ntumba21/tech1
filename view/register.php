@@ -15,67 +15,72 @@
     <div class="home">
     <div class="container">
         <div class="home-weapper">
+      
+         
 
            <!--GAUCHE-->
             <div class="home-left">
                  <!-- BON-->
 
+        
 
-                 <div class="createPost">
-    <h1 class="mini-headign">Inscription</h1>
-   
-    
-                <i class="fa-solid fa-user-group">Eleve</i>
       
         <form action="../controller/register.php" method="post" enctype="multipart/form-data">
-            <div class="form-group">
+            <div class="form">
                 
                 <input type="hidden" name="type" value="1">
-            </div>
-            <div class="form-group">
+            
+           
                 <label for="nom">Nom :</label>
                 <input type="text" name="nom" id="nom" required>
-            </div>
-            <div class="form-group">
+           
                 <label for="prenom">Prénom :</label>
                 <input type="text" name="prenom" id="prenom" required>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <label for="mail">E-mail :</label>
                 <input type="email" name="mail" id="mail" required>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <label for="password">Mot de passe :</label>
                 <input type="password" name="password" id="password" required>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <label for="date_de_naissance">Date de naissance :</label>
                 <input type="date" name="date_de_naissance" id="date_de_naissance" required>
             </div>
-            <div class="form-group">
-                <label for="description">Description :</label>
-                <textarea name="description" id="description"></textarea>
+            <div class="form">
+                <label for="description">Description :</label><br>
+                <input type="text" name="description" id="description"></textarea>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <label for="ville">Ville :</label>
                 <input type="text" name="ville" id="ville" required>
             </div>
-            <div class="form-group">
+            <div class="form">
                 <label for="interests">Intérêts :</label>
                 <input type="text" name="interests" id="interests">
             </div>
-            <div class="form-group">
+            <div class="form">
                 <label for="photo">Photo :</label>
                 <input type="file" name="photo" id="photo">
             </div>
-            <div class="form-group">
-                <label for="idpromos">Promos :</label>
+            <div class="form">
+                <label for="idpromos">Promos :</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                
                     <!-- Ajoutez les options pour les différentes promotions ici -->
-                    <?php ShowPromoEleve(); ?>
+                    <?php ShowPromoEleve(); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
-            <button type="submit">Créer un compte</button>
+            <button type="submit">Créer un compte<a href="../view/loginform.php"></a></button>
         </form>
                  </div>
+                 
+                 <p><a href="../view/reinitialisationMDP.php">forgot password?</a><br></p>
+              
+
 </div>
 </div>
 </body>

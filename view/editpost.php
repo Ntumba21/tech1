@@ -56,7 +56,7 @@ $post = $database->getPostById($idpost);
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>
@@ -130,6 +130,7 @@ etiquette:
     </form>
 </div>
 </div>
+</body>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

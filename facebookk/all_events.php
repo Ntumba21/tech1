@@ -23,6 +23,12 @@ $db = new Database();
 
 </head>
 <body>
+<script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+
     
 <!-- header section start -->
 
@@ -49,7 +55,7 @@ $db = new Database();
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>
@@ -120,7 +126,7 @@ $db = new Database();
     echo '<ul>';
     echo '<li>';
     echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
-    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'" onclick="refreshPage()">';
     echo '</li>';
     echo '<div class="post-actions">';
 echo '<a href="../view/editpost.php?id=' . $p['idpost'] . '">Edit your post</a>';
