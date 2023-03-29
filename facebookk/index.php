@@ -237,20 +237,20 @@ $db = new Database();
                 <div class="home-right-wrapper">
 
                 <div class="event-friend">
-    <div class="event">
-        <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
-        <?php $lastEvenement = $db ->getLastEvent();?>
+                <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
+                <?php $lastEvenement = $db->getLastEvent(); ?>
 
-        <?php if(!$lastEvenement){
-          echo '';
-        }
-        if ($lastEvenement['photo']) {
-        echo '<img src="' . $lastEvenement['photo'] . '" alt="event-img">';
-    } ?>
-        <div class="event-date">
-            <h3><?php echo $lastEvenement['titre']; ?></h3>
-        </div>
-    </div>
+                <?php if ($lastEvenement): ?>
+                    <?php
+                    if (!empty($lastEvenement['photo'])) {
+                        echo '<img src="' . ($lastEvenement['photo'] ?? '') . '" alt="event-img">';
+                    }
+                    ?>
+                    <div class="event-date">
+                        <h3><?php echo ($lastEvenement['titre'] ?? ''); ?></h3>
+                    </div>
+                <?php endif; ?>
+            </div>
 
     <hr>
 
@@ -259,28 +259,27 @@ $db = new Database();
 
                     
 
-                    <div class="create-page">
-                        <ul>
-                            <li>
-                            <a href="createpostActualite.php">
-                                <i class="fa-solid fa-circle-plus"></i></a>
-                                <h4>Actualités</h4>
-                                <?php $lastActualite = $db->getLastActualite();?>
-                            </li>
-                            <li>
-                            <?php  
-                            if ($lastActualite['photo']) {
-        echo '<img src="' . $lastActualite['photo'] . '" alt="groups">';
-    } ?>
-                            </li>
-                            <li>
-                                <b><?php echo $lastActualite['titre']; ?> <span>200k Members</span></b>
-                                <button><a href="all_actualites.php">see all</a></button>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div><!-- home right wrapper end -->
+<div class="create-page">
+    <ul>
+        <li>
+            <a href="createpostActualite.php">
+                <i class="fa-solid fa-circle-plus"></i></a>
+            <h4>Actualités</h4>
+            <?php $lastActualite = $db->getLastActualite(); ?>
+        </li>
+        <li>
+            <?php
+            if (!empty($lastActualite) && $lastActualite['photo']) {
+                echo '<img src="' . ($lastActualite['photo'] ?? '') . '" alt="groups">';
+            }
+            ?>
+        </li>
+        <li>
+            <b><?php echo ($lastActualite['titre'] ?? '') ?> <span>200k Members</span></b>
+            <button><a href="all_actualites.php">see all</a></button>
+        </li>
+    </ul>
+</div><!-- home right wrapper end -->
             </div><!-- home right end -->
 
         </div>

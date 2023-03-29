@@ -97,24 +97,31 @@ $db = new Database();
                                 <?php
     echo '<div class="post">';
     echo '<div class="post-header">';
-    echo '<h2>' . $p['prenom'] . '</h2>';
-    echo '<h2>' . $p['titre'] . '</h2>';
-    echo '<span>' . $p['date'] . '</span><br>';
-    echo '<a href="' . $p['link'] . '">' . $p['link'] . '</a><br>';
-    echo '<a href="../facebookk/profileUnique.php?id=' . $p['etiquette'] . '">' . '@'.$p['etiquette_prenom'] . '</a><br>';
-    echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . '@'.$p['lieu_nom'] . '</a>';
+    echo '<h2>' . ($p['prenom'] ?? '') . '</h2>';
+    echo '<h2>' . ($p['titre'] ?? '') . '</h2>';
+    echo '<span>' . ($p['date'] ?? '') . '</span><br>';
+    echo '<a href="' . ($p['link'] ?? '') . '">' . ($p['link'] ?? '') . '</a><br>';
+    echo '<a href="../facebookk/profileUnique.php?id=' . ($p['etiquette'] ?? '') . '">' . '@'.($p['etiquette_prenom'] ?? '') . '</a><br>';
+    echo '<a href="../facebookk/lieuPost.php?id=' . ($p['idlieu'] ?? '') . '">' . '@'.($p['lieu_nom'] ?? '') . '</a>';
+   // echo '<a href="../facebookk/profileUnique.php?id=' . $p['etiquette'] . '">' . '@'.$p['etiquette_prenom'] . '</a><br>';
+    //echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . '@'.$p['lieu_nom'] . '</a>';
     echo '</div>';
     echo '<div class="post-body">';
-    echo '<p>' . $p['contenu'] . '</p>';
+    echo '<p>' . ($p['contenu'] ?? '') . '</p>';
+    //echo '<p>' . $p['contenu'] . '</p>';
     if ($p['photo']) {
-        echo '<img src="' . $p['photo'] . '" alt="photo">';
+        echo '<img src="' . ($p['photo'] ?? '') . '" alt="photo">';
     }
+    // if ($p['photo']) {
+    //     echo '<img src="' . $p['photo'] . '" alt="photo">';
+    // }
     echo '</div>';
     echo '<div class="post-footer">';
     echo '<div class="like-comment">';
     echo '<ul>';
     echo '<li>';
-    echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
+    echo '<span class="post-likes">' . ($p['nb_likes'] ?? '0') . ' likes</span>';
+    // echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
     echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
     echo '</li>';
     echo '<div class="post-actions">';
