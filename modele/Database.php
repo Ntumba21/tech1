@@ -1101,6 +1101,7 @@ public function ajouterAmi($userId, $amiId)
     }
     public function alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette) {
         // Vérifier si l'utilisateur a le droit de modifier le post
+        var_dump($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette);
         $sql = 'SELECT iduser FROM post_user WHERE idpost = :idpost';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':idpost', $idpost);
@@ -1108,7 +1109,31 @@ public function ajouterAmi($userId, $amiId)
         $result = $stmt->fetch();
         $iduser = $_SESSION['iduser'];
         if (!$result || $result['iduser'] != $iduser) {
-            return false;
+            return "L'utilisateur n'a pas le droit de modifier ce post.";
+        }
+    
+        // Récupérer idamis à partir de l'étiquette
+        $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $etiquette);
+        $stmt->execute();
+        $idamis = $stmt->fetch();
+        if (!$idamis) {
+            return "L'étiquette n'a pas été trouvée.";
+        }
+    
+        // Vérifier si l'utilisateur et l'ami sont amis
+        $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->bindParam(':idamis', $idamis['iduser']);
+        $stmt->execute();
+        $result = $stmt->fetch();
+    
+        if (!$result) {
+            return "L'utilisateur et l'ami ne sont pas amis.";
+        } else {
+            $idAmis = $idamis['iduser'];
         }
     
         // Mettre à jour les informations du post
@@ -1120,10 +1145,14 @@ public function ajouterAmi($userId, $amiId)
         $stmt->bindParam(':contenu', $contenu);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':photo', $photo);
-        $stmt->bindParam(':etiquette', $etiquette);
-        $stmt->execute();
+        $stmt->bindParam(':etiquette', $idAmis);
+        if (!$stmt->execute()) {
+
+            return "Échec de la mise à jour du post.";
+        }
     
         // Mettre à jour le lieu associé au post
+        if (!empty($lieu)) {
         $sql = 'SELECT idlieu FROM lieu WHERE nom = :nom';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':nom', $lieu);
@@ -1134,30 +1163,33 @@ public function ajouterAmi($userId, $amiId)
             $sql = 'INSERT INTO lieu (nom) VALUES (:nom)';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':nom', $lieu);
-            $stmt->execute();
+            if (!$stmt->execute()) {
+            return "Échec de l'ajout du lieu.";
+            }
             $idlieu = self::$database->lastInsertId();
-        } else {
+            } else {
             // Le lieu existe déjà dans la base de données, on récupère son ID
             $idlieu = $result['idlieu'];
+            }// Mettre à jour la relation entre le post et le lieu
+            $sql = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':idpost', $idpost);
+            $stmt->bindParam(':idlieu', $idlieu);
+            if (!$stmt->execute()) {
+            return "Échec de la mise à jour de la relation entre le post et le lieu.";
+            }
         }
-    
-        // Mettre à jour la relation entre le post et le lieu
-        $sql = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpost', $idpost);
-        $stmt->bindParam(':idlieu', $idlieu);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
+            // Supprimer les anciennes relations entre le post et les autres lieux
             $sql = 'DELETE FROM post_has_lieu WHERE idpost = :idpost AND idlieu != :idlieu';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':idpost', $idpost);
             $stmt->bindParam(':idlieu', $idlieu);
-            $stmt->execute();
-        }
-    
-        return true;
-    }
+            if (!$stmt->execute()) {
+                return "Échec de la suppression des anciennes relations entre le post et les autres lieux.";
+            }
+
+            return "success";
+                }
     
 
     public function alterPost3($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette){
