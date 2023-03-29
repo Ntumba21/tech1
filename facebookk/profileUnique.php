@@ -36,27 +36,34 @@ if (isset($_GET['id'])) {
 <!-- header section start -->
 
 
-    <header>
-        <div class="header-container">
-            <div class="header-wrapper">
-                <div class="logoBox">
-                    <img src="../media/logo ECEBOOK.png" alt="logo">
-                </div>
-                <div class="searchBox">
-                    <input type="search">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="iconBox2">
-                
-                <label>  <a href="../facebookk/index.php">
-                <i class="fa-solid fa-house"></i>
-                     </label></a>
-                    <i class="fa-solid fa-bell"></i>
-                    <label><img src="images/us2.png" alt="user"></label>
-                </div>
+<header>
+    <div class="header-container">
+        <div class="header-wrapper">
+        <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
+            <div class="logoBox">
+                <img src="../media/logo ECEBOOK.png" alt="logo">
+            </div>
+            <div class="searchBox">
+                <input type="search">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="iconBox2">
+                <!-- Lien vers index.php avec l'icône de la maison -->
+                <a href="../facebookk/index.php">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                <i class="fa-solid fa-bell"></i>
+                <a href="../facebookk/profil.php">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                </a>
+                <!-- Bouton de déconnexion -->
+                <a href="logout.php" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
 
 
