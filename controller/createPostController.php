@@ -79,7 +79,7 @@ function sendActivationEmail($identifier) {
     }
   }
 
-
+$data = new Database();
   if(isset($_POST['action']) && $_POST['action'] == 'create') {
     if(isset($_POST['type']) && isset($_POST['titre']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['lieu']) && isset($_POST['identification'])) {
       $type = $_POST['type'];
@@ -105,12 +105,11 @@ function sendActivationEmail($identifier) {
         $photo = $filePath;
       }
       $id= $_SESSION["iduser"];
-     $data = new Database();
       // Ajoute le post à la base de données
       $data->CreatePost($type, $titre, $contenu, $date, $lieu, $photo,$id,$etiquette);
 
       $_SESSION['userident'] = $etiquette;
-      $identifie=$data->getUserByNom($etiquette);
+      $identifie = $data->getUserByNom($etiquette);
       SendActivationEmail($identifie);
       
       // Redirige vers la page d'accueil

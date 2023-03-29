@@ -98,5 +98,6 @@ $showuser = $data->ShowMaxUser();
        <!-- <footer>
             <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
         </footer> -->
-    </body>
+            </div>
+</body>
 </html>

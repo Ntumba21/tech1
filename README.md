@@ -8,3 +8,4 @@
 - dans phpmyadmin, importer le fichier sql.sql dans la base de donnée
 - ensuite importer le fichier promo.sql et admin.sql
 - les identifiants de l'admin sont : `admin@admin.fr` et son mot de passe est: `admin`
+- creer un vrai mail pour l'envoi des mails de confirmation d'inscription et de mot de passe oublié

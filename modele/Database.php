@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -225,8 +225,6 @@ class Database
         $stmt->bindParam(':photo', $photo);
         $stmt->bindParam(':for', $for);
         $stmt->bindParam(':link', $link);
-//        $stmt->bindParam(':interets', $interets);
-//        $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
         //recuperer l'id du post creer
         $idpost = self::$database->lastInsertId();
@@ -295,14 +293,14 @@ class Database
         $stmt3->execute();
         return true;
     }
-    public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $etiquette, $for, $link,$lieu){
+    public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $for, $link,$lieu){
         if($photo == NULL){
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets WHERE idpost = :idpost";
             $stmt = self::$database->prepare($sql);
 
             $stmt->bindParam(':date', $date);
         }else{
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, etiquette = :etiquette WHERE idpost = :idpost";
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets WHERE idpost = :idpost";
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':photo', $photo);
         }
@@ -313,7 +311,6 @@ class Database
         $stmt->bindParam(':for', $for);
         $stmt->bindParam(':link', $link);
         $stmt->bindParam(':interets', $interets);
-        $stmt->bindParam(':etiquette', $etiquette);
         $stmt->execute();
         $this->Makelieu($lieu, $idpost);
         return true;

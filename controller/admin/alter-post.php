@@ -1,7 +1,7 @@
 <?php
 require_once ('..\..\modele\Database.php');
 require_once ('..\..\controller\session.php');
-//TODO: faire ça
+
 if (isset($_POST["submit"])){
     $idpost = $_POST["id-post"];
     $type = $_POST["type"];
@@ -31,7 +31,7 @@ if (isset($_POST["submit"])){
 
     }
     $data = new Database();
-//    $data->AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interests, $etiquette, $for, $link,$lieu);
+    $data->AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interests, $for, $link,$lieu);
     $_SESSION['alert'] = 'Post ajouté';
 
 }else{

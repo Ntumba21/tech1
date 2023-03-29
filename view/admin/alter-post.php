@@ -20,9 +20,9 @@ $lieu = $data->getLieuByIdPost($_GET['idpost']);
                 <input type="hidden" name="id-post" value="<?php echo $_GET['idpost']; ?>">
                 <label for="type">Type</label>
                 <select name="type" id="type">
-                    <option value="actualités">Actualités</option>
-                    <option value="événements">Événements</option>
-                    <option value="général">Général</option>
+                    <option value="1">Actualités</option>
+                    <option value="2">Événements</option>
+                    <option value="3">Général</option>
                 </select>
                 <label for="titre">Titre</label>
                 <input type="text" name="titre" id="titre" value="<?php echo $post['titre']; ?>">
