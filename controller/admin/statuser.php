@@ -52,9 +52,12 @@ function MakeStaForMessagePerDay(){
                                 datasets: [{
                                     label: 'Nombre de message par mois',
                                     data: message,
-                                    borderWidth: 1
+                                    borderWidth: 1,
+                                    borderColor: 'blue',
+                                backgroundColor: 'blue',
                                 }]
                             },
+                            
                             options: {
                                 scales: {
                                     y: {

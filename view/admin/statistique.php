@@ -11,7 +11,7 @@ $showuser = $data->ShowMaxUser();
     <head>
         <title>Statistique</title>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <link rel="stylesheet" href="../../view/style/style.css">
+        <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -21,38 +21,30 @@ $showuser = $data->ShowMaxUser();
                 <div class="logoBox">
                     <img src="../../media/logo ECEBOOK.png" alt="logo">
                 </div>
-                <div class="searchBox">
-                    <input type="search">
-                    <i class="fas fa-search"></i>
-                </div>
+                <section>
+                    <h1 class="mini-headign">Statistique</h1>
+                </section>
                 <div class="iconBox2">
                 <i class="fa-solid fa-house"></i>
-                    <i class="fa-solid fa-bell"></i>
-                    <label>  <a href="../../facebookk/profil.php">
-                    <img src="../../facebookk/images/us2.png" alt="user">
-                     </label></a>
                 </div>
             </div>
         </div>
     </header>
 
 
-    <div class="home">
-    <div class="container">
-        <div class="home-weapper">
+    <main class="home">
+        <section>
+            <article class="firt-article">
+                <p>Le Nombre d'utilisateurs dans le système est : </p> <p><?php echo $showuser; ?></p>
+            </article>
+        </section>
+        <section class="home-weapper">
 
            <!--GAUCHE-->
-            <div class="home-left">
+            <article class="home-left">
                  <!-- BON-->
-                 <h1 class="mini-headign">Statistique</h1>
-    
-
-           
-                <section>
-                    <p>Le Nombre d'utilisateurs dans le système est:</p> <?php echo $showuser; ?>
-                </section>
-                <section>
-                    <h2>Les utilisateurs ayant créé le plus de message dans le systeme:</h2>
+                <div class="data-contain">
+                    <p>Les utilisateurs ayant créé le plus de message dans le systeme:</p>
                     <table>
                         <tr>
                             <th>Mail</th>
@@ -60,44 +52,39 @@ $showuser = $data->ShowMaxUser();
                         </tr>
                         <?php MakeStatForMessage(); ?>
                     </table>
-                </section>
-            <section>
-                <h2>Les utilisateurs ayant créé le plus d'amis:</h2>
-                <table>
-                    <tr>
-                        <th>Mail</th>
-                        <th>Nombre de message</th>
-                    </tr>
-                    <?php MakeStatForFriendship(); ?>
-                </table>
-            </section>
-            <section>
-                <h2>les 5 posts ayant le plus de like:</h2>
-                <table>
-                    <tr>
-                        <th>Titre du post</th>
-                        <th>Nombre de likes</th>
-                    </tr>
-                    <?php MakeStatForlikePerPost(); ?>
-                </table>
-            </section>
-            <section>
-                <h2>Message sur les 30 derniers jours</h2>
-                <table>
-                    <tr>
-                        <th>Mail</th>
-                        <th>Nombre de message</th>
-                    </tr>
-                    <div>
-                        <canvas id="myChart"></canvas>
-                    </div>
-                    <?php MakeStaForMessagePerDay(); ?>
-                </table>
-            </section>
-        </main>
-       <!-- <footer>
-            <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
-        </footer> -->
-            </div>
+                </div>
+                <div class="data-contain">
+                    <p>Les utilisateurs ayant créé le plus d'amis:</p>
+                    <table>
+                        <tr>
+                            <th>Mail</th>
+                            <th>Nombre de message</th>
+                        </tr>
+                        <?php MakeStatForFriendship(); ?>
+                    </table>
+                </div>
+                <div class="data-contain">
+                    <p>les 5 posts ayant le plus de like:</p>
+                    <table>
+                        <tr>
+                            <th>Titre du post</th>
+                            <th>Nombre de likes</th>
+                        </tr>
+                        <?php MakeStatForlikePerPost(); ?>
+                    </table>
+                </div>
+            </article>
+            <article class="graphique">
+                <p>Message sur les 30 derniers jours</p>
+                <div>
+                    <canvas id="myChart" width="70vh" height="35vh"></canvas>
+                </div>
+                <?php MakeStaForMessagePerDay(); ?>
+            </article>
+        </section>
+    </main>
+<!--        <footer>-->
+<!--            <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>-->
+<!--        </footer>-->
 </body>
 </html>
