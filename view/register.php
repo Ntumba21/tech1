@@ -98,10 +98,10 @@
 </div>
 </div>
 </body>
-
+<!--
 <footer>
 <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
-</footer> 
+</footer>  -->
 
 </html>
 
