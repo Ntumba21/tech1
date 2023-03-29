@@ -47,16 +47,17 @@ $post = $database->getPostById($idpost);
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
-                <a href="../facebookk/index.php">
-                    <i class="fa-solid fa-house"></i>
-                </a>
-                <i class="fa-solid fa-bell"></i>
+                <a href="../facebookk/index.php"> 
+                    <i class="fas fa-home"></i>
+                </a> 
+                
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50px" width="50px">
                 </a>
                 <!-- Bouton de déconnexion -->
+
                 <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> 
+                <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>
@@ -79,9 +80,9 @@ $post = $database->getPostById($idpost);
         type:
     <?php if(isset($post['type']))  ?>
 <select  name="type" id="type"> 
-<option value="actualités">Actualités</option>
-    <option value="événements">Événements</option>
-    <option value="général">Général</option>
+<option value="1">Actualités</option>
+    <option value="2">Événements</option>
+    <option value="3">Général</option>
   </select><br>  
    titre:
     <?php if(isset($post['titre'])) { ?>
@@ -130,7 +131,6 @@ etiquette:
     </form>
 </div>
 </div>
-</body>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
