@@ -173,7 +173,13 @@ $db = new Database();
   <input type="text" name="contenu" id="contenu" placeholder="Contenu"><br>
   <input type="date" name="date" id="date" placeholder="Date"><br>
   <input type="text" name="lieu" id="lieu" placeholder="Nom du lieu"><br>
+
+  <div class="search-lieu-result"></div>
+
   <input type="text" name="identification" id="identification" placeholder="Identification">
+
+  <div class="search-identification-result"></div>
+
   <input type="file" name="photo" id="photo">
     </div>
   <button type="submit">Publier</button>
@@ -235,12 +241,12 @@ $db = new Database();
                 <div class="event-friend">
     <div class="event">
         <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
-        <?php $lastEvent = $db->getLastEvent();?>
-        <?php if ($p['photo']) {
-        echo '<img src="' . $p['photo'] . '" alt="event-img">';
+        <?php $lastEvenement = $db ->getLastEvent();?>
+        <?php if ($lastEvenement['photo']) {
+        echo '<img src="' . $lastEvenement['photo'] . '" alt="event-img">';
     } ?>
         <div class="event-date">
-            <h3><?php echo $lastEvent['titre']; ?></h3>
+            <h3><?php echo $lastEvenement['titre']; ?></h3>
         </div>
     </div>
 
@@ -261,7 +267,7 @@ $db = new Database();
                             </li>
                             <li>
                             <?php if ($lastActualite['photo']) {
-        echo '<img src="' . $p['photo'] . '" alt="groups">';
+        echo '<img src="' . $lastActualite['photo'] . '" alt="groups">';
     } ?>
                             </li>
                             <li>
@@ -351,7 +357,101 @@ $db = new Database();
         }
     });
 });
+
+
+
+
+
+
+
+$(document).ready(function () {
+  //...
+  
+  // Recherche d'identification
+  $("#identification").keyup(function () {
+    var identification = $(this).val();
+    
+    if (identification.startsWith("@")) {
+      identification = identification.slice(1); // Enlève le @ du début
+      
+      if (identification != "") {
+        $.ajax({
+          type: "GET",
+          url: "../controller/createPostController.php",
+          data: {
+            action: "search_identification",
+            identification: encodeURIComponent(identification),
+          },
+          success: function (data) {
+            $(".search-identification-result").show();
+            $(".search-identification-result").html(data);
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      } else {
+        $(".search-identification-result").html("");
+        $(".search-identification-result").hide();
+      }
+    }
+  });
+
+  // Recherche de lieu
+  $("#lieu").keyup(function () {
+    var lieu = $(this).val();
+    
+    if (lieu.startsWith("@")) {
+      lieu = lieu.slice(1); // Enlève le @ du début
+      
+      if (lieu != "") {
+        $.ajax({
+          type: "GET",
+          url: "../controller/createPostController.php",
+          data: {
+            action: "search_lieu",
+            lieu: encodeURIComponent(lieu),
+          },
+          success: function (data) {
+            $(".search-lieu-result").show();
+            $(".search-lieu-result").html(data);
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      } else {
+        $(".search-lieu-result").html("");
+        $(".search-lieu-result").hide();
+      }
+    }
+  });
+  
+  // ...
+});
+
+
+$(document).ready(function () {
+  
+  $(document).on('click', '.search-identification-result li', function () {
+    // Récupère le texte de l'élément cliqué et ajoute un "@" devant
+    var selectedItem = $(this).text();
+    // Modifie la valeur du champ "identification" avec le texte sélectionné
+    $('#identification').val(selectedItem);
+    $('.search-identification-result').hide();
+  });
+
+  $(document).on('click', '.search-lieu-result li', function () {
+    // Récupère le texte de l'élément cliqué
+    var selectedItem = $(this).text();
+    $('#lieu').val(selectedItem);
+    $('.search-lieu-result').hide();
+  });
+
+  // ...
+});
 </script>
+
 
 
 

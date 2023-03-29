@@ -23,7 +23,7 @@ if ($action == 'ajouterAmi') {
             echo '<div class="result-search">';
             echo '<ul>';
             foreach ($resultats as $resultat) {
-                echo '<li><a href="#" data-ami-id="' . $resultat['iduser'] . '">' . $resultat['nom'] . ' ' . $resultat['prenom'] . '</a></li>';
+                echo '<li><a href="#" data-ami-id="' . $resultat['iduser'] . '">' . $resultat['nom'] . ' ' . $resultat['prenom'] . '<img src="' . $resultat['photo'] . '>"'.'</a></li>';
             }
             echo '</ul>';
             echo '</div>';

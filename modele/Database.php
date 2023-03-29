@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -1234,6 +1234,29 @@ public function ajouterAmi($userId, $amiId)
         $statement->bindParam(':mail', $email);
         $statement->execute();
     }
+
+
+
+
+
+    public function rechercherUtilisateursParIdentification($identification,$iduser) {
+        $sql = "SELECT nom, prenom FROM user WHERE nom LIKE :identification AND iduser!= :id";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindValue(':identification', '%' . $identification . '%');
+        $stmt->bindParam(':id', $iduser);
+        $stmt->execute();
+      
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
+      
+      public function rechercherLieux($lieu) {
+        $sql = "SELECT nom as lieu FROM lieu WHERE nom LIKE :lieu";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindValue(':lieu', '%' . $lieu . '%');
+        $stmt->execute();
+      
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
 
     
 
