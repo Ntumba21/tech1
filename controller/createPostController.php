@@ -110,7 +110,7 @@ $data = new Database();
 
 
       $identifie = $data->getUserByNom($etiquette);
-      sendActivationEmail($identifie['mail']);
+      //sendActivationEmail($identifie['mail']);
       $_SESSION['userident'] = $identifie['iduser'];
       
       // Redirige vers la page d'accueil

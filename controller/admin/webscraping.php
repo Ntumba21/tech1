@@ -1,5 +1,4 @@
 <?php
-    require_once ('..\..\modele\Database.php');
     function webscraping() {
         $db = new Database();
         $html = file_get_contents('https://www.lemonde.fr/');
@@ -23,7 +22,5 @@
                 $date = date("Y-m-d H:i:s");
             }
         }
-        $mail = 'admin@admin.fr';
-      //  $db->CreatePostforAll(1,$data['title'],$data['description'],date("Y-m-d H:i:s"),null,$data['image'],0,$mail,$data['link']);
+        return $data;
     }
-    webscraping();
