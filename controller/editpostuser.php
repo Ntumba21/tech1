@@ -1,11 +1,84 @@
 <?php
 require_once("../modele/database.php");
 require_once("../controller/session.php");
+require_once '../controller/src/PHPMailer.php';
+require_once '../controller/src/SMTP.php';
+require_once '../controller/src/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 // Vérifiez si la session est active, sinon redirigez l'utilisateur vers la page de connexion
 //redirectToHome();
-
+$id= $_SESSION["iduser"];
 $mail= $_SESSION['mail'];
+function sendActivationEmail($identifier) {
+    $mail = new PHPMailer(true);
+  
+    try {
+        // Paramètres du serveur
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // Remplacez par l'hôte de votre serveur SMTP
+        $mail->SMTPAuth = true;
+        $mail->Username = 'EceBook.assistance@gmail.com'; // Remplacez par votre adresse e-mail
+        $mail->Password = 'fgsdtlmyuzxsewpy'; // Remplacez par le mot de passe de votre e-mail
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+  
+        // Destinataires
+        $mail->setFrom('EceBook.assistance@gmail.com', 'EceBook'); // Remplacez par votre adresse e-mail et le nom de l'expéditeur
+        $mail->addAddress($identifier);
+  
+        // Contenu
+        $mail->isHTML(true);
+        $mail->Subject = 'Identification post';
+        $mail->Body = 'Vous avez été identidié dans ce post: <a href="http://localhost/projet-tech/facebookk/notification.php?email=' . urlencode($identifier) . '">Voir le poste</a>';
+  
+        $mail->send();
+        return true;    
+    } catch (Exception $e) {
+        return false;
+    }
+  }
+  
+    if (isset($_GET['identification'])) {
+      $identification = trim($_GET['identification']);
+  
+      $data = new Database();
+      $resultats = $data->rechercherUtilisateursParIdentification($identification,$id);
+  
+      if (count($resultats) > 0) {
+        echo '<div class="result-search">';
+        echo '<ul>';
+        foreach ($resultats as $resultat) {
+          echo '<li>' . $resultat['nom']. '</li>';
+        }
+        echo '</ul>';
+        echo '</div>';
+      }
+    }
+  
+  
+    if (isset($_GET['lieu'])) {
+      $lieu = trim($_GET['lieu']);
+  
+      $data = new Database();
+      $resultats = $data->rechercherLieux($lieu);
+  
+      if (count($resultats) > 0) {
+        echo '<div class="result-search">';
+        echo '<ul>';
+        foreach ($resultats as $resultat) {
+          echo '<li>' . $resultat['lieu'] . '</li>';
+        }
+        echo '</ul>';
+        echo '</div>';
+     
+      }
+    }
+  
+  $data = new Database();
 $database = new Database();
 
 
@@ -19,11 +92,14 @@ if (isset($_POST['submit'])) {
     $lieu = isset($_POST['lieu']) ? $_POST['lieu'] : '';
     $photo = isset($_POST['photo']) ? $_POST['photo'] : '';
     $iduser = isset($_POST['iduser']) ? $_POST['iduser'] : '';
-    $etiquette = isset($_POST['etiquette']) ? $_POST['etiquette'] : '';
+    $etiquette = isset($_POST['identification']) ? $_POST['identification'] : '';
     
     $id= $_SESSION["iduser"];
     // Appel à la fonction alterPost
     $result = $database->alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette);
+    $identifie = $data->getUserByNom($etiquette);
+    //sendActivationEmail($identifie['mail']);
+    $_SESSION['userident'] = $identifie['iduser'];
 
     // Vérification du résultat de la mise à jour
     if ($result === "success") {

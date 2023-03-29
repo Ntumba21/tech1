@@ -24,7 +24,7 @@ $post = $database->getPostById($idpost);
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <title>facebook.com</title>
     <!-- style css link -->
-    <link rel="stylesheet" href="../view/style/style.css">
+    <link rel="stylesheet" href="../view/style/editpst.css">
     <!-- fontawesome css link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -67,6 +67,7 @@ $post = $database->getPostById($idpost);
 
 <div class="createPost">
     <h3 class="mini-headign">Modifier Post</h3>
+    <div class="post-text">
     
     <form action="../controller/editpostuser.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="idpost" value="<?php echo $post['idpost']; ?>"><br>
@@ -102,19 +103,19 @@ jj/mm/aaaa
 
 lieu:
 <?php if(isset($post['lieu'])) { ?>
-<input type="text" name="lieu" value="<?php echo $post['lieu']; ?>">
+<input type="text" name="lieu" id="lieu" value="<?php echo $post['lieu']; ?>">
 <?php } else { ?>
-<input type="text" name="lieu" value="">
+<input type="text" name="lieu" id="lieu" value="">
 <?php } ?> <br>
-
-
+<div class="search-lieu-result" style="display: none;"></div>
 
 etiquette:
 <?php if(isset($post['etiquette'])) { ?>
-<input type="text" name="etiquette" value="<?php echo $post['etiquette']; ?>">
+<input type="text" name="etiquette" id="identification" value="<?php echo $post['etiquette']; ?>">
 <?php } else { ?>
-<input type="text" name="etiquette" value="">
+<input type="text" name="etiquette" id="identification" value="">
 <?php } ?> <br>
+<div class="search-identification-result" style="display: none;"></div>
 <label for="photo">Photo:</label>
       <input type="file" name="photo"><br><br>
      
@@ -124,9 +125,101 @@ etiquette:
     </form>
 </div>
 </div>
-</body>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
 
+$(document).ready(function () {
+  //...
+  
+  // Recherche d'identification
+  $("#identification").keyup(function () {
+    var identification = $(this).val();
+    
+    if (identification.startsWith("@")) {
+      identification = identification.slice(1); // Enlève le @ du début
+      
+      if (identification != "") {
+        $.ajax({
+          type: "GET",
+          url: "../controller/createPostController.php",
+          data: {
+            action: "search_identification",
+            identification: encodeURIComponent(identification),
+          },
+          success: function (data) {
+            $(".search-identification-result").show();
+            $(".search-identification-result").html(data);
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      } else {
+        $(".search-identification-result").html("");
+        $(".search-identification-result").hide();
+      }
+    }
+  });
+
+  // Recherche de lieu
+  $("#lieu").keyup(function () {
+    var lieu = $(this).val();
+    
+    if (lieu.startsWith("@")) {
+      lieu = lieu.slice(1); // Enlève le @ du début
+      
+      if (lieu != "") {
+        $.ajax({
+          type: "GET",
+          url: "../controller/createPostController.php",
+          data: {
+            action: "search_lieu",
+            lieu: encodeURIComponent(lieu),
+          },
+          success: function (data) {
+            $(".search-lieu-result").show();
+            $(".search-lieu-result").html(data);
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      } else {
+        $(".search-lieu-result").html("");
+        $(".search-lieu-result").hide();
+      }
+    }
+  });
+  
+  // ...
+});
+
+
+$(document).ready(function () {
+  
+  $(document).on('click', '.search-identification-result li', function () {
+    // Récupère le texte de l'élément cliqué et ajoute un "@" devant
+    var selectedItem = $(this).text();
+    // Modifie la valeur du champ "identification" avec le texte sélectionné
+    $('#identification').val(selectedItem);
+    $('.search-identification-result').hide();
+  });
+
+  $(document).on('click', '.search-lieu-result li', function () {
+    // Récupère le texte de l'élément cliqué
+    var selectedItem = $(this).text();
+    $('#lieu').val(selectedItem);
+    $('.search-lieu-result').hide();
+  });
+
+  // ...
+});
+</script>
 <!-- <footer>
     <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
 </footer> -->
+</body>
+
+
 </html>
