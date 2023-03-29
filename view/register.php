@@ -17,7 +17,9 @@
 <div class="container">
     <div class="form">
             <form action="../controller/register.php" method="post" enctype="multipart/form-data">
-                    <?php echo  $_SESSION['alert-register']; ?>
+                    <?php  if(isset($_SESSION['alert-register'])){
+                        echo  $_SESSION['alert-register'];
+                    } ?>
                     <input type="hidden" name="type" value="1">
 
 

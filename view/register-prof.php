@@ -23,7 +23,9 @@
                     <i class="fa-solid fa-user-group">Professeur</i>
 
             <form action="../controller/register.php" method="post">
-                <?php echo  $_SESSION['alert-register']; ?>
+                <?php  if(isset($_SESSION['alert-register'])){
+                    echo  $_SESSION['alert-register'];
+                } ?>
                 <div class="form-group">
                     <input type="hidden" name="type" value="2">
                 </div>

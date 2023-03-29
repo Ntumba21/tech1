@@ -23,7 +23,9 @@
 
             <label for="email">Adresse e-mail :
             <input type="email" name="email" required><br></label>
-            <?php echo $_SESSION['html-login']; ?>
+            <?php if (isset($_SESSION['html-login'])){
+                echo $_SESSION['html-login'];
+            }?>
             <label for="password">Mot de passe :
             <input type="password" name="password" required></label>
 
