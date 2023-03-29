@@ -11,9 +11,11 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
        $redirectUrl = "../facebookk/index.php"; // use an absolute path
        echo '<script>window.location.href = "'.$redirectUrl.'";</script>';
    } else {
-       $_SESSION['alert'] = 'Identifiants incorrects ';
+
+       $_SESSION['alert'] = 'Identifiants incorrects ou mots de passe incorrects';
        $_SESSION['redirection'] = 'loginform.php';
-       header('Location: ../view/alert.php');
+       $_SESSION['html-login'] = "<div class='alert alert-danger' role='alert'>{$_SESSION['alert']}</div>";
+       header('Location: ../view/loginform.php');
    }
 }
 

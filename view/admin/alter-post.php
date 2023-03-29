@@ -34,16 +34,6 @@ $lieu = $data->getLieuByIdPost($_GET['idpost']);
             </div>
         </div>
     </header>
-
-
-    <div class="home">
-    <div class="container">
-        <div class="home-weapper">
-
-           <!--GAUCHE-->
-            <div class="home-left">
-                 <!-- BON-->
-  
                  <h1> Modifier un post </h1>
     </header>
     <div class="content">

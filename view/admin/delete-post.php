@@ -33,22 +33,10 @@ require_once '../../controller/admin/postfunction.php'?>
             </div>
         </div>
     </header>
-
-
-    <div class="home">
-    <div class="container">
-        <div class="home-weapper">
-
-           <!--GAUCHE-->
-            <div class="home-left">
-                 <!-- BON-->
-  
-        <h1>Delete post</h1>
-    </header>
     <div class="content">
         <div class="square">
         <section>
-
+            <h1>Delete post</h1>
             <form name="supprimer-post" method="post" action="../../controller/admin/delete-post.php">
                 <label for="idpost">idpost</label>
                 <table>

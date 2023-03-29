@@ -97,40 +97,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Valider le mot de passe
     if (!validatePassword($password)) {
-        $_SESSION['alert']= "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial.";
+        $_SESSION['alert-register']= "<div class='alert alert-danger' role='alert'>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</div>";
         if($type == 1){
-            $_SESSION['redirection'] = 'register.php';
-        }else{
-            $_SESSION['redirection'] = 'register-prof.php';
+            $_SESSION['redirection'] = '../view/register.php';
+        }elseif($type == 2){
+            $_SESSION['redirection'] = '../view/register-prof.php';
         }
-        header('Location: ../view/alert.php');
+        header("Location: {$_SESSION['redirection']}");
         exit;
     }
 
     // Valider l'email
     if (!validateEmail($mail, $type)) {
-        $_SESSION['alert']= "L'adresse e-mail n'est pas valide.";
+        $_SESSION['alert-register']= "<div class='alert alert-danger' role='alert'>L'adresse e-mail n'est pas valide.</div>";
         if($type == 1){
-            $_SESSION['redirection'] = 'register.php';
-        }else{
-            $_SESSION['redirection'] = 'register-prof.php';
+            $_SESSION['redirection'] = '../view/register.php';
+        }elseif($type == 2){
+            $_SESSION['redirection'] = '../view/register-prof.php';
         }
-        header('Location: ../view/alert.php');
+        header("Location: {$_SESSION['redirection']}");
         exit;
     }
 
     // Vérifier si l'email est déjà utilisé
     if(!uniqueEmail($mail)){
         if($type == 1){
-            $_SESSION['redirection'] = 'register.php';
-        }else{
-            $_SESSION['redirection'] = 'register-prof.php';
+            $_SESSION['redirection'] = '../view/register.php';
+        }elseif($type == 2){
+            $_SESSION['redirection'] = '../view/register-prof.php';
         }
-        $_SESSION['alert'] = "L'adresse e-mail est déjà utilisée.";
-        header('Location: ../view/alert.php');
+        $_SESSION['alert-register'] = "<div class='alert alert-danger' role='alert'>L'adresse e-mail est déjà utilisée.</div>";
+        header("Location: {$_SESSION['redirection']}");
         exit;
     }
-    $password = $password; //ici que hache passeword
+
      //Créer un nouvel utilisateur
     $data = new Database();
     $result = $data->createUser($nom, $prenom, $mail, $password, $date_de_naissance, $type, $description, $ville, $interests, $photo, $isvalide, $token);
@@ -139,22 +139,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($type == 1) {
             $data->registerPromo($mail,$idpromos);
             $data->defaultFriend($mail);
+            $_SESSION['alert-register']="<div class='alert alert-success' role='alert'>Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.</div>";
+            header('Location: ../view/register.php');
         }elseif ($type == 2){
             foreach ($idpromos as $idpromo){
                 $data->registerPromo($mail,$idpromo[0]);
             }
-            $_SESSION['alert']="Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
-            $_SESSION['redirection'] = 'loginform.php';
-            header('Location: ../view/alert.php');
+            $_SESSION['alert-register']="<div class='alert alert-success' role='alert'>Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.</div>";
+            header('Location: ../view/register-prof.php');
         }
-//        if (sendActivationEmail($mail, $token)) {
-//            echo "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
-//            //$data->defaultFriend($mail,$idpromos);
-//        } else {
-//            echo "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
-//        }
+        if (sendActivationEmail($mail, $token)) {
+            $_SESSION['alert-register']= "Utilisateur créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte.";
+            //$data->defaultFriend($mail,$idpromos);
+        } else {
+            $_SESSION['alert-register']= "Erreur lors de l'envoi de l'e-mail d'activation. Veuillez contacter l'administrateur.";
+        }
 } else {
-        $_SESSION['alert'] = "Erreur lors de la création de l'utilisateur.";
+        $_SESSION['alert'] = "<div class='alert alert-danger' role='alert'>Erreur lors de la création de l'utilisateur.</div>";
         header('Location: ../view/alert.php');
 }
 }

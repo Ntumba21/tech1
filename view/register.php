@@ -1,4 +1,4 @@
-<?php require_once '../controller/promo.php'; ?>
+<?php require_once '../controller/promo.php'; require_once '../controller/session.php';?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,51 +15,50 @@
 </h2> 
 
 <div class="container">
-<div class="form">
-        <form action="../controller/register.php" method="post" enctype="multipart/form-data">
-                
-                <input type="hidden" name="type" value="1">
-                
-                
-                <label for="nom">Nom :</label>
-                <input type="text" name="nom" id="nom" required>
-               
-               
-                <label for="prenom">Prénom :</label>
-                <input type="text" name="prenom" id="prenom" required>
-           
-                <label for="mail">E-mail :</label>
-                <input type="email" name="mail" id="mail" required>
-            
-                <label for="password">Mot de passe :</label>
-                <input type="password" name="password" id="password" required>
-            
-                <label for="date_de_naissance">Date de naissance :</label>
-                <input type="date" name="date_de_naissance" id="date_de_naissance" required>
-            
-                <label for="description">Description :</label><br>
-                <input type="text" name="description" id="description"></textarea>
-            
-                <label for="ville">Ville :</label>
-                <input type="text" name="ville" id="ville" required>
-           
-                <label for="interests">Intérêts :</label>
-                <input type="text" name="interests" id="interests">
-         
-                <label for="photo">Photo :</label>
-                <input type="file" name="photo" id="photo">
-                <label for="idpromos">Promos :</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                
-                    <!-- Ajoutez les options pour les différentes promotions ici -->
-                    <?php ShowPromoEleve(); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="form">
+            <form action="../controller/register.php" method="post" enctype="multipart/form-data">
+                    <?php echo  $_SESSION['alert-register']; ?>
+                    <input type="hidden" name="type" value="1">
 
-            <button type="submit">Créer un compte</button>
-            </div>
-        </form>
-        </div>
+
+                    <label for="nom">Nom :</label>
+                    <input type="text" name="nom" id="nom" required>
+
+
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" name="prenom" id="prenom" required>
+
+                    <label for="mail">E-mail :</label>
+                    <input type="email" name="mail" id="mail" required>
+
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" name="password" id="password" required>
+
+                    <label for="date_de_naissance">Date de naissance :</label>
+                    <input type="date" name="date_de_naissance" id="date_de_naissance" required>
+
+                    <label for="description">Description :</label><br>
+                    <input type="text" name="description" id="description"></textarea>
+
+                    <label for="ville">Ville :</label>
+                    <input type="text" name="ville" id="ville" required>
+
+                    <label for="interests">Intérêts :</label>
+                    <input type="text" name="interests" id="interests">
+
+                    <label for="photo">Photo :</label>
+                    <input type="file" name="photo" id="photo">
+                    <label for="idpromos">Promos :</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <!-- Ajoutez les options pour les différentes promotions ici -->
+                        <?php ShowPromoEleve(); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <button type="submit">Créer un compte</button>
+            </form>
+    </div>
                 
                  
 </body>

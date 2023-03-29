@@ -45,8 +45,6 @@
     
     <div class="createPost">
     <h1 class="mini-headign">create admin</h1>
-</head>
-<body>
     <form name="ajouter-admin" method="post" action="../../controller/admin/create-admin.php">
         <label for="nom">Nom :</label>
         <input type="text" name="nom" id="nom"><br>
@@ -56,5 +54,6 @@
         <input type="password" name="password" id="password"><br>
         <button type="submit" name="submit">Créer</button>
     </form>
+</div>
 </body>
 </html>
