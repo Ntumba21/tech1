@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -743,6 +743,32 @@ public function Connect($mail, $password){
 
 
     //Voir ses postes
+
+
+
+    public function ShowPostAdmin() {
+        $sql = "SELECT post.*, admin.idAdmin AS iduser, admin.nameAdmin AS user_nom, lieu.idlieu, lieu.nom AS lieu_nom
+                FROM post
+                INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+                INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+                INNER JOIN post_has_admin ON post.idpost = post_has_admin.idpost
+                INNER JOIN admin ON post_has_admin.idadmin = admin.idAdmin
+                ORDER BY post.date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+    
+        // Récupérer le nombre de likes pour chaque publication
+        foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            $stmt_likes->execute();
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
+    }
 
     public function ShowPostALL(){
         $sql = "SELECT post.*, user.iduser, user.nom AS user_nom, user.prenom, lieu.idlieu, lieu.nom AS lieu_nom
