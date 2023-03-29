@@ -131,8 +131,8 @@ if (isset($_GET['id'])) {
     echo '<div class="like-comment">';
     echo '<ul>';
     echo '<li>';
-    echo '<img src="images/love.png" alt="love">';
-    echo '<span>' . $p['nblike'] . ' like</span>';
+    echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
     echo '</li>';
     echo '<div class="post-actions">';
 echo '<a href="../view/editpost.php?id=' . $p['idpost'] . '">Edit your post</a>';
@@ -161,6 +161,28 @@ echo '</div>';
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).on('click', '.like-button', function () {
+    var button = $(this);
+    var idpost = button.attr("idpost");
+    $.ajax({
+        url: "../controller/like.php",
+        type: "POST",
+        data: {
+            idpost: idpost
+        },
+        success: function () {
+            // Increment like count
+            var count = parseInt($(".like-count-" + idpost).text()) + 1;
+            $(".like-count-" + idpost).text(count);
+
+            // Disable like button
+            button.prop('disabled', true);
+        }
+    });
+});
+</script>
 
 
 

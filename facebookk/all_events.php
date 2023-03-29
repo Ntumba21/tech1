@@ -4,14 +4,6 @@ require_once '../controller/session.php';
 $user_email = $_SESSION['mail'];
 $db = new Database();
 
-
-if (isset($_GET['id'])) {
-    $lieu_id = $_GET['id'];
-} else {
-    // Si l'ID n'est pas défini dans l'URL, rediriger vers une page d'erreur ou la page d'accueil
-    header('Location: index.php');
-    exit();
-}
 ?>
 
 
@@ -35,9 +27,10 @@ if (isset($_GET['id'])) {
 <!-- header section start -->
 
 
-    <header>
+<header>
         <div class="header-container">
             <div class="header-wrapper">
+            <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
                 <div class="logoBox">
                     <img src="../media/logo ECEBOOK.png" alt="logo">
                 </div>
@@ -51,7 +44,7 @@ if (isset($_GET['id'])) {
                 <i class="fa-solid fa-house"></i>
                      </label></a>
                     <i class="fa-solid fa-bell"></i>
-                    <label><img src="images/us2.png" alt="user"></label>
+                    <label><img src="<?php echo $user['photo'] ?>" alt="user"></label>
                 </div>
             </div>
         </div>
@@ -70,13 +63,10 @@ if (isset($_GET['id'])) {
 <!--FIN BON -->
 
 <div class="event-friend">
-<?php $lieu = $db->getNomByLieu($lieu_id);?>
         <div class="friend">
-        <h3 class="heading">Lieu</h3>
+        <h3 class="heading">Evènement</h3>
         <div style="margin-top:5px">
       </div>
-
-      <h4><?php echo $lieu["nom"]; ?></h4>
         </div>
     </div>
 
@@ -99,7 +89,7 @@ if (isset($_GET['id'])) {
                                     <li>recent</li>
                                 </ul>
                             </div>
-                    <?php $post = $db->ShowPostByLieu($lieu_id); ?>
+                    <?php $post = $db->ShowPostEvenement(); ?>
                     <?php foreach ($post as $p) {?>
                     <div class="fb-post1">
                         <div class="fb-post1-container">

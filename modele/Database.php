@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307  "; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -354,6 +354,18 @@ class Database
         $var =  $stmt->fetchAll();
         return $var[0][0];
     }
+    public function StatLikeByPost(){
+        $sql = "SELECT COUNT(*) AS like_count, post.titre as post_title
+                FROM likes
+                JOIN post ON likes.idpost = post.idpost
+                WHERE likes.type = 'like'
+                GROUP BY post.idpost
+                ORDER BY like_count DESC
+                LIMIT 5";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     public function StatUserFriend(){
         $sql = "SELECT user.mail, COUNT(user_has_amis.iduser) as num_friends 
                 FROM user
@@ -631,6 +643,73 @@ class Database
         return true;
     }
 
+    public function CreatePostActualite($type,$titre, $contenu, $date,$lieu, $photo, $iduser,$etiquette,$link){
+
+        $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $etiquette);
+        $stmt->execute();
+        $idamis=$stmt->fetch(); 
+
+        $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':iduser', $iduser);
+         $stmt->bindParam(':idamis', $idamis['iduser']);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
+            return false;
+         } else {
+             $idAmis= $idamis['iduser'];
+         }
+
+        $sql = "INSERT INTO post (type, titre, contenu, date, photo,etiquette,link) 
+                VALUES (:type, :titre, :contenu, :date, :photo,:etiquette,:link)";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':titre', $titre);
+        $stmt->bindParam(':contenu', $contenu);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':etiquette', $idAmis);
+        $stmt->bindParam(':link', $link);
+        $stmt->execute();
+
+        $idpost = self::$database->lastInsertId();
+
+        $sql4 = "INSERT INTO post_user (idpost, iduser) VALUES (:idpost, :iduser)";
+        $stmt4 = self::$database->prepare($sql4);
+        $stmt4->bindParam(':idpost', $idpost);
+        $stmt4->bindParam(':iduser', $iduser);
+        $stmt4->execute();
+
+        $sql5 = 'SELECT idlieu FROM lieu WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $result=$stmt->fetch();
+
+        if (!$result){
+        $sql = 'INSERT INTO `lieu` (`nom`) 
+                VALUES (:nom)';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $lieu);
+        $stmt->execute();
+        $idlieu = self::$database->lastInsertId();
+        } else {
+        // Le lieu existe déjà dans la base de données, on récupère son ID
+            $idlieu = $result['idlieu'];
+        }
+        $sql = 'INSERT INTO `post_has_lieu` (`idlieu`, `idpost`) 
+        VALUES (:idlieu, :idpost)';
+       $stmt = self::$database->prepare($sql);
+       $stmt->bindParam(':idlieu', $idlieu);
+       $stmt->bindParam(':idpost', $idpost);
+       $idlieu=$stmt->execute();
+        return true;
+    }
+
 
     public function getUserByUsername($username) {
     $sql = 'SELECT iduser, username FROM user WHERE username = :username';
@@ -743,7 +822,7 @@ class Database
     }
 
 
-    public function ShowPostEvenement($iduser){
+    public function ShowPostEvenement(){
         $sql = "SELECT DISTINCT post.*, user.iduser, user.nom AS user_nom, user.prenom, etiquette_user.nom 
         AS etiquette_nom, etiquette_user.prenom AS etiquette_prenom, lieu.idlieu, lieu.nom AS lieu_nom
                 FROM post
@@ -755,7 +834,6 @@ class Database
                 WHERE post.type = 2
                 ORDER BY post.date DESC";
         $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':iduser', $iduser);
         $stmt->execute();
         $posts = $stmt->fetchAll();
     
@@ -773,6 +851,51 @@ class Database
         
         return $posts;
       
+    }
+
+    public function ShowPostActualite(){
+        $sql = "SELECT DISTINCT post.*, user.iduser, user.nom AS user_nom, user.prenom, etiquette_user.nom 
+        AS etiquette_nom, etiquette_user.prenom AS etiquette_prenom, lieu.idlieu, lieu.nom AS lieu_nom
+                FROM post
+                INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+                INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+                INNER JOIN post_user ON post.idpost = post_user.idpost
+                INNER JOIN user ON post_user.iduser = user.iduser
+                LEFT JOIN user AS etiquette_user ON post.etiquette = etiquette_user.iduser
+                WHERE post.type = 1
+                ORDER BY post.date DESC";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+    
+        // Récupérer le nombre de likes pour chaque publication
+        foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
+            $stmt_likes->execute();
+          
+            
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
+      
+    }
+
+    public function getLastEvent(){
+        $sql = "SELECT * FROM post WHERE post.type = 2 ORDER BY post.date DESC LIMIT 1";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public function getLastActualite(){
+        $sql = "SELECT * FROM post WHERE post.type = 1 ORDER BY post.date DESC LIMIT 1";
+        $stmt = self::$database->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 
     public function getNomByLieu($id) {
@@ -797,25 +920,31 @@ class Database
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':id_lieu', $id_lieu);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $posts = $stmt->fetchAll();
+         // Récupérer le nombre de likes pour chaque publication
+         foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
+            $stmt_likes->execute();
+          
+            
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
+        
     }
 
     //like
     public function likes($idpost, $mail, $like_type) {
-        // Récupérer l'ID de l'utilisateur à partir de son adresse email
-        $sql2 = 'SELECT iduser FROM user WHERE mail = :mail';
-        $stmt2 = self::$database->prepare($sql2);
-        $stmt2->bindParam(':mail', $mail);
-        $stmt2->execute();
-        $iduser = $stmt2->fetch(PDO::FETCH_ASSOC);
-        $iduser = $iduser['iduser'];
 
-    
         // Vérifier si l'utilisateur a déjà aimé le post
         $sql3 = 'SELECT * FROM likes WHERE idpost = :idpost AND iduser = :iduser';
         $stmt3 = self::$database->prepare($sql3);
         $stmt3->bindParam(':idpost', $idpost);
-        $stmt3->bindParam(':iduser', $iduser);
+        $stmt3->bindParam(':iduser', $mail);
         $stmt3->execute();
         $result = $stmt3->fetch(PDO::FETCH_ASSOC);
     
@@ -824,7 +953,7 @@ class Database
             $sql = 'UPDATE likes SET type = :like_type WHERE idpost = :idpost AND iduser = :iduser';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':idpost', $idpost);
-            $stmt->bindParam(':iduser', $iduser);
+            $stmt->bindParam(':iduser', $mail);
             $stmt->bindParam(':like_type', $like_type);
             $stmt->execute();
         } else {
@@ -834,7 +963,7 @@ class Database
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':like_type', $like_type);
             $stmt->bindParam(':idpost', $idpost);
-            $stmt->bindParam(':iduser', $iduser);
+            $stmt->bindParam(':iduser', $mail);
             $stmt->execute();
         }
     
@@ -884,7 +1013,7 @@ class Database
     }
     public function hasLikedPost($idpost, $email)
     {
-        $stmt =self::$database->prepare("SELECT COUNT(*) FROM likes WHERE idpost = ? AND email = ?");
+        $stmt =self::$database->prepare("SELECT COUNT(*) FROM likes WHERE idpost = ? AND iduser = ?");
         $stmt->execute([$idpost, $email]);
         return $stmt->fetchColumn() > 0;
     }
@@ -971,6 +1100,7 @@ public function ajouterAmi($userId, $amiId)
     }
     public function alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette) {
         // Vérifier si l'utilisateur a le droit de modifier le post
+        var_dump($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette);
         $sql = 'SELECT iduser FROM post_user WHERE idpost = :idpost';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':idpost', $idpost);
@@ -978,7 +1108,31 @@ public function ajouterAmi($userId, $amiId)
         $result = $stmt->fetch();
         $iduser = $_SESSION['iduser'];
         if (!$result || $result['iduser'] != $iduser) {
-            return false;
+            return "L'utilisateur n'a pas le droit de modifier ce post.";
+        }
+    
+        // Récupérer idamis à partir de l'étiquette
+        $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':nom', $etiquette);
+        $stmt->execute();
+        $idamis = $stmt->fetch();
+        if (!$idamis) {
+            return "L'étiquette n'a pas été trouvée.";
+        }
+    
+        // Vérifier si l'utilisateur et l'ami sont amis
+        $sql5 = 'SELECT idamis FROM user_has_amis WHERE (iduser= :iduser AND idamis= :idamis) OR (iduser= :idamis AND idamis= :iduser) AND statut=1';
+        $stmt = self::$database->prepare($sql5);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->bindParam(':idamis', $idamis['iduser']);
+        $stmt->execute();
+        $result = $stmt->fetch();
+    
+        if (!$result) {
+            return "L'utilisateur et l'ami ne sont pas amis.";
+        } else {
+            $idAmis = $idamis['iduser'];
         }
     
         // Mettre à jour les informations du post
@@ -990,10 +1144,14 @@ public function ajouterAmi($userId, $amiId)
         $stmt->bindParam(':contenu', $contenu);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':photo', $photo);
-        $stmt->bindParam(':etiquette', $etiquette);
-        $stmt->execute();
+        $stmt->bindParam(':etiquette', $idAmis);
+        if (!$stmt->execute()) {
+
+            return "Échec de la mise à jour du post.";
+        }
     
         // Mettre à jour le lieu associé au post
+        if (!empty($lieu)) {
         $sql = 'SELECT idlieu FROM lieu WHERE nom = :nom';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':nom', $lieu);
@@ -1004,30 +1162,33 @@ public function ajouterAmi($userId, $amiId)
             $sql = 'INSERT INTO lieu (nom) VALUES (:nom)';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':nom', $lieu);
-            $stmt->execute();
+            if (!$stmt->execute()) {
+            return "Échec de l'ajout du lieu.";
+            }
             $idlieu = self::$database->lastInsertId();
-        } else {
+            } else {
             // Le lieu existe déjà dans la base de données, on récupère son ID
             $idlieu = $result['idlieu'];
+            }// Mettre à jour la relation entre le post et le lieu
+            $sql = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
+            $stmt = self::$database->prepare($sql);
+            $stmt->bindParam(':idpost', $idpost);
+            $stmt->bindParam(':idlieu', $idlieu);
+            if (!$stmt->execute()) {
+            return "Échec de la mise à jour de la relation entre le post et le lieu.";
+            }
         }
-    
-        // Mettre à jour la relation entre le post et le lieu
-        $sql = 'INSERT INTO post_has_lieu (idpost, idlieu) VALUES (:idpost, :idlieu) ON DUPLICATE KEY UPDATE idlieu = :idlieu';
-        $stmt = self::$database->prepare($sql);
-        $stmt->bindParam(':idpost', $idpost);
-        $stmt->bindParam(':idlieu', $idlieu);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
+            // Supprimer les anciennes relations entre le post et les autres lieux
             $sql = 'DELETE FROM post_has_lieu WHERE idpost = :idpost AND idlieu != :idlieu';
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':idpost', $idpost);
             $stmt->bindParam(':idlieu', $idlieu);
-            $stmt->execute();
-        }
-    
-        return true;
-    }
+            if (!$stmt->execute()) {
+                return "Échec de la suppression des anciennes relations entre le post et les autres lieux.";
+            }
+
+            return "success";
+                }
     
 
     public function alterPost3($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette){
@@ -1104,6 +1265,29 @@ public function ajouterAmi($userId, $amiId)
         $statement->bindParam(':mail', $email);
         $statement->execute();
     }
+
+
+
+
+
+    public function rechercherUtilisateursParIdentification($identification,$iduser) {
+        $sql = "SELECT nom, prenom FROM user WHERE nom LIKE :identification AND iduser!= :id";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindValue(':identification', '%' . $identification . '%');
+        $stmt->bindParam(':id', $iduser);
+        $stmt->execute();
+      
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
+      
+      public function rechercherLieux($lieu) {
+        $sql = "SELECT nom as lieu FROM lieu WHERE nom LIKE :lieu";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindValue(':lieu', '%' . $lieu . '%');
+        $stmt->execute();
+      
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
 
     
 

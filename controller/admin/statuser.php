@@ -20,6 +20,16 @@ function MakeStatForFriendship(){
         echo "</tr>";
     }
 }
+function MakeStatForlikePerPost(){
+    $data = new Database();
+    $user = $data->StatLikeByPost();
+    foreach ($user as $row){
+        echo "<tr>";
+            echo "<td>{$row['post_title']}</td>";
+            echo "<td>{$row['like_count']}</td>";
+        echo "</tr>";
+    }
+}
 function MakeStaForMessagePerDay(){
     $data = new Database();
     $Stats = $data->StatForMessagePerDay();

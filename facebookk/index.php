@@ -173,7 +173,13 @@ $db = new Database();
   <input type="text" name="contenu" id="contenu" placeholder="Contenu"><br>
   <input type="date" name="date" id="date" placeholder="Date"><br>
   <input type="text" name="lieu" id="lieu" placeholder="Nom du lieu"><br>
+
+  <div class="search-lieu-result"></div>
+
   <input type="text" name="identification" id="identification" placeholder="Identification">
+
+  <div class="search-identification-result"></div>
+
   <input type="file" name="photo" id="photo">
     </div>
   <button type="submit">Publier</button>
@@ -232,35 +238,41 @@ $db = new Database();
             <div class="home-right">
                 <div class="home-right-wrapper">
 
-                    <div class="event-friend">
-                        <div class="event">
-                            <h3 class="heading">Upcoming Events <span>see all</span></h3>
-                            <img src="images/eve.jpg" alt="event-img">
-                            <div class="event-date">
-                                <h3>21 <b>july</b></h3>
-                                <h4>United state of America <span>New York City</span></h4>
-                            </div>
-                        </div>
+                <div class="event-friend">
+    <div class="event">
+        <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
+        <?php $lastEvenement = $db ->getLastEvent();?>
+        <?php if ($lastEvenement['photo']) {
+        echo '<img src="' . $lastEvenement['photo'] . '" alt="event-img">';
+    } ?>
+        <div class="event-date">
+            <h3><?php echo $lastEvenement['titre']; ?></h3>
+        </div>
+    </div>
 
-                        <hr>
+    <hr>
 
-                    </div>
+</div>
+
 
                     
 
                     <div class="create-page">
                         <ul>
                             <li>
-                                <i class="fa-solid fa-circle-plus"></i>
-                                <h4>Create Page & Groups</h4>
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                            <a href="createpostActualite.php">
+                                <i class="fa-solid fa-circle-plus"></i></a>
+                                <h4>Actualités</h4>
+                                <?php $lastActualite = $db->getLastActualite();?>
                             </li>
                             <li>
-                                <img src="images/group.jpg" alt="groups">
+                            <?php if ($lastActualite['photo']) {
+        echo '<img src="' . $lastActualite['photo'] . '" alt="groups">';
+    } ?>
                             </li>
                             <li>
-                                <b>simple group or page name <span>200k Members</span></b>
-                                <button>Join Group</button>
+                                <b><?php echo $lastActualite['titre']; ?> <span>200k Members</span></b>
+                                <button><a href="all_actualites.php">see all</a></button>
                             </li>
                         </ul>
                     </div>
@@ -345,7 +357,101 @@ $db = new Database();
         }
     });
 });
+
+
+
+
+
+
+
+$(document).ready(function () {
+  //...
+  
+  // Recherche d'identification
+  $("#identification").keyup(function () {
+    var identification = $(this).val();
+    
+    if (identification.startsWith("@")) {
+      identification = identification.slice(1); // Enlève le @ du début
+      
+      if (identification != "") {
+        $.ajax({
+          type: "GET",
+          url: "../controller/createPostController.php",
+          data: {
+            action: "search_identification",
+            identification: encodeURIComponent(identification),
+          },
+          success: function (data) {
+            $(".search-identification-result").show();
+            $(".search-identification-result").html(data);
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      } else {
+        $(".search-identification-result").html("");
+        $(".search-identification-result").hide();
+      }
+    }
+  });
+
+  // Recherche de lieu
+  $("#lieu").keyup(function () {
+    var lieu = $(this).val();
+    
+    if (lieu.startsWith("@")) {
+      lieu = lieu.slice(1); // Enlève le @ du début
+      
+      if (lieu != "") {
+        $.ajax({
+          type: "GET",
+          url: "../controller/createPostController.php",
+          data: {
+            action: "search_lieu",
+            lieu: encodeURIComponent(lieu),
+          },
+          success: function (data) {
+            $(".search-lieu-result").show();
+            $(".search-lieu-result").html(data);
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      } else {
+        $(".search-lieu-result").html("");
+        $(".search-lieu-result").hide();
+      }
+    }
+  });
+  
+  // ...
+});
+
+
+$(document).ready(function () {
+  
+  $(document).on('click', '.search-identification-result li', function () {
+    // Récupère le texte de l'élément cliqué et ajoute un "@" devant
+    var selectedItem = $(this).text();
+    // Modifie la valeur du champ "identification" avec le texte sélectionné
+    $('#identification').val(selectedItem);
+    $('.search-identification-result').hide();
+  });
+
+  $(document).on('click', '.search-lieu-result li', function () {
+    // Récupère le texte de l'élément cliqué
+    var selectedItem = $(this).text();
+    $('#lieu').val(selectedItem);
+    $('.search-lieu-result').hide();
+  });
+
+  // ...
+});
 </script>
+
 
 
 
