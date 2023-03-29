@@ -11,7 +11,7 @@ class Database
 
     public function __construct()
     {
-        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3306"; // À changer selon vos configurations
+        self::$dns ="mysql:host=localhost;dbname=projet-tech;port=3307"; // À changer selon vos configurations
         self::$user = "root"; // À changer selon vos configurations
         self::$password = ""; // À changer selon vos configurations
         self::$database = new PDO(self::$dns, self::$user, self::$password);
@@ -1294,11 +1294,11 @@ public function ajouterAmi($userId, $amiId)
     //notification
 
     public function getUserByNom($nom){
-        $sql = 'SELECT mail FROM user WHERE nom = :nom';
+        $sql = 'SELECT * FROM user WHERE nom = :nom';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':nom', $nom);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC)['mail'];
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     //Pas utiliser
