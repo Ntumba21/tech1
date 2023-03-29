@@ -18,7 +18,7 @@
     create, delete, modify a post and send message
 </h2>
 </div>
-<div class="container" >
+<div class="container" style="background-color: transparent">
     
 
     <h2>Vous etes?</h2>
