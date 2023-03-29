@@ -2,9 +2,10 @@
 <?php 
 require_once '../modele/Database.php';
 require_once '../controller/session.php';
+require_once '../controller/admin/webscraping.php';
 $user_email = $_SESSION['mail'];
 $db = new Database();
-
+$data = webscraping();
 
 ?>
 
@@ -247,7 +248,9 @@ $db = new Database();
                 <?php if ($lastEvenement): ?>
                     <?php
                     if (!empty($lastEvenement['photo'])) {
-                        echo '<img src="' . ($lastEvenement['photo'] ?? '') . '" alt="event-img">';
+                        echo '<img style="
+                        max-width: 100%;
+                        max-height: 100%;" src="' . ($lastEvenement['photo'] ?? '') . '" alt="event-img">';
                     }
                     ?>
                     <div class="event-date">
@@ -281,6 +284,25 @@ $db = new Database();
         <li>
             <b><?php echo ($lastActualite['titre'] ?? '') ?> <span>200k Members</span></b>
             <button><a href="all_actualites.php">see all</a></button>
+        </li>
+    </ul>
+</div>
+
+<!-- tu es ici -->
+<div class="create-page">
+    <ul>
+        <li>
+            <h4>Le Monde</h4>
+            <b><?php echo "<li>{$data['title']}</li>"; ?></b>
+        </li>
+        <li>
+        <img src=<?php echo "{$data['image']}"; ?> alt="groups">
+        </li>
+        <li style="font-size: 70%;text-align: justify;text-justify: 30%;">
+            <?php echo ($data['description'] ?? ''); ?>
+        </li>
+        <li>
+        <button><a href="<?php echo "{$data['link']}"; ?>">see all</a></button>
         </li>
     </ul>
 </div><!-- home right wrapper end -->
