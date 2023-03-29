@@ -299,14 +299,14 @@ public function Connect($mail, $password){
         $stmt3->execute();
         return true;
     }
-    public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $for, $link,$lieu){
+    public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $for, $link,$lieu,$type){
         if($photo == NULL){
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets WHERE idpost = :idpost";
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets, type = :type WHERE idpost = :idpost";
             $stmt = self::$database->prepare($sql);
 
             $stmt->bindParam(':date', $date);
         }else{
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets WHERE idpost = :idpost";
+            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, type = :type WHERE idpost = :idpost";
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':photo', $photo);
         }
@@ -317,6 +317,7 @@ public function Connect($mail, $password){
         $stmt->bindParam(':for', $for);
         $stmt->bindParam(':link', $link);
         $stmt->bindParam(':interets', $interets);
+        $stmt->bindParam(':type', $type);
         $stmt->execute();
         $this->Makelieu($lieu, $idpost);
         return true;

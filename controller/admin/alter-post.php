@@ -30,9 +30,11 @@ if (isset($_POST["submit"])){
         $photo = $filePath;
 
     }
+    var_dump($idpost, $titre, $contenu, $date, $photo, $interests, $for, $link,$lieu,$type,$photo);
     $data = new Database();
-    $data->AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interests, $for, $link,$lieu);
+    $data->AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interests, $for, $link,$lieu,$type);
     $_SESSION['alert'] = 'Post ajouté';
+//   header('Location: ../../view/admin/alter-post.php?idpost='.$idpost);
 
 }else{
     $_SESSION['alert'] = 'Post pas ajouté';
