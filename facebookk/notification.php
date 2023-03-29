@@ -3,7 +3,6 @@
 require_once '../modele/Database.php';
 require_once '../controller/session.php';
 $user_email = $_SESSION['mail'];
-
 $db = new Database();
 ?>
 
@@ -37,7 +36,7 @@ $db = new Database();
                    
                     <div class="fb-post1-header">
                             </div>
-                    <?php $post = $db->getLastPostUserForNotif($_SESSION['userident']); ?>
+                    <?php $post = $db->getLastPostUserForNotif($_SESSION['userident']);?>
                     <?php foreach ($post as $p) {?>
                     <div class="fb-post1">
                         <div class="fb-post1-container">

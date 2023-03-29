@@ -1294,11 +1294,11 @@ public function ajouterAmi($userId, $amiId)
     //notification
 
     public function getUserByNom($nom){
-        $sql = 'SELECT mail FROM user WHERE nom = :nom';
+        $sql = 'SELECT * FROM user WHERE nom = :nom';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':nom', $nom);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC)['mail'];
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     //Pas utiliser

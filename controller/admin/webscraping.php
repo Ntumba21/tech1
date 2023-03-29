@@ -24,6 +24,6 @@
             }
         }
         $mail = 'admin@admin.fr';
-        $db->CreatePostforAll(1,$data['title'],$data['description'],date("Y-m-d H:i:s"),null,$data['image'],0,$mail,$data['link']);
+      //  $db->CreatePostforAll(1,$data['title'],$data['description'],date("Y-m-d H:i:s"),null,$data['image'],0,$mail,$data['link']);
     }
     webscraping();
