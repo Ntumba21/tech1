@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="../view/style/manage.css">
+    <link rel="stylesheet" href="../view/style/loginForm.css">
     
 </head>
 <body>

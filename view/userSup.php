@@ -6,7 +6,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Delete Account</title>
-    <link rel="stylesheet" href="../view/style/manage.css">
+    <link rel="stylesheet" href="../view/style/loginForm.css">
     
 </head>
 <body>
