@@ -31,7 +31,7 @@
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>

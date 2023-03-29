@@ -51,8 +51,7 @@ $db = new Database();
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </a>
+                    <i class="fas fa-sign-out-alt"></i> 
             </div>
         </div>
     </div>
