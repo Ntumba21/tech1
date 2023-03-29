@@ -2,9 +2,10 @@
 <?php 
 require_once '../modele/Database.php';
 require_once '../controller/session.php';
+require_once '../controller/admin/webscraping.php';
 $user_email = $_SESSION['mail'];
 $db = new Database();
-
+$data = webscraping();
 
 ?>
 
@@ -27,30 +28,43 @@ $db = new Database();
 <body>
     
 <!-- header section start -->
+<script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
 
 
 
-    <header>
-        <div class="header-container">
-            <div class="header-wrapper">
-            <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
-                <div class="logoBox">
-                    <img src="../media/logo ECEBOOK.png" alt="logo">
-                </div>
-                <div class="searchBox">
-                    <input type="search">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="iconBox2">
-                <i class="fa-solid fa-house"></i>
-                    <i class="fa-solid fa-bell"></i>
-                    <label>  <a href="../facebookk/profil.php">
+
+<header>
+    <div class="header-container">
+        <div class="header-wrapper">
+        <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
+            <div class="logoBox">
+                <img src="../media/logo ECEBOOK.png" alt="logo">
+            </div>
+            <div class="searchBox">
+                <input type="search">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="iconBox2">
+                <!-- Lien vers index.php avec l'icône de la maison -->
+                <a href="../facebookk/index.php">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                <i class="fa-solid fa-bell"></i>
+                <a href="../facebookk/profil.php">
                     <img src="<?php echo $user['photo'] ?>"  alt="user">
-                     </label></a>
-                </div>
+                </a>
+                <!-- Bouton de déconnexion -->
+                <a href="logout.php" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> 
+                </a>
             </div>
         </div>
-    </header>
+    </div>
+</header>
     
 
 
@@ -215,6 +229,43 @@ $db = new Database();
     echo '<div class="like-comment">';
     echo '<ul>';
     echo '<li>';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'" onclick="refreshPage()">';
+    echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
+    echo '</li>';
+    echo '<li>';
+    echo '</li>';
+    echo '</ul>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+}?>
+
+<?php $postAdmin = $db->ShowPostAdmin(); ?>
+                    <?php foreach ($postAdmin as $p) {?>
+                    <div class="fb-post1">
+                        <div class="fb-post1-container">
+                            <div class="fb-p1-main">
+                                <?php
+    echo '<div class="post">';
+    echo '<div class="post-header">';
+    echo '<h2>' . $p['user_nom'] .'</h2>';
+    echo '<h2>' . $p['titre'] . '</h2>';
+    echo '<span>' . $p['date'] . '</span><br>'; 
+    echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . '@'.$p['lieu_nom'] . '</a>';
+    echo '</div>';
+    echo '<div class="post-body">';
+    echo '<p>' . $p['contenu'] . '</p>';
+    if ($p['photo']) {
+        echo '<img src="' . $p['photo'] . '" alt="photo">';
+    }
+    echo '</div>';
+    echo '<div class="post-footer">';
+    echo '<div class="like-comment">';
+    echo '<ul>';
+    echo '<li>';
     echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
     echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
     echo '</li>';
@@ -228,6 +279,7 @@ $db = new Database();
     echo '</div>';
     echo '</div>';
 }?>
+
                 
 
                 </div> <!-- home center wrapper end -->
@@ -237,20 +289,22 @@ $db = new Database();
                 <div class="home-right-wrapper">
 
                 <div class="event-friend">
-    <div class="event">
-        <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
-        <?php $lastEvenement = $db ->getLastEvent();?>
+                <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
+                <?php $lastEvenement = $db->getLastEvent(); ?>
 
-        <?php if(!$lastEvenement){
-          echo '';
-        }
-        if ($lastEvenement['photo']) {
-        echo '<img src="' . $lastEvenement['photo'] . '" alt="event-img">';
-    } ?>
-        <div class="event-date">
-            <h3><?php echo $lastEvenement['titre']; ?></h3>
-        </div>
-    </div>
+                <?php if ($lastEvenement): ?>
+                    <?php
+                    if (!empty($lastEvenement['photo'])) {
+                        echo '<img style="
+                        max-width: 100%;
+                        max-height: 100%;" src="' . ($lastEvenement['photo'] ?? '') . '" alt="event-img">';
+                    }
+                    ?>
+                    <div class="event-date">
+                        <h3><?php echo ($lastEvenement['titre'] ?? ''); ?></h3>
+                    </div>
+                <?php endif; ?>
+            </div>
 
     <hr>
 
@@ -259,28 +313,46 @@ $db = new Database();
 
                     
 
-                    <div class="create-page">
-                        <ul>
-                            <li>
-                            <a href="createpostActualite.php">
-                                <i class="fa-solid fa-circle-plus"></i></a>
-                                <h4>Actualités</h4>
-                                <?php $lastActualite = $db->getLastActualite();?>
-                            </li>
-                            <li>
-                            <?php  
-                            if ($lastActualite['photo']) {
-        echo '<img src="' . $lastActualite['photo'] . '" alt="groups">';
-    } ?>
-                            </li>
-                            <li>
-                                <b><?php echo $lastActualite['titre']; ?> <span>200k Members</span></b>
-                                <button><a href="all_actualites.php">see all</a></button>
-                            </li>
-                        </ul>
-                    </div>
+<div class="create-page">
+    <ul>
+        <li>
+            <a href="createpostActualite.php">
+                <i class="fa-solid fa-circle-plus"></i></a>
+            <h4>Actualités</h4>
+            <?php $lastActualite = $db->getLastActualite(); ?>
+        </li>
+        <li>
+            <?php
+            if (!empty($lastActualite) && $lastActualite['photo']) {
+                echo '<img src="' . ($lastActualite['photo'] ?? '') . '" alt="groups">';
+            }
+            ?>
+        </li>
+        <li>
+            <b><?php echo ($lastActualite['titre'] ?? '') ?> <span>200k Members</span></b>
+            <button><a href="all_actualites.php">see all</a></button>
+        </li>
+    </ul>
+</div>
 
-                </div><!-- home right wrapper end -->
+<!-- tu es ici -->
+<div class="create-page">
+    <ul>
+        <li>
+            <h4>Le Monde</h4>
+            <b><?php echo "<li>{$data['title']}</li>"; ?></b>
+        </li>
+        <li>
+        <img src=<?php echo "{$data['image']}"; ?> alt="groups">
+        </li>
+        <li style="font-size: 70%;text-align: justify;text-justify: 30%;">
+            <?php echo ($data['description'] ?? ''); ?>
+        </li>
+        <li>
+        <button><a href="<?php echo "{$data['link']}"; ?>">see all</a></button>
+        </li>
+    </ul>
+</div><!-- home right wrapper end -->
             </div><!-- home right end -->
 
         </div>

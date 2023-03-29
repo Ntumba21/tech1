@@ -314,8 +314,8 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: 100%;
-    overflow: hidden;
+    width: 70%;
+
 }
 .home-center .stories,
 .home-center .createPost{
@@ -324,8 +324,6 @@ header{
     border-radius: 20px;
     padding: 15px;
     margin-bottom: 20px;
-    margin-left: 40px;
-    margin-right: 40px;
 }
 
 .stories-wrapper{
@@ -353,7 +351,7 @@ header{
     transform: translateX(-50%);
     top: 0;
     border-radius: 50px;
-    overflow: hidden;
+   
     border: 3px solid #1877f2;
 }
 .single-stories label img{
@@ -361,7 +359,8 @@ header{
 }
 .single-stories > div{
     width: 100%;
-    overflow: hidden;
+   
+    
     height: 100%;
     border-radius: 18px;
     text-align: center;
@@ -397,7 +396,7 @@ header{
 
 .post-text{
     width: 100%;
-    position: center;
+    position: relative;
     margin-bottom: 30px;
 }
 

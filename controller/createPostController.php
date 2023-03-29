@@ -108,9 +108,10 @@ $data = new Database();
       // Ajoute le post à la base de données
       $data->CreatePost($type, $titre, $contenu, $date, $lieu, $photo,$id,$etiquette);
 
-      $_SESSION['userident'] = $etiquette;
+
       $identifie = $data->getUserByNom($etiquette);
-      SendActivationEmail($identifie);
+      //sendActivationEmail($identifie['mail']);
+      $_SESSION['userident'] = $identifie['iduser'];
       
       // Redirige vers la page d'accueil
       header('Location: ../facebookk/index.php');

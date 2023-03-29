@@ -16,6 +16,6 @@
         $db = new Database();
         $promos = $db->GetPromos();
         foreach($promos as $promo){
-            echo '<input type="checkbox" name="idpromos[]" value="'.$promo['idpromos'].'">'.$promo['nom'];
+            echo '<input type="checkbox" id="prof-checkbox" name="idpromos[]" value="'.$promo['idpromos'].'">'.$promo['nom'];
         }
     }

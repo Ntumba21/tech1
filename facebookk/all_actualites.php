@@ -23,32 +23,44 @@ $db = new Database();
 
 </head>
 <body>
+<script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+
     
 <!-- header section start -->
 
 
 <header>
-        <div class="header-container">
-            <div class="header-wrapper">
-            <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
-                <div class="logoBox">
-                    <img src="../media/logo ECEBOOK.png" alt="logo">
-                </div>
-                <div class="searchBox">
-                    <input type="search">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="iconBox2">
-                
-                <label>  <a href="../facebookk/index.php">
-                <i class="fa-solid fa-house"></i>
-                     </label></a>
-                    <i class="fa-solid fa-bell"></i>
-                    <label><img src="<?php echo $user['photo'] ?>" alt="user"></label>
-                </div>
+    <div class="header-container">
+        <div class="header-wrapper">
+        <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
+            <div class="logoBox">
+                <img src="../media/logo ECEBOOK.png" alt="logo">
+            </div>
+            <div class="searchBox">
+                <input type="search">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="iconBox2">
+                <!-- Lien vers index.php avec l'icône de la maison -->
+                <a href="../facebookk/index.php">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                <i class="fa-solid fa-bell"></i>
+                <a href="../facebookk/profil.php">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                </a>
+                <!-- Bouton de déconnexion -->
+                <a href="logout.php" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> 
+                </a>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
 
 
@@ -97,25 +109,32 @@ $db = new Database();
                                 <?php
     echo '<div class="post">';
     echo '<div class="post-header">';
-    echo '<h2>' . $p['prenom'] . '</h2>';
-    echo '<h2>' . $p['titre'] . '</h2>';
-    echo '<span>' . $p['date'] . '</span><br>';
-    echo '<a href="' . $p['link'] . '">' . $p['link'] . '</a><br>';
-    echo '<a href="../facebookk/profileUnique.php?id=' . $p['etiquette'] . '">' . '@'.$p['etiquette_prenom'] . '</a><br>';
-    echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . '@'.$p['lieu_nom'] . '</a>';
+    echo '<h2>' . ($p['prenom'] ?? '') . '</h2>';
+    echo '<h2>' . ($p['titre'] ?? '') . '</h2>';
+    echo '<span>' . ($p['date'] ?? '') . '</span><br>';
+    echo '<a href="' . ($p['link'] ?? '') . '">' . ($p['link'] ?? '') . '</a><br>';
+    echo '<a href="../facebookk/profileUnique.php?id=' . ($p['etiquette'] ?? '') . '">' . '@'.($p['etiquette_prenom'] ?? '') . '</a><br>';
+    echo '<a href="../facebookk/lieuPost.php?id=' . ($p['idlieu'] ?? '') . '">' . '@'.($p['lieu_nom'] ?? '') . '</a>';
+   // echo '<a href="../facebookk/profileUnique.php?id=' . $p['etiquette'] . '">' . '@'.$p['etiquette_prenom'] . '</a><br>';
+    //echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . '@'.$p['lieu_nom'] . '</a>';
     echo '</div>';
     echo '<div class="post-body">';
-    echo '<p>' . $p['contenu'] . '</p>';
+    echo '<p>' . ($p['contenu'] ?? '') . '</p>';
+    //echo '<p>' . $p['contenu'] . '</p>';
     if ($p['photo']) {
-        echo '<img src="' . $p['photo'] . '" alt="photo">';
+        echo '<img src="' . ($p['photo'] ?? '') . '" alt="photo">';
     }
+    // if ($p['photo']) {
+    //     echo '<img src="' . $p['photo'] . '" alt="photo">';
+    // }
     echo '</div>';
     echo '<div class="post-footer">';
     echo '<div class="like-comment">';
     echo '<ul>';
     echo '<li>';
-    echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
-    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
+    echo '<span class="post-likes">' . ($p['nb_likes'] ?? '0') . ' likes</span>';
+    // echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'" onclick="refreshPage()">';
     echo '</li>';
     echo '<div class="post-actions">';
 echo '<a href="../view/editpost.php?id=' . $p['idpost'] . '">Edit your post</a>';
