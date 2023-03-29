@@ -5,6 +5,29 @@ body {
     color: #444;
     margin: 0;
   }
+*{
+  margin: 0%;
+  padding: 0%;
+  background-color: 	#dfe3ee;
+}
+.textbox{
+  margin-top: 200px;
+  margin-left: 150px;
+
+}
+h1{
+  font-size: 55px;
+  color: #1877f2;
+  font-family: sans-serif;
+}
+h2{
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: normal;
+  line-height: 32px;
+  width: 500px;
+}
+.container{
   
   /* Style du header */
   header {
