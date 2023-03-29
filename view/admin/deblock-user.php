@@ -7,44 +7,15 @@
   
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../facebookk/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
-<header>
-        <div class="header-container">
-            <div class="header-wrapper">
-                <div class="logoBox">
-                    <img src="../../media/logo ECEBOOK.png" alt="logo">
-                </div>
-                <div class="searchBox">
-                    <input type="search">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="iconBox2">
-                <i class="fa-solid fa-house"></i>
-                    <i class="fa-solid fa-bell"></i>
-                    <label>  <a href="../../facebookk/profil.php">
-                    <img src="../../facebookk/images/us2.png" alt="user">
-                     </label></a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <link rel="stylesheet" href="../../view/admin/style/user.css">
+</head>  
+<h1>Déloquer un utilisateur</h1>
+    <div class="textbox">
 
 
-    <div class="home">
-    <div class="container">
-        <div class="home-weapper">
-
-           <!--GAUCHE-->
-            <div class="home-left">
-                 <!-- BON-->
-  
-
-<article>
-    <br><br>
-    <h1>Debloquer un utilisateur</h1>
+</div>
+<div class="container">
+<div class="form">
     <form action="../../controller/admin/deblockuser.php" method="post" name="debloquer">
         <table>
             <tr>

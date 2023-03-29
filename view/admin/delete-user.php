@@ -6,12 +6,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../view/style/manage.css">
-</html>
-<body>
-<br><br>
-<article>
-    <h1>Supprimer un utilisateur</h1>
+    <link rel="stylesheet" href="../../view/admin/style/user.css">
+</head>  
+<div class="textbox">
+<h1>Delete user</h1>
+
+</div>
+<div class="container">
+<div class="form">
     <form action="../../controller/admin/deleteuser.php" method="post" name="Supprimer">
         <table>
             <?php ShowUser(); ?>

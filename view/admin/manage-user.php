@@ -5,25 +5,25 @@
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
-        <link rel="stylesheet" href="../../view/style/manage.css">
+        <link rel="stylesheet" href="../../view/style/loginForm.css">
 
-    </head>
-    <body>
-    <div class="wrapper">
-    <header>    
-       
-        <img src="../../media/logo ECEBOOK.png" alt="Logo" class="logo"> 
-    <h1>pannel Admin</h1>
-</header>
-<div class="content">
-    <div class="square">
-    
-    <section>
+        </head>
 
-<!--    TODO: faut faire les liens pour les pages de blocages et deblocages ici-->
-    </section>
-    </div>
+<div class="textbox">
+<h1>User</h1>
+<h2>ECEBOOK helps you to connect,
+    create, delete, modify a post and send message
+</h2>
 </div>
+<div class="container" style="background-color: transparent">
+ 
+    
+    <button onclick="window.location.href='block-user'">Bloquer un utilisateur</button>
+    <button onclick="window.location.href='deblock-user'">Débloquer un utilisateur</button>
+    <button onclick="window.location.href='delete-user'">Supprimer un utilisateur</button>
+<!--    TODO: faut faire les liens pour les pages de blocages et deblocages ici-->
+   
+
 
     </div>
 
