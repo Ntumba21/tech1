@@ -20,12 +20,13 @@ if (isset($_POST['submit'])) {
     $photo = isset($_POST['photo']) ? $_POST['photo'] : '';
     $iduser = isset($_POST['iduser']) ? $_POST['iduser'] : '';
     $etiquette = isset($_POST['etiquette']) ? $_POST['etiquette'] : '';
-
+    
+    $id= $_SESSION["iduser"];
     // Appel à la fonction alterPost
     $result = $database->alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette);
 
     // Vérification du résultat de la mise à jour
-    if ($result) {
+    if ($result === "success") {
         echo "Le post a été mis à jour avec succès.";
     } else {
         echo "La mise à jour du post a échoué.";
@@ -49,7 +50,7 @@ else if (isset($_POST['delete'])) {
  else {
     // Récupération de l'ID du post à modifier
     $idpost = isset($_GET['idpost']) ? $_GET['idpost'] : '';
-
+ 
     // Récupération des informations du post à partir de l'ID
     $post = $database->getPostById($idpost);
 
