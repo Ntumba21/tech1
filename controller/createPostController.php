@@ -2,7 +2,46 @@
 require_once('../modele/Database.php');
 require_once('../controller/session.php');
 
+require_once '../controller/src/PHPMailer.php';
+require_once '../controller/src/SMTP.php';
+require_once '../controller/src/Exception.php';
+require_once 'session.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 $id= $_SESSION["iduser"];
+
+
+function sendActivationEmail($identifier) {
+  $mail = new PHPMailer(true);
+
+  try {
+      // Paramètres du serveur
+      $mail->isSMTP();
+      $mail->Host = 'smtp.gmail.com'; // Remplacez par l'hôte de votre serveur SMTP
+      $mail->SMTPAuth = true;
+      $mail->Username = 'EceBook.assistance@gmail.com'; // Remplacez par votre adresse e-mail
+      $mail->Password = 'fgsdtlmyuzxsewpy'; // Remplacez par le mot de passe de votre e-mail
+      $mail->SMTPSecure = 'tls';
+      $mail->Port = 587;
+
+      // Destinataires
+      $mail->setFrom('EceBook.assistance@gmail.com', 'EceBook'); // Remplacez par votre adresse e-mail et le nom de l'expéditeur
+      $mail->addAddress($identifier);
+
+      // Contenu
+      $mail->isHTML(true);
+      $mail->Subject = 'Identification post';
+      $mail->Body = 'Vous avez été identidié dans ce post: <a href="http://localhost/projet-tech/facebookk/notification.php?email=' . urlencode($identifier) . '">Voir le poste</a>';
+
+      $mail->send();
+      return true;    
+  } catch (Exception $e) {
+      return false;
+  }
+}
 
   if (isset($_GET['identification'])) {
     $identification = trim($_GET['identification']);
@@ -41,7 +80,7 @@ $id= $_SESSION["iduser"];
   }
 
 
-  function create() {
+  if(isset($_POST['action']) && $_POST['action'] == 'create') {
     if(isset($_POST['type']) && isset($_POST['titre']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['lieu']) && isset($_POST['identification'])) {
       $type = $_POST['type'];
       $titre = $_POST['titre'];
@@ -70,13 +109,16 @@ $id= $_SESSION["iduser"];
       // Ajoute le post à la base de données
       $data->CreatePost($type, $titre, $contenu, $date, $lieu, $photo,$id,$etiquette);
 
+      $_SESSION['userident'] = $etiquette;
+      $identifie=$data->getUserByNom($etiquette);
+      SendActivationEmail($identifie);
+      
       // Redirige vers la page d'accueil
       header('Location: ../facebookk/index.php');
       exit();
     }
   }
 
-if(isset($_POST['action']) && $_POST['action'] == 'create') {
-  create();
-}
+ 
+
 ?>
