@@ -5,53 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="../view/style/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../view/style/manage.css">
+    
 </head>
 <body>
-<header>
-    <div class="header-container">
-        <div class="header-wrapper">
-        <?php $user = $db->getUserByEmail($_SESSION['mail']);?>
-            <div class="logoBox">
-                <img src="../media/logo ECEBOOK.png" alt="logo">
-            </div>
-            <div class="searchBox">
-                <input type="search">
-                <i class="fas fa-search"></i>
-            </div>
-            <div class="iconBox2">
-                <!-- Lien vers index.php avec l'icône de la maison -->
-                <a href="../facebookk/index.php">
-                    <i class="fa-solid fa-house"></i>
-                </a>
-                <i class="fa-solid fa-bell"></i>
-                <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user">
-                </a>
-                <!-- Bouton de déconnexion -->
-                <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> 
-                </a>
-            </div>
-        </div>
-    </div>
-</header>
 
 
-    <div class="home">
-    <div class="container">
-        <div class="home-weapper">
-
-           <!--GAUCHE-->
-            <div class="home-left">
-                 <!-- BON-->
-  
-    
-    <div class="createPost">
-    <h1 class="mini-headign">Inscription</h1>
-   
-    
+<div class="textbox">
+<h1>Connexion</h1>
+<h2>ECEBOOK helps you to connect,
+    create, delete, modify a post and send message
+</h2> 
+</div>
+<div class="container">
+<div class="form">
+ 
                 <i class="fa-solid fa-user-group">Professeur</i>
 
         <form action="../controller/register.php" method="post">
