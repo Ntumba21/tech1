@@ -314,7 +314,8 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: 70%;
+    width: 95%;
+    margin-left: 3%;
 
 }
 .home-center .stories,

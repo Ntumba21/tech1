@@ -50,16 +50,17 @@ $data = webscraping();
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
-                <a href="../facebookk/index.php">
-                    <i class="fa-solid fa-house"></i>
-                </a>
-                <i class="fa-solid fa-bell"></i>
+                <a href="../facebookk/index.php"> 
+                    <i class="fas fa-home"></i>
+                </a> 
+                
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50px" width="50px">
                 </a>
                 <!-- Bouton de déconnexion -->
+
                 <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> 
+                <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>

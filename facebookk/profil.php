@@ -17,7 +17,7 @@ $db = new Database();
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <title>facebook.com</title>
     <!-- style css link -->
-    <link rel="stylesheet" href="../view/style/style.css">
+    <link rel="stylesheet" href="style2.css">
     <!-- fontawesome css link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -46,16 +46,17 @@ $db = new Database();
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
-                <a href="../facebookk/index.php">
-                    <i class="fa-solid fa-house"></i>
-                </a>
-                <i class="fa-solid fa-bell"></i>
+                <a href="../facebookk/index.php"> 
+                    <i class="fas fa-home"></i>
+                </a> 
+                
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50px" width="50px">
                 </a>
                 <!-- Bouton de déconnexion -->
+
                 <a href="logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> 
+                <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>
