@@ -173,7 +173,7 @@ header{
     justify-content: space-between;
 }
 .home-left{
-    width: 25%;
+    width: 22%;
     overflow: hidden;
 }
 
@@ -314,8 +314,11 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: 70%;
+    width: 50%;
     overflow: hidden;
+}
+.home-center .messenger{
+    height:200px;
 }
 .home-center .stories,
 .home-center .createPost{
@@ -407,16 +410,28 @@ header{
     top: 30px;
 }
 .post-text input{
+    margin-bottom: 10px;
     padding: 20px 20px 20px 60px;
     width: 100%;
     background: var(--foreground);
     border: none;
-    height: 100px;
+    height: 50px;
     border-radius: 10px;
     box-shadow: 0 2px 5px 0 var(--shadow);
     color: var(--black);
 }
 
+.post-text select{
+    margin-bottom: 10px;
+    padding: 10px 10px 10px 60px;
+    width: 100%;
+    background: var(--foreground);
+    border: none;
+    height: 50px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 var(--shadow);
+    color: var(--black);
+}
 .post-icon{
     display: flex;
     align-items: center;
@@ -842,3 +857,41 @@ header{
 
 
 /* home right end */
+
+
+.search-result {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 200px;
+    max-width: 300px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  }
+  
+  .search-result a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.5;
+    color: #333;
+    white-space: nowrap;
+  }
+  
+  .search-result a:hover,
+  .search-result a:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+  }
