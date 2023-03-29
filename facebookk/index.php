@@ -141,8 +141,6 @@ $db = new Database();
                         <div class="stories-wrapper">
                         <?php $affichefriends = $db->ShowFriends($_SESSION['iduser']); ?>
 
-                        <?php $affichefriends = $db->ShowFriends($_SESSION['iduser']); ?>
-
                      <?php foreach ($affichefriends as $request): ?>
                      <div class="single-stories">
                       <div>
@@ -242,7 +240,11 @@ $db = new Database();
     <div class="event">
         <h3 class="heading">Upcoming Events <span><a href="all_events.php">see all</a></span></h3>
         <?php $lastEvenement = $db ->getLastEvent();?>
-        <?php if ($lastEvenement['photo']) {
+
+        <?php if(!$lastEvenement){
+          echo '';
+        }
+        if ($lastEvenement['photo']) {
         echo '<img src="' . $lastEvenement['photo'] . '" alt="event-img">';
     } ?>
         <div class="event-date">
@@ -266,7 +268,8 @@ $db = new Database();
                                 <?php $lastActualite = $db->getLastActualite();?>
                             </li>
                             <li>
-                            <?php if ($lastActualite['photo']) {
+                            <?php  
+                            if ($lastActualite['photo']) {
         echo '<img src="' . $lastActualite['photo'] . '" alt="groups">';
     } ?>
                             </li>

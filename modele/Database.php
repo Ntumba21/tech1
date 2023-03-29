@@ -1290,7 +1290,56 @@ public function ajouterAmi($userId, $amiId)
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
       }
 
-    
+    //notification
+
+    public function getUserByNom($nom){
+        $sql = 'SELECT mail FROM user WHERE nom = :nom';
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['mail'];
+    }
+
+    //Pas utiliser
+    public function getLastPostUserForNotif2($identifie){
+        $sql = "SELECT * FROM post WHERE etiquette = :etiquette ORDER BY date DESC LIMIT 1";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':etiquette', $identifie);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+
+    public function getLastPostUserForNotif($identifie){
+        $sql = "SELECT post.*, user.iduser, user.nom AS user_nom, user.prenom, etiquette_user.nom AS etiquette_nom, etiquette_user.prenom AS etiquette_prenom, lieu.idlieu, lieu.nom AS lieu_nom
+        FROM post
+        INNER JOIN post_user ON post.idpost = post_user.idpost
+        INNER JOIN user ON post_user.iduser = user.iduser
+        INNER JOIN post_has_lieu ON post.idpost = post_has_lieu.idpost
+        INNER JOIN lieu ON post_has_lieu.idlieu = lieu.idlieu
+        INNER JOIN user AS etiquette_user ON post.etiquette = etiquette_user.iduser
+        WHERE post.etiquette = :etiquette
+        ORDER BY post.date DESC
+        ";
+        $stmt = self::$database->prepare($sql);
+        $stmt->bindParam(':etiquette', $identifie);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+         // Récupérer le nombre de likes pour chaque publication
+         foreach ($posts as $key=>$post) {
+            $sql_likes = "SELECT COUNT(*) FROM likes WHERE idpost = :idpost";
+            $stmt_likes = self::$database->prepare($sql_likes);
+            $stmt_likes->bindParam(':idpost', $post['idpost']);
+            
+            $stmt_likes->execute();
+          
+            
+            $posts[$key]['nb_likes'] = $stmt_likes->fetchColumn();
+        }
+        
+        return $posts;
+        
+    }
 
     
 }
