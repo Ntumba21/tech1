@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 21 mars 2023 à 15:08
+-- Généré le : mer. 29 mars 2023 à 23:38
 -- Version du serveur : 8.0.27
 -- Version de PHP : 7.4.26
 
@@ -21,12 +21,27 @@ SET time_zone = "+00:00";
 -- Base de données : `projet-tech`
 --
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admin`
+--
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE IF NOT EXISTS `admin` (
+  `idAdmin` int NOT NULL AUTO_INCREMENT,
+  `nameAdmin` varchar(45) DEFAULT NULL,
+  `mail` varchar(45) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idAdmin`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+
 --
 -- Déchargement des données de la table `admin`
 --
 
-INSERT INTO `admin` (`idAmin`, `nameAdmin`, `mail`, `password`) VALUES
-(0, 'admin', 'admin@admin.fr', 'admin');
+INSERT INTO `admin` (`idAdmin`, `nameAdmin`, `mail`, `password`) VALUES
+(1, 'admin', 'admin@admin.fr', 'admin');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
