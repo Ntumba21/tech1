@@ -233,6 +233,44 @@ $data = webscraping();
     echo '</div>';
     echo '</div>';
 }?>
+
+<?php $postAdmin = $db->ShowPostAdmin(); ?>
+                    <?php foreach ($postAdmin as $p) {?>
+                    <div class="fb-post1">
+                        <div class="fb-post1-container">
+                            <div class="fb-p1-main">
+                                <?php
+    echo '<div class="post">';
+    echo '<div class="post-header">';
+    echo '<h2>' . $p['user_nom'] .'</h2>';
+    echo '<h2>' . $p['titre'] . '</h2>';
+    echo '<span>' . $p['date'] . '</span><br>'; 
+    echo '<a href="../facebookk/lieuPost.php?id=' . $p['idlieu'] . '">' . '@'.$p['lieu_nom'] . '</a>';
+    echo '</div>';
+    echo '<div class="post-body">';
+    echo '<p>' . $p['contenu'] . '</p>';
+    if ($p['photo']) {
+        echo '<img src="' . $p['photo'] . '" alt="photo">';
+    }
+    echo '</div>';
+    echo '<div class="post-footer">';
+    echo '<div class="like-comment">';
+    echo '<ul>';
+    echo '<li>';
+    echo '<img src="images/love.png" alt="love" class="like-button" idpost="'.$p['idpost'].'">';
+    echo '<span class="post-likes">' . $p['nb_likes'] . ' likes</span>';
+    echo '</li>';
+    echo '<li>';
+    echo '</li>';
+    echo '</ul>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+}?>
+
                 
 
                 </div> <!-- home center wrapper end -->
