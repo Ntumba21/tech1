@@ -31,6 +31,7 @@
         }
         $data = new Database();
         $admin = $data->CreatePostforAll($type, $titre, $contenu, $date, $lieu, $photo, $for, $mail, $link);
+        header('Location: ../../view/admin/create-post.php');
 
     }else{
         $_SESSION['alert'] = 'Post pas ajouté';
