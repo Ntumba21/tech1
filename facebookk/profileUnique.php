@@ -32,7 +32,12 @@ if (isset($_GET['id'])) {
 
 </head>
 <body>
-    
+<script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+
 <!-- header section start -->
 
 
