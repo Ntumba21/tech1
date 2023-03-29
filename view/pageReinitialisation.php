@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réinitialisation du mot de passe</title>
-    <link rel="stylesheet" href="../view/style/style.css">
+    <link rel="stylesheet" href="../view/style/post.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -38,9 +38,8 @@
            <!--GAUCHE-->
             <div class="home-left">
                  <!-- BON-->
-                 <h1 class="mini-headign">Réinitialisation du mot de passe</h1>
-</head>
-<body>
+                 <div class="createPost">
+    <h1 class="mini-headign">Réinitialisation du mot de passe</h1>
 
 
         <form action="../controller/pageReinitialisation.php" method="post" enctype="multipart/form-data">
@@ -57,8 +56,9 @@
         </form>
     </div>
 </div>
-<footer>
+<br><br>
+ <footer>
 <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
-</footer>       
+</footer>    
 </body>
 </html>

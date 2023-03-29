@@ -24,7 +24,7 @@ $post = $database->getPostById($idpost);
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <title>facebook.com</title>
     <!-- style css link -->
-    <link rel="stylesheet" href="../view/style/editpst.css">
+    <link rel="stylesheet" href="../view/style/style.css">
     <!-- fontawesome css link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -67,7 +67,7 @@ $post = $database->getPostById($idpost);
 
 <div class="createPost">
     <h3 class="mini-headign">Modifier Post</h3>
-    <div class="post-text">
+    
     <form action="../controller/editpostuser.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="idpost" value="<?php echo $post['idpost']; ?>"><br>
         type:
@@ -125,4 +125,8 @@ etiquette:
 </div>
 </div>
 </body>
+
+<!-- <footer>
+    <a href="#">Tous droits reservés Wilfried,Ashley,Manal,Emmany,Naomy,Sofian </a>
+</footer> -->
 </html>
