@@ -174,15 +174,20 @@ class Database
     }
     
     //je travail ici MANAL
-    public function Connect($mail, $password){
-        $sql = "SELECT * FROM `user`
-                WHERE mail = :mail
-                AND password = :password
-                AND isvalide = 1";
-        $statement = self::$database->prepare($sql);
-        $statement->execute(array(":mail" => $mail, ":password" => $password));
-        return $statement->fetchAll();
+public function Connect($mail, $password){
+    $sql = "SELECT * FROM `user`
+            WHERE mail = :mail
+            AND isvalide = 1";
+    $statement = self::$database->prepare($sql);
+    $statement->execute(array(":mail" => $mail));
+    $user = $statement->fetch();
+
+    if ($user && password_verify($password, $user['password'])) {
+        return $user;
+    } else {
+        return false;
     }
+}
     //manal 
     public function GetPromos(){
         $sql = "SELECT * FROM promos";
