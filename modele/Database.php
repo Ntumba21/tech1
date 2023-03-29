@@ -301,12 +301,11 @@ public function Connect($mail, $password){
     }
     public function AlterAllPost($idpost, $titre, $contenu, $date, $photo, $interets, $for, $link,$lieu,$type){
         if($photo == NULL){
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, for = :for, link = :link, interets = :interets, type = :type WHERE idpost = :idpost";
+            $sql = "UPDATE post SET `titre` = :titre, `contenu` = :contenu, `date` = :date, `for` = :for, `link` = :link, `interets` = :interets, `type` = :type WHERE `idpost` = :idpost";
             $stmt = self::$database->prepare($sql);
-
             $stmt->bindParam(':date', $date);
         }else{
-            $sql = "UPDATE post SET titre = :titre, contenu = :contenu, date = :date, photo = :photo, for = :for, link = :link, interets = :interets, type = :type WHERE idpost = :idpost";
+            $sql ="UPDATE post SET `titre` = :titre, `contenu` = :contenu, `date` = :date, `photo` = :photo, `for` = :for, `link` = :link, `interets` = :interets, `type` = :type WHERE `idpost` = :idpost";
             $stmt = self::$database->prepare($sql);
             $stmt->bindParam(':photo', $photo);
         }
