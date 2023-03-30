@@ -54,7 +54,7 @@ $db = new Database();
                     <img src="<?php echo $user['photo'] ?>"  alt="user" height="50">
                 </a>
                 <!-- Bouton de déconnexion -->
-                <a href="logout.php" class="logout-btn">
+                <a href="../view/loginform.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
@@ -108,6 +108,16 @@ $db = new Database();
 
   <input type="submit" name="submit" value="Edit">
 </form>
+
+        </div>
+    </div>
+
+
+    <div class="event-friend">
+        <div class="friend">
+            <h3 class="heading">Delete account</h3>
+           <a href= "../view/userSup.php">Click here</a>
+
         </div>
     </div>
 
