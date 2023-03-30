@@ -47,7 +47,7 @@ function sendActivationEmail($identifier) {
     $identification = trim($_GET['identification']);
 
     $data = new Database();
-    $resultats = $data->rechercherUtilisateursParIdentification($identification,$id);
+    $resultats = $data->rechercheAmis($identification,$id);
 
     if (count($resultats) > 0) {
       echo '<div class="result-search">';

@@ -528,19 +528,13 @@ public function Connect($mail, $password){
         $stmt->execute();
     }
     public function ShowFriends($id) {
-        $sql = 'SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 1';
+        $sql = 'SELECT iduser FROM user_has_amis WHERE idamis = :id AND statut = 1
+                UNION
+                SELECT idamis FROM user_has_amis WHERE iduser = :id AND statut = 1';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    
-        if (!$idAmis) {
-            $sql = 'SELECT idamis FROM user_has_amis WHERE iduser = :id AND statut = 1';
-            $stmt = self::$database->prepare($sql);
-            $stmt->bindParam(':id', $id);
-            $stmt->execute();
-            $idAmis = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        }
     
         $friends = [];
         foreach ($idAmis as $idAmi) {
@@ -1144,9 +1138,11 @@ public function ajouterAmi($userId, $amiId)
         // Récupérer idamis à partir de l'étiquette
         $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
         $stmt = self::$database->prepare($sql5);
+        var_dump($etiquette);
         $stmt->bindParam(':nom', $etiquette);
         $stmt->execute();
         $idamis = $stmt->fetch();
+        var_dump($idamis);
         if (!$idamis) {
             return "L'étiquette n'a pas été trouvée.";
         }
