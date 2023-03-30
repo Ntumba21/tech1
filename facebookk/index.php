@@ -6,7 +6,7 @@ require_once '../controller/admin/webscraping.php';
 $user_email = $_SESSION['mail'];
 $db = new Database();
 $data = webscraping();
-
+$_SESSION['html-login'] ="";
 ?>
 
 
