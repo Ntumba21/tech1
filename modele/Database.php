@@ -1280,7 +1280,10 @@ public function ajouterAmi($userId, $amiId)
         $statement = self::$database->prepare($sql);
         $statement->bindParam(':mail', $email);
         $statement->execute();
-        return $statement->fetch();
+        $mail= $statement->fetch();
+        if ($mail){
+            return true;
+        }
     }
 
     function updatePassword($email, $password) {

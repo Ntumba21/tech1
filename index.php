@@ -18,22 +18,11 @@
     </h2>
     </div>
     <div class="container" style="background-color: transparent">
-
-
-<<<<<<< HEAD
-       
-        <button onclick="window.location.href='view/admin/index.html'">CONNEXION ADMIN</button>
-        <button onclick="window.location.href='view/loginform'">ME CONNECTER</button>
-        <button onclick="window.location.href='view/register'">CREER UN COMPTE ELEVE</button>
-        <button onclick="window.location.href='view/register-prof'">CREER UN COMPTE PROFESSEUR</button>
-=======
         <h2>Vous etes?</h2>
         <button onclick="window.location.href='../view/admin/index.html'">ADMIN</button>
         <button onclick="window.location.href='../view/loginform'">ME CONNECTER</button>
         <button onclick="window.location.href='../view/register'">CREER UN COMPTE ELEVE</button>
         <button onclick="window.location.href='../view/register-prof'">CREER UN COMPTE PROFESSEUR</button>
->>>>>>> 9fdd7ef5796c385b4f0244aa1ec816a3b5833cce
-
 
 
 

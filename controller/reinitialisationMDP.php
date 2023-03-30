@@ -10,8 +10,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-$db=new Database();
-
 function sendActivationEmail($email) {
     $mail = new PHPMailer(true);
 
@@ -21,7 +19,7 @@ function sendActivationEmail($email) {
         $mail->Host = 'smtp.gmail.com'; // Remplacez par l'hôte de votre serveur SMTP
         $mail->SMTPAuth = true;
         $mail->Username = 'EceBook.assistance@gmail.com'; // Remplacez par votre adresse e-mail
-        $mail->Password = 'fgsdtlmyuzxsewpy'; // Remplacez par le mot de passe de votre e-mail
+        $mail->Password = 'yvcxyzcurfaqvglr'; // Remplacez par le mot de passe de votre e-mail
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
@@ -43,8 +41,12 @@ function sendActivationEmail($email) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les données du formulaire
     $email = $_POST['mail'];
+    var_dump($email);
+    $db=new Database();
     $verif=$db->checkEmailExists($email);
     if ($verif) {
+        var_dump($verif);
+        sendActivationEmail($email);
         if (sendActivationEmail($email)) {
             echo "Veuillez vérifier votre e-mail pour réinitialiser votre mot de passe.";
         } else {
