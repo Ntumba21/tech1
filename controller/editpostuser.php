@@ -92,14 +92,16 @@ if (isset($_POST['submit'])) {
     $lieu = isset($_POST['lieu']) ? $_POST['lieu'] : '';
     $photo = isset($_POST['photo']) ? $_POST['photo'] : '';
     $iduser = isset($_POST['iduser']) ? $_POST['iduser'] : '';
-    $etiquette = isset($_POST['identification']) ? $_POST['identification'] : '';
+    $etiquette = isset($_POST['etiquette']) ? $_POST['etiquette'] : '';
     
     $id= $_SESSION["iduser"];
     // Appel à la fonction alterPost
     $result = $database->alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette);
+    
     $identifie = $data->getUserByNom($etiquette);
     //sendActivationEmail($identifie['mail']);
-    $_SESSION['userident'] = $identifie['iduser'];
+   
+    $_SESSION['userident'] = $identifie;
 
     // Vérification du résultat de la mise à jour
     if ($result === "success") {

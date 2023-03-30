@@ -1127,9 +1127,10 @@ public function ajouterAmi($userId, $amiId)
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+   
     public function alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette) {
         // Vérifier si l'utilisateur a le droit de modifier le post
-        var_dump($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette);
+        
         $sql = 'SELECT iduser FROM post_user WHERE idpost = :idpost';
         $stmt = self::$database->prepare($sql);
         $stmt->bindParam(':idpost', $idpost);
@@ -1143,9 +1144,11 @@ public function ajouterAmi($userId, $amiId)
         // Récupérer idamis à partir de l'étiquette
         $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
         $stmt = self::$database->prepare($sql5);
+        var_dump($etiquette);
         $stmt->bindParam(':nom', $etiquette);
         $stmt->execute();
         $idamis = $stmt->fetch();
+        var_dump($idamis);
         if (!$idamis) {
             return "L'étiquette n'a pas été trouvée.";
         }
@@ -1218,7 +1221,7 @@ public function ajouterAmi($userId, $amiId)
 
             return "success";
                 }
-    
+
 
     public function alterPost3($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette){
         // Vérifier si l'utilisateur a le droit de modifier le post
