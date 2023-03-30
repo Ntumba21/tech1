@@ -1144,11 +1144,9 @@ public function ajouterAmi($userId, $amiId)
         // Récupérer idamis à partir de l'étiquette
         $sql5 = 'SELECT iduser FROM user WHERE nom = :nom';
         $stmt = self::$database->prepare($sql5);
-        var_dump($etiquette);
         $stmt->bindParam(':nom', $etiquette);
         $stmt->execute();
         $idamis = $stmt->fetch();
-        var_dump($idamis);
         if (!$idamis) {
             return "L'étiquette n'a pas été trouvée.";
         }
