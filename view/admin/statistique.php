@@ -54,7 +54,7 @@ $showuser = $data->ShowMaxUser();
                     </table>
                 </div>
                 <div class="data-contain">
-                    <p>Les utilisateurs ayant créé le plus d'amis:</p>
+                    <p>Les utilisateurs ayant le plus d'amis:</p>
                     <table>
                         <tr>
                             <th>Mail</th>

@@ -19,7 +19,7 @@
     <form action="../../controller/admin/deblockuser.php" method="post" name="debloquer">
         <table>
             <tr>
-                <th>delete</th>
+                <th>deblock</th>
                 <th>nom</th>
                 <th>prenom</th>
                 <th>mail</th>

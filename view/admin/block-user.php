@@ -18,11 +18,12 @@
 <form action="../../controller/admin/blockuser.php" method="post" name="bloqer">
                             <table>
                                 <tr>
-                                    <th>delete</th>
+                                    <th>block</th>
                                     <th>nom</th>
                                     <th>prenom</th>
                                     <th>mail</th>
-                                    <th>description</th>
+                                    <th>Année de naissance</th>
+                                    <th>Description</th>
                                     <th>ville</th>
                                     <th>interests</th>
                                     <th>photo</th>
