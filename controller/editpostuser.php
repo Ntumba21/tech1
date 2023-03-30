@@ -46,7 +46,7 @@ function sendActivationEmail($identifier) {
       $identification = trim($_GET['identification']);
   
       $data = new Database();
-      $resultats = $data->rechercherUtilisateursParIdentification($identification,$id);
+      $resultats = $data->rechercheAmis($identification,$id);
   
       if (count($resultats) > 0) {
         echo '<div class="result-search">';
@@ -99,7 +99,7 @@ if (isset($_POST['submit'])) {
     $result = $database->alterPost($idpost, $type, $titre, $contenu, $date, $lieu, $photo, $iduser, $etiquette);
     
     $identifie = $data->getUserByNom($etiquette);
-    //sendActivationEmail($identifie['mail']);
+    sendActivationEmail($identifie['mail']);
    
     $_SESSION['userident'] = $identifie;
 
