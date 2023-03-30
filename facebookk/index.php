@@ -58,7 +58,7 @@ $_SESSION['html-login'] ="";
                     <img src="<?php echo $user['photo'] ?>"  alt="user" height="50">
                 </a>
                 <!-- Bouton de déconnexion -->
-                <a href="logout.php" class="logout-btn">
+                <a href="../controller/logout.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
