@@ -1,6 +1,5 @@
 <?php
     function webscraping() {
-        $db = new Database();
         $html = file_get_contents('https://www.lemonde.fr/');
         libxml_use_internal_errors(TRUE);
         $dom = new DOMDocument();

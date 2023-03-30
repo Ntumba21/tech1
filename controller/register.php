@@ -105,6 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         header("Location: {$_SESSION['redirection']}");
         exit;
+    }else{
+        $_SESSION['redirection'] = '../view/register.php';
+        $_SESSION['alert-register']= "";
+        header("Location: {$_SESSION['redirection']}");
     }
 
     // Valider l'email
@@ -117,6 +121,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         header("Location: {$_SESSION['redirection']}");
         exit;
+    }else{
+        $_SESSION['redirection'] = '../view/register.php';
+        $_SESSION['alert-register']= "";
+        header("Location: {$_SESSION['redirection']}");
     }
 
     // Vérifier si l'email est déjà utilisé
@@ -129,6 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['alert-register'] = "<div class='alert alert-danger' role='alert'>L'adresse e-mail est déjà utilisée.</div>";
         header("Location: {$_SESSION['redirection']}");
         exit;
+    }else{
+        $_SESSION['redirection'] = '../view/register.php';
+        $_SESSION['alert-register']= "";
+        header("Location: {$_SESSION['redirection']}");
     }
 
      //Créer un nouvel utilisateur
