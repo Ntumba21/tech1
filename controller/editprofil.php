@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
     } else {
         $_SESSION['alert'] = "Une erreur s'est produite lors de la modification de votre profil. Veuillez réessayer.";
     }
-    $_SESSION['redirection'] = 'profil.php';
+    $_SESSION['redirection'] = '../facebookk/profil.php';
     header('Location: ../view/alert.php');
 }
   

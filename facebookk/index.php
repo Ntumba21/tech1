@@ -37,6 +37,7 @@ $_SESSION['html-login'] ="";
 
 
 
+
 <header>
     <div class="header-container">
         <div class="header-wrapper">
@@ -45,22 +46,20 @@ $_SESSION['html-login'] ="";
                 <img src="../media/logo ECEBOOK.png" alt="logo">
             </div>
             <div class="searchBox">
-                <input type="search">
-                <i class="fas fa-search"></i>
+               
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
-                <a href="../facebookk/index.php"> 
-                    <i class="fas fa-home"></i>
-                </a> 
+                <a href="../facebookk/index.php">
+                    <i class="fa-solid fa-house"></i>
+                </a>
                 
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50px" width="50px">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50">
                 </a>
                 <!-- Bouton de déconnexion -->
-
                 <a href="logout.php" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> 
+                    <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>
@@ -178,7 +177,6 @@ $_SESSION['html-login'] ="";
                     <div class="post-text">
   <input type="hidden" name="action" value="create">
   <select name="type" id="type">
-    <option value="1">Actualités</option>
     <option value="2">Événements</option>
     <option value="3">Général</option>
   </select><br>
@@ -202,7 +200,6 @@ $_SESSION['html-login'] ="";
                     </div>
                     <div class="fb-post1-header">
                                 <ul>
-                                    <li>see all</li>
                                     <li>recent</li>
                                 </ul>
                             </div>

@@ -173,6 +173,7 @@ header{
     justify-content: center;
 }
 .container{
+    margin-bottom: 32%;
     width: 95%;
 }
 .home-weapper{

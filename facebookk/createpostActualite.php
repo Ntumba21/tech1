@@ -19,7 +19,7 @@ $db = new Database();
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <title>facebook.com</title>
     <!-- style css link -->
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../view/style/editpst.css">
     <!-- fontawesome css link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -27,6 +27,7 @@ $db = new Database();
 <body>
     
 <!-- header section start -->
+
 
 
 <header>
@@ -37,21 +38,21 @@ $db = new Database();
                 <img src="../media/logo ECEBOOK.png" alt="logo">
             </div>
             <div class="searchBox">
-                <input type="search">
-                <i class="fas fa-search"></i>
+               
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
                 <a href="../facebookk/index.php">
                     <i class="fa-solid fa-house"></i>
                 </a>
-                <i class="fa-solid fa-bell"></i>
+                
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50">
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="logout.php" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> 
+                </a>
             </div>
         </div>
     </div>

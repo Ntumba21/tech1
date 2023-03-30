@@ -49,17 +49,16 @@ if (isset($_GET['id'])) {
                 <img src="../media/logo ECEBOOK.png" alt="logo">
             </div>
             <div class="searchBox">
-                <input type="search">
-                <i class="fas fa-search"></i>
+               
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
                 <a href="../facebookk/index.php">
                     <i class="fa-solid fa-house"></i>
                 </a>
-                <i class="fa-solid fa-bell"></i>
+                
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50">
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="logout.php" class="logout-btn">
@@ -109,7 +108,7 @@ if (isset($_GET['id'])) {
                     <div class="fb-post1-header">
                                 <ul>
                                     <li>see all</li>
-                                    <li>recent</li>
+                                
                                 </ul>
                             </div>
                     <?php $post = $db->ShowPostByLieu($lieu_id); ?>

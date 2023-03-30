@@ -33,6 +33,7 @@ $db = new Database();
 <!-- header section start -->
 
 
+
 <header>
     <div class="header-container">
         <div class="header-wrapper">
@@ -41,22 +42,20 @@ $db = new Database();
                 <img src="../media/logo ECEBOOK.png" alt="logo">
             </div>
             <div class="searchBox">
-                <input type="search">
-                <i class="fas fa-search"></i>
+               
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
-                <a href="../facebookk/index.php"> 
-                    <i class="fas fa-home"></i>
-                </a> 
+                <a href="../facebookk/index.php">
+                    <i class="fa-solid fa-house"></i>
+                </a>
                 
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50px" width="50px">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50">
                 </a>
                 <!-- Bouton de déconnexion -->
-
                 <a href="logout.php" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> 
+                    <i class="fas fa-sign-out-alt"></i> 
                 </a>
             </div>
         </div>

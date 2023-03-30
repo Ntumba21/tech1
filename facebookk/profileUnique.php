@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <title>facebook.com</title>
     <!-- style css link -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
     <!-- fontawesome css link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -49,17 +49,16 @@ if (isset($_GET['id'])) {
                 <img src="../media/logo ECEBOOK.png" alt="logo">
             </div>
             <div class="searchBox">
-                <input type="search">
-                <i class="fas fa-search"></i>
+               
             </div>
             <div class="iconBox2">
                 <!-- Lien vers index.php avec l'icône de la maison -->
                 <a href="../facebookk/index.php">
                     <i class="fa-solid fa-house"></i>
                 </a>
-                <i class="fa-solid fa-bell"></i>
+                
                 <a href="../facebookk/profil.php">
-                    <img src="<?php echo $user['photo'] ?>"  alt="user">
+                    <img src="<?php echo $user['photo'] ?>"  alt="user" height="50">
                 </a>
                 <!-- Bouton de déconnexion -->
                 <a href="logout.php" class="logout-btn">
@@ -116,7 +115,7 @@ if (isset($_GET['id'])) {
                     <div class="fb-post1-header">
                                 <ul>
                                     <li>see all</li>
-                                    <li>recent</li>
+                                    
                                 </ul>
                             </div>
                     <?php $post = $db->showPostUser($profile_user_id); ?>
