@@ -20,8 +20,8 @@
     <div class="container" style="background-color: transparent">
 
 
-        <h2>Vous etes?</h2>
-        <button onclick="window.location.href='view/admin/index.html'">ADMIN</button>
+       
+        <button onclick="window.location.href='view/admin/index.html'">CONNEXION ADMIN</button>
         <button onclick="window.location.href='view/loginform'">ME CONNECTER</button>
         <button onclick="window.location.href='view/register'">CREER UN COMPTE ELEVE</button>
         <button onclick="window.location.href='view/register-prof'">CREER UN COMPTE PROFESSEUR</button>
