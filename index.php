@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <link rel="stylesheet" href="view/style/index.css">
+    <link rel="stylesheet" href="../view/style/index.css">
     <body>
 
     <div class="textbox">
@@ -21,10 +21,10 @@
 
 
         <h2>Vous etes?</h2>
-        <button onclick="window.location.href='view/admin/index.html'">ADMIN</button>
-        <button onclick="window.location.href='view/loginform'">ME CONNECTER</button>
-        <button onclick="window.location.href='view/register'">CREER UN COMPTE ELEVE</button>
-        <button onclick="window.location.href='view/register-prof'">CREER UN COMPTE PROFESSEUR</button>
+        <button onclick="window.location.href='../view/admin/index.html'">ADMIN</button>
+        <button onclick="window.location.href='../view/loginform'">ME CONNECTER</button>
+        <button onclick="window.location.href='../view/register'">CREER UN COMPTE ELEVE</button>
+        <button onclick="window.location.href='../view/register-prof'">CREER UN COMPTE PROFESSEUR</button>
 
 
 
