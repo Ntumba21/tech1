@@ -23,12 +23,12 @@ if(isset($_POST['mail'])) {
       $mail->isSMTP();
       $mail->Host       = 'smtp.gmail.com';
       $mail->SMTPAuth   = true;
-      $mail->Username   = 'EceBook.assistance@gmail.com';
-      $mail->Password   = 'fgsdtlmyuzxsewpy';
+      $mail->Username   = 'ece.book.assistance08@gmail.com';
+      $mail->Password   = 'bvwnmsqirbfhlafj';
       $mail->SMTPSecure = 'tls';
       $mail->Port = 587;
 
-      $mail->setFrom('EceBook.assistance@gmail.com', 'EceBook');
+      $mail->setFrom('ece.book.assistance08@gmail.com', 'EceBook');
       $mail->addAddress($user['mail']);
 
       $mail->isHTML(true);

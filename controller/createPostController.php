@@ -22,13 +22,13 @@ function sendActivationEmail($identifier) {
       $mail->isSMTP();
       $mail->Host = 'smtp.gmail.com'; // Remplacez par l'hôte de votre serveur SMTP
       $mail->SMTPAuth = true;
-      $mail->Username = 'EceBook.assistance@gmail.com'; // Remplacez par votre adresse e-mail
-      $mail->Password = 'fgsdtlmyuzxsewpy'; // Remplacez par le mot de passe de votre e-mail
+      $mail->Username = 'ece.book.assistance08@gmail.com'; // Remplacez par votre adresse e-mail
+      $mail->Password = 'bvwnmsqirbfhlafj'; // Remplacez par le mot de passe de votre e-mail
       $mail->SMTPSecure = 'tls';
       $mail->Port = 587;
 
       // Destinataires
-      $mail->setFrom('EceBook.assistance@gmail.com', 'EceBook'); // Remplacez par votre adresse e-mail et le nom de l'expéditeur
+      $mail->setFrom('ece.book.assistance08@gmail.com', 'EceBook'); // Remplacez par votre adresse e-mail et le nom de l'expéditeur
       $mail->addAddress($identifier);
 
       // Contenu
@@ -110,7 +110,7 @@ $data = new Database();
 
 
       $identifie = $data->getUserByNom($etiquette);
-      //sendActivationEmail($identifie['mail']);
+      sendActivationEmail($identifie['mail']);
       $_SESSION['userident'] = $identifie['iduser'];
       
       // Redirige vers la page d'accueil
