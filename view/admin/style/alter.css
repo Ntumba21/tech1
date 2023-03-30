@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background-color: #cdedf9;
+  }
+  
+  h1 {
+    text-align: center;
+    color: black;
+    margin-top: 50px;
+    background: linear-gradient(to right, #3498db, #6ab7ff);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 10px #3498db;
+  }
+  
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .form {
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 400px;
+  
+        margin-top: 120px; /* Ajout de la marge supérieure */
+     
+      
+  }
+  
+  .form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form input[type="text"],
+  .form select,
+  .form textarea,
+  .form input[type="file"] {
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .form input[type="submit"] {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .form input[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+  
+  .form textarea {
+    height: 150px;
+  }
+  
+  .form label.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .form .textbox {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  

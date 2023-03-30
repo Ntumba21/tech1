@@ -10,7 +10,7 @@ $lieu = $data->getLieuByIdPost($_GET['idpost']);
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../view/admin/style/user.css">
+    <link rel="stylesheet" href="../../view/admin/style/alter.css">
 
         </head>
         <h1>Modifer un Post</h1>
